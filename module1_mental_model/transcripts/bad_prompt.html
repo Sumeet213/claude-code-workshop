@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>M1 — Bad prompt transcript</title>
+  <style>
+
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+
+ul.task-list[class]{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+font-size: inherit;
+width: 0.8em;
+margin: 0 0.8em 0.2em -1.6em;
+vertical-align: middle;
+}
+.display.math{display: block; text-align: center; margin: 0.5rem auto;}
+</style>
+  <style type="text/css">
+:root {
+--bg: #0f1419;
+--fg: #f0f0f0;
+--muted: #9aa4b2;
+--accent: #6cc1ff;
+--bad: #ff7a7a;
+--good: #5fd97a;
+--warn: #ffb84d;
+--rule: #2a2f3a;
+--code-bg: #161a23;
+--card-bg: #131722;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+margin: 0 auto;
+max-width: 1100px;
+padding: 64px 72px 120px;
+background: var(--bg);
+color: var(--fg);
+font-family: -apple-system, BlinkMacSystemFont, "Inter", "Segoe UI", Roboto, sans-serif;
+font-size: 22px;
+line-height: 1.55;
+}
+h1, h2, h3, h4 { color: #fff; line-height: 1.2; }
+h1 { font-size: 48px; margin-top: 0; padding-bottom: 16px; border-bottom: 3px solid var(--rule); }
+h2 { font-size: 36px; margin-top: 64px; padding-top: 16px; border-top: 1px solid var(--rule); }
+h3 { font-size: 28px; margin-top: 40px; color: var(--accent); }
+h4 { font-size: 22px; margin-top: 28px; }
+p, ul, ol { margin: 14px 0; }
+li { margin: 8px 0; }
+a { color: var(--accent); }
+hr { border: none; border-top: 1px solid var(--rule); margin: 56px 0; }
+blockquote {
+border-left: 5px solid var(--accent);
+margin: 24px 0;
+padding: 14px 22px;
+background: rgba(108, 193, 255, 0.07);
+border-radius: 0 8px 8px 0;
+color: #d3dae6;
+font-style: italic;
+font-size: 22px;
+}
+
+pre, code {
+font-family: "JetBrains Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+font-size: 17px;
+}
+code {
+background: var(--code-bg);
+padding: 2px 7px;
+border-radius: 4px;
+color: #ffd58a;
+}
+pre {
+background: var(--code-bg);
+padding: 20px 24px;
+border-radius: 10px;
+border: 1px solid var(--rule);
+overflow-x: auto;
+line-height: 1.55;
+}
+pre code { background: transparent; padding: 0; color: var(--fg); font-size: 17px; }
+
+table {
+border-collapse: collapse;
+margin: 24px 0;
+width: 100%;
+font-size: 18px;
+}
+th, td {
+border: 1px solid var(--rule);
+padding: 10px 14px;
+text-align: left;
+vertical-align: top;
+}
+th { background: rgba(108, 193, 255, 0.10); color: #fff; font-weight: 600; }
+tr:nth-child(even) td { background: rgba(255, 255, 255, 0.018); }
+
+details {
+background: var(--card-bg);
+border: 2px solid var(--good);
+border-radius: 10px;
+padding: 0;
+margin: 24px 0;
+overflow: hidden;
+}
+details[open] { box-shadow: 0 0 0 1px var(--good); }
+details > summary {
+cursor: pointer;
+padding: 18px 24px;
+font-weight: 700;
+font-size: 22px;
+color: var(--good);
+background: rgba(95, 217, 122, 0.08);
+list-style: none;
+user-select: none;
+display: flex;
+align-items: center;
+gap: 12px;
+}
+details > summary::-webkit-details-marker { display: none; }
+details > summary::before {
+content: "▶";
+font-size: 16px;
+transition: transform 0.15s;
+color: var(--good);
+}
+details[open] > summary::before { transform: rotate(90deg); }
+details > *:not(summary) { padding-left: 24px; padding-right: 24px; }
+details > *:last-child { padding-bottom: 18px; }
+
+.bad-prompt {
+border-color: var(--bad) !important;
+background: rgba(255, 122, 122, 0.05) !important;
+}
+
+.predict-callout {
+border-left-color: var(--warn) !important;
+background: rgba(255, 184, 77, 0.08) !important;
+font-size: 24px !important;
+}
+
+h2:first-of-type { margin-top: 32px; }
+
+@media print {
+body { background: #fff; color: #000; max-width: 100%; padding: 16pt; font-size: 11pt; }
+details { border-color: #000; }
+details > summary { color: #000; background: #f0f0f0; }
+details:not([open]) > *:not(summary) { display: block !important; }
+pre, code { background: #f4f4f4; color: #000; }
+blockquote { color: #000; background: #f9f9f9; }
+}
+</style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">M1 — Bad prompt transcript</h1>
+</header>
+<pre><code>$ claude
+&gt; Refactor the authentication middleware to validate tokens against the
+  new SessionStore service instead of the local in-memory cache.
+
+I&#39;ll refactor the auth middleware. Let me start.
+
+[Read: src/middleware/auth.ts]
+
+I see — the middleware currently checks tokens against TOKEN_CACHE. I&#39;ll
+replace that with a call to the new SessionStore service.
+
+[Edit: src/middleware/auth.ts]
+   - removed:  if (TOKEN_CACHE.has(token)) { ... }
+   - added:    if (sessionStore.has(token)) { ... }
+
+Done. The middleware now uses SessionStore instead of the local cache.
+You may want to remove the TOKEN_CACHE definition if it&#39;s no longer used.
+
+&gt; ok, run the tests
+
+[Bash: npm test]
+[approval prompt: Allow Bash(npm test)?] y
+
+[output] FAIL  src/middleware/auth.test.ts
+        ● rejects expired tokens
+          TypeError: sessionStore.has is not a function
+
+&gt; hmm. did you check the SessionStore API?
+
+[Read: src/services/SessionStore.ts]
+
+I see the issue — SessionStore exposes an async lookup() method, not has().
+And the response is { valid: boolean, userId?: string }, not a boolean.
+Let me fix that.
+
+[Edit: src/middleware/auth.ts]
+   - replaced sessionStore.has(token) with await sessionStore.lookup(token)
+
+&gt; wait, the function isn&#39;t async. did you make it async?
+
+[Read: src/middleware/auth.ts]
+
+Yes, I added `async` to the middleware function. Tests should pass now.
+
+&gt; the function signature is the Express middleware contract.
+&gt; changing it to async breaks every caller. revert.
+&gt; also you only edited auth.ts — there are six other places that import
+&gt; TOKEN_CACHE. did you find those?
+
+[Bash: rg &quot;TOKEN_CACHE&quot;]
+[output]
+  src/middleware/auth.ts
+  src/middleware/auth.test.ts
+  src/api/login.ts
+  src/api/logout.ts
+  src/jobs/cache-warmer.ts
+  src/admin/cache-stats.ts
+  src/cli/auth-debug.ts
+
+Six other call sites. I missed them.
+
+&gt; revert all changes. let&#39;s start over.
+
+────────────────────────────────────────────────────────────────────────
+What went wrong:
+  - Plausible-looking prompt. No vague language. No &quot;fix the test.&quot;
+  - But: model edited the FIRST file it saw, then ran tests, then patched
+    around the failure, then introduced a contract break.
+  - Never read SessionStore.ts up front to learn its async API.
+  - Never grep&#39;d for TOKEN_CACHE callers — six other files would have
+    needed coordinated changes.
+  - User is now reverting and is more frustrated than if they&#39;d done
+    it by hand.
+
+  Levers that failed: CONTEXT (didn&#39;t read SessionStore first),
+                       LOOP CONTROL (no plan, edited then patched),
+                       and a tools issue (didn&#39;t grep before editing).
+────────────────────────────────────────────────────────────────────────</code></pre>
+<script>
+// Tiny enhancement script for WORKSHOP.html.
+// 1. Tints code blocks that follow a "❌ Bad" heading red.
+// 2. Tints blockquotes that begin with "Predict" yellow.
+// 3. Adds a "Show all reveals" button to the top of the doc.
+
+(function () {
+  // 1. Bad-prompt tinting
+  document.querySelectorAll('h3, h4').forEach((h) => {
+    const txt = (h.textContent || '').trim();
+    if (txt.startsWith('❌')) {
+      let next = h.nextElementSibling;
+      while (next && next.tagName !== 'PRE' && !['H2', 'H3', 'DETAILS'].includes(next.tagName)) {
+        next = next.nextElementSibling;
+      }
+      if (next && next.tagName === 'PRE') next.classList.add('bad-prompt');
+    }
+  });
+
+  // 2. Predict callouts
+  document.querySelectorAll('blockquote').forEach((q) => {
+    if (/predict/i.test(q.textContent || '')) q.classList.add('predict-callout');
+  });
+
+  // 3. Show-all-reveals toggle, fixed top-right
+  const btn = document.createElement('button');
+  btn.textContent = 'Reveal all';
+  Object.assign(btn.style, {
+    position: 'fixed',
+    top: '14px',
+    right: '20px',
+    zIndex: '1000',
+    background: '#5fd97a',
+    color: '#0f1419',
+    border: 'none',
+    borderRadius: '6px',
+    padding: '8px 14px',
+    fontSize: '13px',
+    fontFamily: 'inherit',
+    fontWeight: '600',
+    cursor: 'pointer',
+    boxShadow: '0 2px 8px rgba(0,0,0,0.3)',
+  });
+  let open = false;
+  btn.addEventListener('click', () => {
+    open = !open;
+    document.querySelectorAll('details').forEach((d) => (d.open = open));
+    btn.textContent = open ? 'Hide all' : 'Reveal all';
+  });
+  document.body.appendChild(btn);
+})();
+</script>
+</body>
+</html>

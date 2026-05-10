@@ -1,0 +1,2180 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>Claude Code — Full-Day Workshop</title>
+  <style>
+
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+
+ul.task-list[class]{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+font-size: inherit;
+width: 0.8em;
+margin: 0 0.8em 0.2em -1.6em;
+vertical-align: middle;
+}
+.display.math{display: block; text-align: center; margin: 0.5rem auto;}
+
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+{ counter-reset: source-line 0; }
+pre.numberSource code > span
+{ position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+{ content: counter(source-line);
+position: relative; left: -1em; text-align: right; vertical-align: baseline;
+border: none; display: inline-block;
+-webkit-touch-callout: none; -webkit-user-select: none;
+-khtml-user-select: none; -moz-user-select: none;
+-ms-user-select: none; user-select: none;
+padding: 0 4px; width: 4em;
+background-color: #232629;
+color: #7a7c7d;
+}
+pre.numberSource { margin-left: 3em; border-left: 1px solid #7a7c7d; padding-left: 4px; }
+div.sourceCode
+{ color: #cfcfc2; background-color: #232629; }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span { color: #cfcfc2; } 
+code span.al { color: #95da4c; background-color: #4d1f24; font-weight: bold; } 
+code span.an { color: #3f8058; } 
+code span.at { color: #2980b9; } 
+code span.bn { color: #f67400; } 
+code span.bu { color: #7f8c8d; } 
+code span.cf { color: #fdbc4b; font-weight: bold; } 
+code span.ch { color: #3daee9; } 
+code span.cn { color: #27aeae; font-weight: bold; } 
+code span.co { color: #7a7c7d; } 
+code span.cv { color: #7f8c8d; } 
+code span.do { color: #a43340; } 
+code span.dt { color: #2980b9; } 
+code span.dv { color: #f67400; } 
+code span.er { color: #da4453; text-decoration: underline; } 
+code span.ex { color: #0099ff; font-weight: bold; } 
+code span.fl { color: #f67400; } 
+code span.fu { color: #8e44ad; } 
+code span.im { color: #27ae60; } 
+code span.in { color: #c45b00; } 
+code span.kw { color: #cfcfc2; font-weight: bold; } 
+code span.op { color: #cfcfc2; } 
+code span.ot { color: #27ae60; } 
+code span.pp { color: #27ae60; } 
+code span.re { color: #2980b9; background-color: #153042; } 
+code span.sc { color: #3daee9; } 
+code span.ss { color: #da4453; } 
+code span.st { color: #f44f4f; } 
+code span.va { color: #27aeae; } 
+code span.vs { color: #da4453; } 
+code span.wa { color: #da4453; } 
+</style>
+  <style type="text/css">
+:root {
+--bg: #0f1419;
+--fg: #e6e6e6;
+--muted: #9aa4b2;
+--accent: #6cc1ff;
+--bad: #ff7a7a;
+--good: #5fd97a;
+--rule: #2a2f3a;
+--code-bg: #161a23;
+--card-bg: #131722;
+--maxw: 920px;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+margin: 0;
+background: var(--bg);
+color: var(--fg);
+font-family: -apple-system, BlinkMacSystemFont, "Inter", "Segoe UI", Roboto, sans-serif;
+font-size: 17px;
+line-height: 1.6;
+
+}
+
+nav#TOC {
+position: fixed;
+top: 0;
+left: 0;
+width: 280px;
+height: 100vh;
+overflow-y: auto;
+padding: 24px 16px;
+border-right: 1px solid var(--rule);
+background: var(--card-bg);
+font-size: 14px;
+z-index: 10;
+}
+
+body > *:not(nav#TOC) {
+margin-left: 280px;
+padding: 0 56px;
+max-width: calc(var(--maxw) + 280px);
+}
+
+header#title-block-header {
+padding-top: 48px;
+}
+header#title-block-header h1.title {
+font-size: 36px;
+margin: 0 0 8px 0;
+border-bottom: 2px solid var(--rule);
+padding-bottom: 12px;
+}
+nav#TOC::before {
+content: "Workshop";
+display: block;
+font-size: 12px;
+letter-spacing: 0.15em;
+text-transform: uppercase;
+color: var(--muted);
+margin-bottom: 12px;
+}
+nav#TOC ul { list-style: none; padding-left: 12px; margin: 4px 0; }
+nav#TOC > ul { padding-left: 0; }
+nav#TOC li { margin: 4px 0; }
+nav#TOC a {
+color: var(--fg);
+text-decoration: none;
+display: block;
+padding: 4px 8px;
+border-radius: 4px;
+border-left: 2px solid transparent;
+}
+nav#TOC a:hover { background: rgba(108, 193, 255, 0.08); border-left-color: var(--accent); color: var(--accent); }
+main {
+padding-top: 32px;
+padding-bottom: 96px;
+}
+
+h1, h2, h3, h4 { color: #fff; line-height: 1.25; }
+h1 { font-size: 36px; margin-top: 0; border-bottom: 2px solid var(--rule); padding-bottom: 12px; }
+h2 { font-size: 28px; margin-top: 56px; padding-top: 16px; border-top: 1px solid var(--rule); }
+h3 { font-size: 22px; margin-top: 36px; }
+h4 { font-size: 18px; margin-top: 28px; color: var(--accent); }
+a { color: var(--accent); }
+p, ul, ol { margin: 12px 0; }
+li { margin: 6px 0; }
+hr { border: none; border-top: 1px solid var(--rule); margin: 48px 0; }
+blockquote {
+border-left: 4px solid var(--accent);
+margin: 16px 0;
+padding: 8px 16px;
+background: rgba(108, 193, 255, 0.06);
+border-radius: 0 6px 6px 0;
+color: #cdd5e0;
+font-style: italic;
+}
+
+pre, code {
+font-family: "JetBrains Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+font-size: 14px;
+}
+code {
+background: var(--code-bg);
+padding: 1px 6px;
+border-radius: 3px;
+color: #ffd58a;
+}
+pre {
+background: var(--code-bg);
+padding: 16px 20px;
+border-radius: 8px;
+border: 1px solid var(--rule);
+overflow-x: auto;
+line-height: 1.5;
+}
+pre code { background: transparent; padding: 0; color: var(--fg); }
+
+h3:where(:has(+ pre), :has(+ p + pre)) {  }
+
+h3 { display: flex; align-items: center; gap: 8px; }
+
+table {
+border-collapse: collapse;
+margin: 16px 0;
+width: 100%;
+font-size: 15px;
+}
+th, td {
+border: 1px solid var(--rule);
+padding: 8px 12px;
+text-align: left;
+vertical-align: top;
+}
+th { background: rgba(108, 193, 255, 0.08); color: #fff; }
+tr:nth-child(even) td { background: rgba(255, 255, 255, 0.015); }
+
+details {
+background: var(--card-bg);
+border: 1px solid var(--good);
+border-radius: 8px;
+padding: 0;
+margin: 16px 0;
+overflow: hidden;
+}
+details[open] { box-shadow: 0 0 0 1px var(--good); }
+details > summary {
+cursor: pointer;
+padding: 12px 18px;
+font-weight: 600;
+color: var(--good);
+background: rgba(95, 217, 122, 0.07);
+list-style: none;
+user-select: none;
+display: flex;
+align-items: center;
+gap: 8px;
+}
+details > summary::-webkit-details-marker { display: none; }
+details > summary::before {
+content: "▶";
+font-size: 12px;
+transition: transform 0.15s;
+color: var(--good);
+}
+details[open] > summary::before { transform: rotate(90deg); }
+details > *:not(summary) { padding-left: 18px; padding-right: 18px; }
+details > *:last-child { padding-bottom: 14px; }
+
+
+.bad-prompt {
+border-color: var(--bad);
+background: rgba(255, 122, 122, 0.04);
+}
+
+.predict-callout {
+border-left-color: #ffb84d;
+background: rgba(255, 184, 77, 0.06);
+}
+
+table:first-of-type td:first-child { white-space: nowrap; color: var(--accent); font-variant-numeric: tabular-nums; }
+
+@media print {
+body { display: block; background: #fff; color: #000; font-size: 11pt; }
+nav#TOC { display: none; }
+main { padding: 16pt; max-width: 100%; }
+details { border-color: #000; }
+details > summary { color: #000; background: #f0f0f0; }
+details:not([open]) > *:not(summary) { display: block !important; }
+details[open], details:not([open]) { box-shadow: none; }
+details > *:not(summary) { padding-left: 0; padding-right: 0; }
+pre, code { background: #f4f4f4; color: #000; }
+blockquote { color: #000; background: #f9f9f9; }
+}
+
+@media (max-width: 900px) {
+nav#TOC {
+position: static;
+width: 100%;
+height: auto;
+border-right: none;
+border-bottom: 1px solid var(--rule);
+}
+body > *:not(nav#TOC) {
+margin-left: 0;
+padding: 0 24px;
+}
+}
+</style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">Claude Code — Full-Day Workshop</h1>
+</header>
+<nav id="TOC" role="doc-toc">
+<ul>
+<li><a href="#claude-code-full-day-interactive-workshop-for-experienced-developers" id="toc-claude-code-full-day-interactive-workshop-for-experienced-developers">Claude
+Code — Full-Day Interactive Workshop for Experienced Developers</a>
+<ul>
+<li><a href="#mode-parallel-labs-everyone-has-claude-open" id="toc-mode-parallel-labs-everyone-has-claude-open">⭐ Mode: parallel
+labs (everyone has Claude open)</a></li>
+</ul></li>
+<li><a href="#how-to-use-this-kit" id="toc-how-to-use-this-kit">How to
+use this kit</a>
+<ul>
+<li><a href="#whats-in-the-repo-workshop_demo" id="toc-whats-in-the-repo-workshop_demo">What’s in the repo
+(<code>workshop_demo/</code>)</a></li>
+<li><a href="#trainers-golden-path" id="toc-trainers-golden-path">Trainer’s golden path</a></li>
+<li><a href="#running-order-8-hours-900-1800" id="toc-running-order-8-hours-900-1800">Running order (8 hours, 9:00 –
+18:00)</a></li>
+<li><a href="#how-to-project" id="toc-how-to-project">How to
+project</a></li>
+<li><a href="#three-rules-for-the-room" id="toc-three-rules-for-the-room">Three rules for the room</a></li>
+<li><a href="#what-to-print" id="toc-what-to-print">What to
+print</a></li>
+<li><a href="#what-to-send-the-day-before" id="toc-what-to-send-the-day-before">What to send the day
+before</a></li>
+</ul></li>
+<li><a href="#workshop-philosophy" id="toc-workshop-philosophy">Workshop
+philosophy</a></li>
+<li><a href="#welcome-environment-check" id="toc-welcome-environment-check">09:00 – 09:15 — Welcome &amp;
+environment check</a></li>
+<li><a href="#module-1-mental-model-of-an-agentic-cli-0915-1000" id="toc-module-1-mental-model-of-an-agentic-cli-0915-1000">Module 1 —
+Mental model of an agentic CLI (09:15 – 10:00)</a>
+<ul>
+<li><a href="#why-this-module-exists" id="toc-why-this-module-exists">Why this module exists</a></li>
+<li><a href="#concept-25-min" id="toc-concept-25-min">Concept (25
+min)</a></li>
+<li><a href="#interactive-bad-prompt-vs-good-prompt" id="toc-interactive-bad-prompt-vs-good-prompt">Interactive: Bad prompt
+vs Good prompt</a></li>
+<li><a href="#demo-15-min" id="toc-demo-15-min">Demo (15 min)</a></li>
+<li><a href="#discussion-5-min" id="toc-discussion-5-min">Discussion (5
+min)</a></li>
+</ul></li>
+<li><a href="#module-2-anatomy-of-a-turn-1000-1045" id="toc-module-2-anatomy-of-a-turn-1000-1045">Module 2 — Anatomy of a
+turn (10:00 – 10:45)</a>
+<ul>
+<li><a href="#goals" id="toc-goals">Goals</a></li>
+<li><a href="#concept-20-min" id="toc-concept-20-min">Concept (20
+min)</a></li>
+<li><a href="#interactive-spot-the-lever-5-cards-hand-raise-vote" id="toc-interactive-spot-the-lever-5-cards-hand-raise-vote">Interactive:
+Spot the lever (5 cards, hand-raise vote)</a></li>
+<li><a href="#discussion-5-min-1" id="toc-discussion-5-min-1">Discussion
+(5 min)</a></li>
+</ul></li>
+<li><a href="#break" id="toc-break">10:45 – 11:00 — Break</a></li>
+<li><a href="#module-3-context-engineering-1100-1200" id="toc-module-3-context-engineering-1100-1200">Module 3 — Context
+engineering (11:00 – 12:00)</a>
+<ul>
+<li><a href="#goals-1" id="toc-goals-1">Goals</a></li>
+<li><a href="#concept-25-min-1" id="toc-concept-25-min-1">Concept (25
+min)</a></li>
+<li><a href="#interactive-claude.md-surgery-live-trim-room-votes" id="toc-interactive-claude.md-surgery-live-trim-room-votes">Interactive:
+CLAUDE.md surgery (live trim, room votes)</a></li>
+<li><a href="#lab-3-bootstrap-the-sandbox-30-min" id="toc-lab-3-bootstrap-the-sandbox-30-min">Lab 3 — Bootstrap the
+sandbox (30 min)</a></li>
+<li><a href="#discussion-5-min-2" id="toc-discussion-5-min-2">Discussion
+(5 min)</a></li>
+</ul></li>
+<li><a href="#module-4-sub-agents-parallelism-worktrees-1200-1300" id="toc-module-4-sub-agents-parallelism-worktrees-1200-1300">Module 4 —
+Sub-agents, parallelism, worktrees (12:00 – 13:00)</a>
+<ul>
+<li><a href="#goals-2" id="toc-goals-2">Goals</a></li>
+<li><a href="#concept-15-min" id="toc-concept-15-min">Concept (15
+min)</a></li>
+<li><a href="#interactive-bad-sub-agent-prompt-vs-good-sub-agent-prompt" id="toc-interactive-bad-sub-agent-prompt-vs-good-sub-agent-prompt">Interactive:
+Bad sub-agent prompt vs Good sub-agent prompt</a></li>
+<li><a href="#live-demo-three-reviewers-same-file-the-pre-built-one" id="toc-live-demo-three-reviewers-same-file-the-pre-built-one">Live
+demo: Three reviewers, same file (the pre-built one)</a></li>
+<li><a href="#discussion-5-min-3" id="toc-discussion-5-min-3">Discussion
+(5 min)</a></li>
+</ul></li>
+<li><a href="#lunch" id="toc-lunch">13:00 – 14:00 — Lunch</a></li>
+<li><a href="#module-5-hooks-1400-1500" id="toc-module-5-hooks-1400-1500">Module 5 — Hooks (14:00 – 15:00)</a>
+<ul>
+<li><a href="#goals-3" id="toc-goals-3">Goals</a></li>
+<li><a href="#concept-25-min-2" id="toc-concept-25-min-2">Concept (25
+min)</a></li>
+<li><a href="#interactive-bad-hook-vs-good-hook" id="toc-interactive-bad-hook-vs-good-hook">Interactive: Bad hook vs Good
+hook</a></li>
+<li><a href="#live-demo-before-the-lab-5-min" id="toc-live-demo-before-the-lab-5-min">🎬 Live demo before the lab (~5
+min)</a></li>
+<li><a href="#lab-5-three-guardrails-30-min" id="toc-lab-5-three-guardrails-30-min">Lab 5 — Three guardrails (30
+min)</a></li>
+<li><a href="#discussion-5-min-4" id="toc-discussion-5-min-4">Discussion
+(5 min)</a></li>
+</ul></li>
+<li><a href="#module-6-slash-commands-skills-1500-1545" id="toc-module-6-slash-commands-skills-1500-1545">Module 6 — Slash
+commands &amp; Skills (15:00 – 15:45)</a>
+<ul>
+<li><a href="#goals-4" id="toc-goals-4">Goals</a></li>
+<li><a href="#concept-10-min" id="toc-concept-10-min">Concept (10
+min)</a></li>
+<li><a href="#interactive-bad-slash-command-vs-good-slash-command" id="toc-interactive-bad-slash-command-vs-good-slash-command">Interactive:
+Bad slash command vs Good slash command</a></li>
+<li><a href="#live-demo-with-skill-vs-without-skill-the-pre-built-one" id="toc-live-demo-with-skill-vs-without-skill-the-pre-built-one">Live
+demo: with-skill vs without-skill (the pre-built one)</a></li>
+<li><a href="#lab-6-ship-a-standup-command-15-min" id="toc-lab-6-ship-a-standup-command-15-min">Lab 6 — Ship a /standup
+command (15 min)</a></li>
+<li><a href="#discussion" id="toc-discussion">Discussion</a></li>
+</ul></li>
+<li><a href="#break-1" id="toc-break-1">15:45 – 16:00 — Break</a></li>
+<li><a href="#module-7-mcp-servers-1600-1700" id="toc-module-7-mcp-servers-1600-1700">Module 7 — MCP servers (16:00 –
+17:00)</a>
+<ul>
+<li><a href="#goals-5" id="toc-goals-5">Goals</a></li>
+<li><a href="#concept-20-min-1" id="toc-concept-20-min-1">Concept (20
+min)</a></li>
+<li><a href="#interactive-bad-mcp-tool-vs-good-mcp-tool" id="toc-interactive-bad-mcp-tool-vs-good-mcp-tool">Interactive: Bad MCP
+tool vs Good MCP tool</a></li>
+<li><a href="#live-demo-before-the-lab-5-min-1" id="toc-live-demo-before-the-lab-5-min-1">🎬 Live demo before the lab
+(~5 min)</a></li>
+<li><a href="#lab-7-extend-the-mcp-server-35-min" id="toc-lab-7-extend-the-mcp-server-35-min">Lab 7 — Extend the MCP
+server (35 min)</a></li>
+<li><a href="#discussion-1" id="toc-discussion-1">Discussion</a></li>
+</ul></li>
+<li><a href="#module-8-permissions-sandboxing-team-rollout-1700-1730" id="toc-module-8-permissions-sandboxing-team-rollout-1700-1730">Module 8
+— Permissions, sandboxing, team rollout (17:00 – 17:30)</a>
+<ul>
+<li><a href="#goals-6" id="toc-goals-6">Goals</a></li>
+<li><a href="#concept-15-min-1" id="toc-concept-15-min-1">Concept (15
+min)</a></li>
+<li><a href="#interactive-bad-settings.json-vs-good-settings.json" id="toc-interactive-bad-settings.json-vs-good-settings.json">Interactive:
+Bad settings.json vs Good settings.json</a></li>
+<li><a href="#files-to-project-3-min-before-the-lab" id="toc-files-to-project-3-min-before-the-lab">🎬 Files to project (~3
+min before the lab)</a></li>
+<li><a href="#lab-8-lock-down-the-sandbox-15-min" id="toc-lab-8-lock-down-the-sandbox-15-min">Lab 8 — Lock down the
+sandbox (15 min)</a></li>
+</ul></li>
+<li><a href="#module-9-claude-agent-sdk-headless-usage-1730-1800" id="toc-module-9-claude-agent-sdk-headless-usage-1730-1800">Module 9 —
+Claude Agent SDK &amp; headless usage (17:30 – 18:00)</a>
+<ul>
+<li><a href="#goals-7" id="toc-goals-7">Goals</a></li>
+<li><a href="#concept-15-min-2" id="toc-concept-15-min-2">Concept (15
+min)</a></li>
+<li><a href="#interactive-bad-headless-invocation-vs-good-headless-invocation" id="toc-interactive-bad-headless-invocation-vs-good-headless-invocation">Interactive:
+Bad headless invocation vs Good headless invocation</a></li>
+<li><a href="#live-demo-3-min-runnable" id="toc-live-demo-3-min-runnable">🎬 Live demo (~3 min,
+runnable)</a></li>
+<li><a href="#optional-extended-demo-15-min" id="toc-optional-extended-demo-15-min">Optional extended demo (15
+min)</a></li>
+</ul></li>
+<li><a href="#wrap-up-retro-15-min" id="toc-wrap-up-retro-15-min">18:00
+— Wrap-up &amp; retro (15 min)</a></li>
+<li><a href="#appendix-a-lab-artifacts-each-participant-leaves-with" id="toc-appendix-a-lab-artifacts-each-participant-leaves-with">Appendix
+A — Lab artifacts each participant leaves with</a></li>
+<li><a href="#appendix-b-one-page-cheat-sheet-print" id="toc-appendix-b-one-page-cheat-sheet-print">Appendix B — One-page
+cheat-sheet (print)</a></li>
+<li><a href="#appendix-c-facilitator-notes" id="toc-appendix-c-facilitator-notes">Appendix C — Facilitator
+notes</a></li>
+</ul>
+</nav>
+<h1 id="claude-code-full-day-interactive-workshop-for-experienced-developers">Claude
+Code — Full-Day Interactive Workshop for Experienced Developers</h1>
+<blockquote>
+<p>A run-the-day-from-this-page guide. Every module is <strong>Concept →
+Bad prompt → Good prompt → Your turn → Compare</strong>. All “good”
+prompts and reveals are hidden behind <code>&lt;details&gt;</code> so
+you can keep them off-screen until the room has tried for
+themselves.</p>
+</blockquote>
+<h2 id="mode-parallel-labs-everyone-has-claude-open">⭐ Mode: parallel
+labs (everyone has Claude open)</h2>
+<p>This workshop assumes every participant has Claude Code installed and
+the <code>workshop_demo</code> repo cloned to their laptop. The workshop
+is <strong>not</strong> “trainer demos, room watches” — it’s
+<strong>“trainer conducts, room runs in parallel, then we
+compare.”</strong></p>
+<p>Two key participant-facing artifacts:</p>
+<ul>
+<li><strong><code>PARTICIPANT_SETUP.html</code></strong> — sent the
+night before. They install Claude, clone the repo, run
+<code>bash scripts/setup.sh</code>, verify three runnable demos.</li>
+<li><strong><code>EXERCISES.html</code></strong> — projected during each
+module. Nine timeboxed exercises, one per module. After each timer, we
+compare round-room.</li>
+</ul>
+<p>Trainer-only artifacts:</p>
+<ul>
+<li><strong><code>DEMO_COOKBOOK.html</code></strong> — your conductor’s
+playbook. Per-module: set up → timer → walk the room → round-room
+compare.</li>
+<li><strong><code>WORKSHOP.html</code></strong> — this document, with
+reveals.</li>
+</ul>
+<hr />
+<h1 id="how-to-use-this-kit">How to use this kit</h1>
+<h2 id="whats-in-the-repo-workshop_demo">What’s in the repo
+(<code>workshop_demo/</code>)</h2>
+<pre><code>workshop_demo/
+├── WORKSHOP.html                   ← OPEN THIS IN A BROWSER. Trainer&#39;s deck.
+├── WORKSHOP.md                     ← source for the HTML
+├── DEMO_COOKBOOK.md                ← ⭐ ONE PAGE: every demo, exact commands
+├── README.md                       ← quickstart
+│
+├── module1_mental_model/
+│   └── transcripts/                ← bad_prompt.txt + good_prompt.txt (read live)
+├── module2_anatomy/
+│   └── scenarios.md                ← 5 &quot;spot the lever&quot; cards (interactive vote)
+├── module3_context/
+│   ├── before_CLAUDE.md            ← bloated CLAUDE.md to trim live
+│   ├── after_CLAUDE.md             ← the trimmed version
+│   └── SURGERY.md                  ← what got cut, line-by-line, and why
+├── module4_subagents/              ← (lab dir; sub-agent demo lives in example2_*)
+├── module5_hooks/                  ← 🎬 RUNNABLE: hook fires live in front of the room
+│   ├── RUN.md                      ← exact commands
+│   ├── .claude/settings.json       ← wires the hook
+│   ├── .claude/hooks/block-prod-writes.sh
+│   └── sample_files/prod_config.yaml
+├── module6_commands_skills/        ← 🎬 PRE-BUILT skill comparison
+│   ├── COMPARISON.md
+│   ├── live_demo_with_skill/       ← 32 files, full architecture
+│   └── live_demo_without_skill/    ← 12 files, happy-path only
+├── module7_mcp/                    ← 🎬 RUNNABLE: real MCP server, live demo
+│   ├── RUN.md
+│   ├── oncall_server.py            ← 60 lines, FastMCP
+│   ├── oncall.json
+│   └── .claude/settings.json
+├── module8_permissions/
+│   ├── bad_settings.json           ← what NOT to commit
+│   └── good_settings.json          ← what to defend in code review
+├── module9_sdk/                    ← 🎬 RUNNABLE: claude -p in 30 seconds
+│   ├── RUN.md
+│   ├── quick_demo.sh
+│   └── sample_test_failure.txt
+└── example2_parallel_review/       ← 🎬 PRE-BUILT 3-reviewer demo
+    ├── OVERLAP.md
+    ├── code_under_review/users_api.js
+    └── reviews/                    ← 3 real review files</code></pre>
+<h2 id="trainers-golden-path">Trainer’s golden path</h2>
+<p><strong>Open these THREE files in your browser/editor before the
+workshop and you’re ready:</strong></p>
+<ol type="1">
+<li><code>DEMO_COOKBOOK.md</code> — print it, tape it next to your
+laptop. Every demo, exact commands.</li>
+<li><code>WORKSHOP.html</code> — your slide deck. Click any module, run
+that segment.</li>
+<li><code>README.md</code> — the quickstart you re-read the night
+before.</li>
+</ol>
+<h2 id="running-order-8-hours-900-1800">Running order (8 hours, 9:00 –
+18:00)</h2>
+<table>
+<colgroup>
+<col style="width: 14%" />
+<col style="width: 19%" />
+<col style="width: 14%" />
+<col style="width: 51%" />
+</colgroup>
+<thead>
+<tr>
+<th>Time</th>
+<th>Module</th>
+<th>Mode</th>
+<th>Pre-built artifact</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>09:00 – 09:15</td>
+<td>Welcome, env check</td>
+<td>Talk</td>
+<td>—</td>
+</tr>
+<tr>
+<td>09:15 – 10:00</td>
+<td>M1 — Mental model</td>
+<td>Talk + demo</td>
+<td>—</td>
+</tr>
+<tr>
+<td>10:00 – 10:45</td>
+<td>M2 — Anatomy of a turn</td>
+<td>Talk + lab</td>
+<td>—</td>
+</tr>
+<tr>
+<td>10:45 – 11:00</td>
+<td>Break</td>
+<td>—</td>
+<td>—</td>
+</tr>
+<tr>
+<td>11:00 – 12:00</td>
+<td>M3 — Context engineering</td>
+<td>Lab</td>
+<td>—</td>
+</tr>
+<tr>
+<td>12:00 – 13:00</td>
+<td>M4 — Sub-agents + parallelism</td>
+<td><strong>Live demo</strong></td>
+<td><code>example2_parallel_review/</code></td>
+</tr>
+<tr>
+<td>13:00 – 14:00</td>
+<td>Lunch</td>
+<td>—</td>
+<td>—</td>
+</tr>
+<tr>
+<td>14:00 – 15:00</td>
+<td>M5 — Hooks</td>
+<td>Lab</td>
+<td>—</td>
+</tr>
+<tr>
+<td>15:00 – 15:45</td>
+<td>M6 — Slash commands &amp; Skills</td>
+<td><strong>Live demo</strong></td>
+<td><code>module6_commands_skills/</code></td>
+</tr>
+<tr>
+<td>15:45 – 16:00</td>
+<td>Break</td>
+<td>—</td>
+<td>—</td>
+</tr>
+<tr>
+<td>16:00 – 17:00</td>
+<td>M7 — MCP servers</td>
+<td>Lab</td>
+<td>—</td>
+</tr>
+<tr>
+<td>17:00 – 17:30</td>
+<td>M8 — Permissions &amp; rollout</td>
+<td>Talk + lab</td>
+<td>—</td>
+</tr>
+<tr>
+<td>17:30 – 18:00</td>
+<td>M9 — SDK &amp; headless</td>
+<td>Talk + demo</td>
+<td>—</td>
+</tr>
+</tbody>
+</table>
+<h2 id="how-to-project">How to project</h2>
+<ul>
+<li><strong>Browser, full screen.</strong> Open
+<code>WORKSHOP.html</code>. The TOC sticks to the left. Bad/good prompt
+blocks are collapsible — leave the “good” closed during the predict
+phase.</li>
+<li><strong>Three terminals visible.</strong> One running
+<code>claude</code> on the workshop sandbox, one running
+<code>tree</code>/<code>cat</code>/<code>bat</code> for showing files,
+one for <code>git diff</code>/<code>gh</code> commands.</li>
+<li><strong>Whiteboard or shared doc</strong> for the parking-lot
+questions and predict-before-reveal answers.</li>
+</ul>
+<h2 id="three-rules-for-the-room">Three rules for the room</h2>
+<ol type="1">
+<li><strong>No second AI in another tab.</strong> We want everyone
+feeling the agent loop directly.</li>
+<li><strong>Predict before you reveal.</strong> Every bad-vs-good prompt
+section gives you 60 seconds to write what you’d change before you click
+open the answer.</li>
+<li><strong>Real keyboards.</strong> Every lab is hands-on in the
+sandbox repo, not a screenshot.</li>
+</ol>
+<h2 id="what-to-print">What to print</h2>
+<ul>
+<li>Appendix B (one-page cheat-sheet) — one per attendee.</li>
+<li>The bad prompts only (with the good prompts blanked) — distribute as
+a workbook.</li>
+</ul>
+<h2 id="what-to-send-the-day-before">What to send the day before</h2>
+<ul>
+<li>Sandbox repo URL.</li>
+<li><code>npm install -g @anthropic-ai/claude-code</code>,
+<code>claude doctor</code>.</li>
+<li>A throwaway Anthropic API key for Module 9.</li>
+<li>This <code>WORKSHOP.html</code> link.</li>
+</ul>
+<hr />
+<h1 id="workshop-philosophy">Workshop philosophy</h1>
+<p>Three claims drive the entire day:</p>
+<ol type="1">
+<li><strong>Claude Code is an agent loop, not autocomplete.</strong>
+Almost every confused user is reasoning about it as if it were.</li>
+<li><strong>The leverage is in the four levers around the loop:</strong>
+<em>context, tools, permissions, loop control.</em> Every problem maps
+to one of them.</li>
+<li><strong>Production usage is a software-engineering problem, not a
+prompting problem.</strong> You’ll build <code>CLAUDE.md</code>, hooks,
+skills, MCP servers, and CI integrations the same way you build linters
+and pre-commit hooks.</li>
+</ol>
+<p>Hold those three lines up at 09:00, again at 13:00, again at 18:00.
+They are the spine.</p>
+<hr />
+<h1 id="welcome-environment-check">09:00 – 09:15 — Welcome &amp;
+environment check</h1>
+<p><strong>Sanity script — run together on screen:</strong></p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ex">claude</span> <span class="at">--version</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="ex">claude</span> doctor</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="ex">gh</span> auth status</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="ex">node</span> <span class="at">--version</span> <span class="kw">&amp;&amp;</span> <span class="ex">python3</span> <span class="at">--version</span></span></code></pre></div>
+<p><strong>Whiteboard prompt</strong> <em>(round-the-room, one sentence
+each)</em>: “What’s the most painful part of your current AI-assisted
+workflow?” Capture answers — re-visit at 18:00.</p>
+<p><strong>Set the rules</strong> (above). Confirm everyone has the
+sandbox cloned and <code>WORKSHOP.html</code> open.</p>
+<hr />
+<h1 id="module-1-mental-model-of-an-agentic-cli-0915-1000">Module 1 —
+Mental model of an agentic CLI (09:15 – 10:00)</h1>
+<h2 id="why-this-module-exists">Why this module exists</h2>
+<p>Every later module breaks if the room is still thinking “Claude Code
+= Cursor in a terminal.” This is the framing surgery.</p>
+<h2 id="concept-25-min">Concept (25 min)</h2>
+<h3 id="the-agent-loop">1. The agent loop</h3>
+<pre><code>┌──────────────────────────────────────────────────────────┐
+│  user msg ──▶ model ──▶ tool call ──▶ tool result ──┐    │
+│                 ▲                                    │    │
+│                 └────────────────────────────────────┘    │
+│           (loop until model emits no tool call)          │
+└──────────────────────────────────────────────────────────┘</code></pre>
+<p>Walk through one real turn line by line — model reads system prompt,
+decides to call <code>Read</code>, sees the result, decides to call
+<code>Edit</code>, sees a diff confirmation, then emits a final message.
+That is what every interaction is.</p>
+<h3 id="what-claude-code-adds-on-top-of-the-raw-api">2. What Claude Code
+adds on top of the raw API</h3>
+<ul>
+<li>A curated tool set: <code>Read</code>, <code>Edit</code>,
+<code>Write</code>, <code>Bash</code>, <code>Grep</code>,
+<code>Glob</code>, <code>WebFetch</code>, <code>WebSearch</code>,
+<code>Task</code>, <code>TodoWrite</code>.</li>
+<li>A permission system gating every tool call.</li>
+<li>Context plumbing: <code>CLAUDE.md</code>, <code>@</code>-mentions,
+auto-compaction, prompt caching.</li>
+<li>An extension surface: hooks, slash commands, skills, MCP servers,
+sub-agents.</li>
+<li>Session ergonomics: history, <code>/resume</code>,
+<code>/clear</code>, <code>/compact</code>, plan mode, fast mode.</li>
+</ul>
+<h3 id="where-it-sits-in-the-landscape">3. Where it sits in the
+landscape</h3>
+<table>
+<colgroup>
+<col style="width: 14%" />
+<col style="width: 26%" />
+<col style="width: 35%" />
+<col style="width: 23%" />
+</colgroup>
+<thead>
+<tr>
+<th>Tool</th>
+<th>Loop owner</th>
+<th>Editing model</th>
+<th>Strength</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Copilot inline</td>
+<td>IDE</td>
+<td>Single-file completion</td>
+<td>Keystroke speed</td>
+</tr>
+<tr>
+<td>Cursor / Windsurf</td>
+<td>IDE</td>
+<td>Multi-file, cmd-K</td>
+<td>Visual diff review</td>
+</tr>
+<tr>
+<td>Aider</td>
+<td>CLI</td>
+<td>Patch-based, git-native</td>
+<td>Determinism, low ceremony</td>
+</tr>
+<tr>
+<td>Claude Code</td>
+<td>CLI</td>
+<td>Agentic, tool-using</td>
+<td>Long-horizon tasks, automation, extensibility</td>
+</tr>
+<tr>
+<td>Anthropic SDK</td>
+<td>Your code</td>
+<td>Whatever you build</td>
+<td>Production embedding</td>
+</tr>
+</tbody>
+</table>
+<p><strong>The key claim:</strong> Claude Code is the right tool when
+the unit of work is <em>“complete this task”</em>, not <em>“complete
+this line.”</em></p>
+<h2 id="interactive-bad-prompt-vs-good-prompt">Interactive: Bad prompt
+vs Good prompt</h2>
+<p><strong>Setup:</strong> the sandbox has a failing migration test.
+Show the room the bad prompt, ask: <em>“What’s wrong with this — and
+what would you write instead?”</em> Give 60 seconds.</p>
+<h3 id="bad-prompt">❌ Bad prompt</h3>
+<pre><code>fix the test</code></pre>
+<details>
+<summary>
+✅ Reveal: Good prompt
+</summary>
+<pre><code>The migration test in db/__tests__/migration_0042.test.ts is failing on
+CI. Read the test, read the migration, and figure out the root cause.
+Don&#39;t change the migration to make the test pass — figure out which one
+is wrong. If it&#39;s the test, propose the fix and wait for me to approve
+before editing. Use plan mode.</code></pre>
+<strong>What changed and why:</strong> - <em>Context:</em> names the
+file, names the migration, names where the failure happens. - <em>Tools
+/ loop:</em> “use plan mode” — model can’t silently edit. -
+<em>Intent:</em> explicitly forbids the obvious wrong fix (“just change
+the migration”). - <em>Authority:</em> “wait for me to approve” —
+control returns to the human at the decision point.
+</details>
+<h2 id="demo-15-min">Demo (15 min)</h2>
+<p>Live: take the workshop sandbox, paste the <strong>bad</strong>
+prompt, narrate every tool call. Then <code>/clear</code>, paste the
+<strong>good</strong> prompt, narrate again. Contrast.</p>
+<blockquote>
+<p>🎬 <strong>No sandbox handy?</strong> Open
+<code>module1_mental_model/transcripts/bad_prompt.txt</code> and
+<code>good_prompt.txt</code> and read them aloud — same lesson, no live
+Claude needed. Recipe 1 in <code>DEMO_COOKBOOK.md</code>.</p>
+</blockquote>
+<h2 id="discussion-5-min">Discussion (5 min)</h2>
+<blockquote>
+<p>“Where in your current workflow is the unit of work actually a
+<em>task</em>, not a <em>line</em>?”</p>
+</blockquote>
+<hr />
+<h1 id="module-2-anatomy-of-a-turn-1000-1045">Module 2 — Anatomy of a
+turn (10:00 – 10:45)</h1>
+<h2 id="goals">Goals</h2>
+<p>Every participant can take any failed Claude Code interaction and say
+which of the four levers failed: bad context, bad tool choice, bad
+permission, bad loop control.</p>
+<h2 id="concept-20-min">Concept (20 min)</h2>
+<h3 id="the-four-levers-the-spine-of-the-entire-day">The four levers —
+the spine of the entire day</h3>
+<ul>
+<li><strong>Context</strong> — what’s in the model’s window when it
+acts.</li>
+<li><strong>Tools</strong> — what the model is allowed to call.</li>
+<li><strong>Permissions</strong> — what runs without asking, what stops
+to ask.</li>
+<li><strong>Loop control</strong> — plan mode, sub-agents, hooks,
+<code>/clear</code>.</li>
+</ul>
+<p>Almost every “Claude did the wrong thing” complaint maps to one of
+these four.</p>
+<h3 id="plan-mode-the-most-under-used-feature">Plan mode — the most
+under-used feature</h3>
+<ul>
+<li><code>Shift+Tab</code> cycles
+<code>default → acceptEdits → plan</code>.</li>
+<li>In plan mode the model can read and search but cannot edit; it must
+surface a plan and wait for <code>ExitPlanMode</code>.</li>
+<li><strong>Use it for:</strong> anything multi-file, any refactor, any
+unfamiliar codebase.</li>
+</ul>
+<h3 id="token-economics-in-90-seconds">Token economics in 90
+seconds</h3>
+<ul>
+<li>Prompt caching ≈ 90% cost reduction on the cached prefix,
+<strong>5-minute TTL</strong>.</li>
+<li>Long-lived sessions on one task are cheap; ping-ponging between
+unrelated tasks is expensive.</li>
+<li><code>/clear</code> between unrelated tasks. <em>Don’t</em>
+<code>/clear</code> mid-task to “free space” — auto-compaction handles
+it and preserves the cache.</li>
+</ul>
+<h3 id="models-in-claude-code">Models in Claude Code</h3>
+<ul>
+<li>Default: Opus (heavyweight reasoning).</li>
+<li>Sonnet: faster, cheaper, great for routine edits and
+sub-agents.</li>
+<li>Haiku: very fast, ideal for hooks and small classifier-style
+sub-agents.</li>
+<li><code>/model</code> switches; sub-agents can pin a model in their
+definition.</li>
+</ul>
+<h2 id="interactive-spot-the-lever-5-cards-hand-raise-vote">Interactive:
+Spot the lever (5 cards, hand-raise vote)</h2>
+<blockquote>
+<p>🎬 <strong>Open <code>module2_anatomy/scenarios.md</code> on the
+projector.</strong> Five short transcripts, one card at a time, each
+with a hidden reveal. Read aloud → 60s pause → hand-raise vote on which
+lever (context / tools / permissions / loop control) → click the green
+box. Score on the whiteboard. Recipe 2 in
+<code>DEMO_COOKBOOK.md</code>.</p>
+</blockquote>
+<p>The cards below are a quick walk-through of the same content if you’d
+rather present from this page:</p>
+<h3 id="transcript-a-what-failed">Transcript A — what failed?</h3>
+<pre><code>&gt; add user-deletion to the API
+[Claude proposed and wrote 14 file edits across 9 files in 2 minutes]
+&gt; wait that broke the build
+&gt; revert</code></pre>
+<details>
+<summary>
+✅ Reveal: which lever?
+</summary>
+<strong>Loop control.</strong> No plan mode, no checkpoint between “I
+have an idea” and “I am editing 9 files.” Fix: <code>Shift+Tab</code> to
+plan mode, or prompt: <em>“Propose the change in plan mode first.”</em>
+</details>
+<h3 id="transcript-b-what-failed">Transcript B — what failed?</h3>
+<pre><code>&gt; what does the EventBus class do?
+[Claude reads README.md, package.json, src/index.ts]
+[Claude responds: &quot;EventBus is a pub-sub helper that …&quot; — invents a method
+ signature that doesn&#39;t exist]</code></pre>
+<details>
+<summary>
+✅ Reveal: which lever?
+</summary>
+<strong>Context.</strong> The model never read
+<code>src/event-bus.ts</code>. It hallucinated from related files. Fix:
+<code>@src/event-bus.ts</code> to inject it directly, or use
+<code>Grep</code> for the class name first.
+</details>
+<h3 id="transcript-c-what-failed">Transcript C — what failed?</h3>
+<pre><code>&gt; run the test suite and fix any failures
+[Approval prompt: Allow Bash(npm test)?]   y
+[Approval prompt: Allow Bash(npm test -- --watch=false)?]   y
+[Approval prompt: Allow Bash(npm test src/foo.test.ts)?]   y
+[Approval prompt: Allow Bash(npm test src/bar.test.ts)?]   y
+&gt; ugh, just go</code></pre>
+<details>
+<summary>
+✅ Reveal: which lever?
+</summary>
+<strong>Permissions.</strong> Every variant of <code>npm test</code>
+triggers a fresh prompt. Fix: add <code>Bash(npm test:*)</code> to
+<code>.claude/settings.json</code> <code>allow</code> list. Run
+<code>/fewer-permission-prompts</code> after a week of use to mine your
+own transcripts.
+</details>
+<h2 id="discussion-5-min-1">Discussion (5 min)</h2>
+<blockquote>
+<p>“Which lever do you instinctively reach for? Which do you
+ignore?”</p>
+</blockquote>
+<hr />
+<h1 id="break">10:45 – 11:00 — Break</h1>
+<hr />
+<h1 id="module-3-context-engineering-1100-1200">Module 3 — Context
+engineering (11:00 – 12:00)</h1>
+<h2 id="goals-1">Goals</h2>
+<ul>
+<li>Write a <code>CLAUDE.md</code> that pays for itself the first
+day.</li>
+<li>Use <code>@</code>-mentions, memory, <code>/compact</code>
+deliberately.</li>
+<li>Inspect what’s actually loaded with <code>/memory</code>.</li>
+</ul>
+<h2 id="concept-25-min-1">Concept (25 min)</h2>
+<h3 id="the-claude.md-hierarchy">The CLAUDE.md hierarchy</h3>
+<p>Loaded in this order, last write wins for conflicts:</p>
+<ol type="1">
+<li><code>~/.claude/CLAUDE.md</code> — personal, applies
+everywhere.</li>
+<li><code>&lt;repo&gt;/CLAUDE.md</code> — project, committed.</li>
+<li><code>&lt;repo&gt;/.claude/CLAUDE.md</code> — project, <em>not</em>
+committed.</li>
+<li>Any <code>CLAUDE.md</code> walking up from the cwd.</li>
+</ol>
+<p><code>/memory</code> shows what’s actually loaded. <strong>The single
+most important debugging command for “why is it doing
+that?”</strong></p>
+<h3 id="what-goes-in-claude.md">What goes in CLAUDE.md</h3>
+<ul>
+<li>Things the model cannot derive from reading code: deploy targets,
+autogenerated files, <code>pnpm</code> not <code>npm</code>, etc.</li>
+<li>Anti-patterns to forbid: “do not mock the database,” “do not skip
+pre-commit hooks.”</li>
+<li>Pointers to long docs: “architecture is in
+<code>/docs/architecture.md</code>, read on demand.”</li>
+</ul>
+<p><strong>What does NOT go in CLAUDE.md:</strong></p>
+<ul>
+<li>Anything obvious from the code.</li>
+<li>Long prose explaining the codebase — read latency on every
+turn.</li>
+<li>Secrets.</li>
+<li>Volatile state (“we’re working on PR #432 today”).</li>
+</ul>
+<h2 id="interactive-claude.md-surgery-live-trim-room-votes">Interactive:
+CLAUDE.md surgery (live trim, room votes)</h2>
+<blockquote>
+<p>🎬 <strong>Open <code>module3_context/before_CLAUDE.md</code> on the
+projector.</strong> Walk it line-by-line. Room shouts “cut” for any line
+they’d remove. Make the cuts live in your editor. Then open
+<code>module3_context/after_CLAUDE.md</code> and
+<code>module3_context/SURGERY.md</code> to compare with the curated
+answer + the why-we-cut-this reasoning. Recipe 3 in
+<code>DEMO_COOKBOOK.md</code>.</p>
+</blockquote>
+<p>Here’s the same pair if you want to walk it from this page:</p>
+<h3 id="bad-claude.md-excerpt-the-full-version-is-module3_contextbefore_claude.md-130-lines">❌
+Bad CLAUDE.md (excerpt — the full version is
+<code>module3_context/before_CLAUDE.md</code>, 130 lines)</h3>
+<div class="sourceCode" id="cb9"><pre class="sourceCode markdown"><code class="sourceCode markdown"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu"># Stride Backend — Engineering Context</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="fu">## A short history of why things are the way they are</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>We originally built on Sequelize but migrated to Prisma in Q3 2024 after</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>the third major migration footgun (Sequelize would silently drop NOT NULL</span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>on column rename — ask Diego if you want the war story). The Prisma</span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>migration took ~6 weeks; some legacy code in <span class="in">`src/legacy/`</span> still uses</span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>raw SQL queries which we&#39;re slowly porting.</span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>We tried microservices in 2023 and rolled it back six months later</span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>(Conway&#39;s Law won). The repo is intentionally a modular monolith now.</span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a><span class="fu">## Architecture overview</span></span>
+<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a>src/api/        — HTTP handlers, one file per resource</span>
+<span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a>src/services/   — business logic, called from handlers</span>
+<span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a>src/db/         — Prisma client, transaction wrappers, raw escape hatch</span>
+<span id="cb9-19"><a href="#cb9-19" aria-hidden="true" tabindex="-1"></a><span class="co">[</span><span class="ot">... 12 more lines walking through every directory ...</span><span class="co">]</span></span>
+<span id="cb9-20"><a href="#cb9-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-21"><a href="#cb9-21" aria-hidden="true" tabindex="-1"></a><span class="fu">## Coding standards</span></span>
+<span id="cb9-22"><a href="#cb9-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-23"><a href="#cb9-23" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Write good code. Be careful with security — we had a token-leak</span>
+<span id="cb9-24"><a href="#cb9-24" aria-hidden="true" tabindex="-1"></a>  incident in 2023.</span>
+<span id="cb9-25"><a href="#cb9-25" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Handle errors.</span>
+<span id="cb9-26"><a href="#cb9-26" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Write tests for new features. Aim for 80% coverage on new code.</span>
+<span id="cb9-27"><a href="#cb9-27" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Use 2-space indentation, single quotes, semicolons.</span>
+<span id="cb9-28"><a href="#cb9-28" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Avoid <span class="in">`any`</span> in TypeScript.</span>
+<span id="cb9-29"><a href="#cb9-29" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Follow the existing patterns in the codebase.</span>
+<span id="cb9-30"><a href="#cb9-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-31"><a href="#cb9-31" aria-hidden="true" tabindex="-1"></a><span class="fu">## Adding a new endpoint</span></span>
+<span id="cb9-32"><a href="#cb9-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-33"><a href="#cb9-33" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>Create the handler in src/api/<span class="dt">&lt;</span><span class="kw">resource</span><span class="dt">&gt;</span>.ts</span>
+<span id="cb9-34"><a href="#cb9-34" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>Register the route in src/app.ts</span>
+<span id="cb9-35"><a href="#cb9-35" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>Add the request/response types in src/types/<span class="dt">&lt;</span><span class="kw">resource</span><span class="dt">&gt;</span>.ts</span>
+<span id="cb9-36"><a href="#cb9-36" aria-hidden="true" tabindex="-1"></a><span class="co">[</span><span class="ot">... 5 more steps ...</span><span class="co">]</span></span>
+<span id="cb9-37"><a href="#cb9-37" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-38"><a href="#cb9-38" aria-hidden="true" tabindex="-1"></a><span class="fu">## Current sprint</span></span>
+<span id="cb9-39"><a href="#cb9-39" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-40"><a href="#cb9-40" aria-hidden="true" tabindex="-1"></a>We are in Sprint 23. Priorities:</span>
+<span id="cb9-41"><a href="#cb9-41" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>STR-432 — Bulk import endpoint (Priya, in review)</span>
+<span id="cb9-42"><a href="#cb9-42" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>STR-441 — Migrate /users/me to new SessionStore (Diego, blocked)</span>
+<span id="cb9-43"><a href="#cb9-43" aria-hidden="true" tabindex="-1"></a><span class="co">[</span><span class="ot">... </span><span class="co">]</span></span>
+<span id="cb9-44"><a href="#cb9-44" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-45"><a href="#cb9-45" aria-hidden="true" tabindex="-1"></a><span class="fu">## Credentials</span></span>
+<span id="cb9-46"><a href="#cb9-46" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-47"><a href="#cb9-47" aria-hidden="true" tabindex="-1"></a>The production DATABASE_URL is in AWS Secrets Manager under stride/prod/db.</span></code></pre></div>
+<p><em>Every section was added in good faith. <strong>The trap is that
+this doesn’t look obviously wrong.</strong> Most teams have something
+like it committed today.</em></p>
+<details>
+<summary>
+✅ Reveal: Good CLAUDE.md
+</summary>
+<div class="sourceCode" id="cb10"><pre class="sourceCode markdown"><code class="sourceCode markdown"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu"># Engineering rules for this repo</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="fu">## Stack lock-ins</span></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>pnpm only. Do NOT run npm or yarn — they break the lockfile.</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Node 20 LTS pinned in .nvmrc; do not bump without RFC.</span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Postgres ≥ 15 features (e.g. MERGE) are allowed.</span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a><span class="fu">## Forbidden patterns</span></span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>No mocking of the database in integration tests (see /docs/testing.md).</span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>No --no-verify on commits. Pre-commit hooks are load-bearing.</span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>No <span class="in">`as any`</span> in TypeScript. Use <span class="in">`unknown`</span> and narrow.</span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a><span class="fu">## Conventions you can&#39;t see from the code</span></span>
+<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Files under src/generated/ are autogenerated by <span class="in">`pnpm gen`</span> — never edit.</span>
+<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>All env access goes through src/env.ts (parsed via zod). Don&#39;t read process.env directly.</span>
+<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>HTTP handlers return Response objects, not call res.send (see /docs/handlers.md).</span>
+<span id="cb10-17"><a href="#cb10-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-18"><a href="#cb10-18" aria-hidden="true" tabindex="-1"></a><span class="fu">## When in doubt</span></span>
+<span id="cb10-19"><a href="#cb10-19" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Architecture overview: /docs/architecture.md (read on demand).</span>
+<span id="cb10-20"><a href="#cb10-20" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Deploy runbook: /docs/deploy.md.</span>
+<span id="cb10-21"><a href="#cb10-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-22"><a href="#cb10-22" aria-hidden="true" tabindex="-1"></a><span class="fu">## What I am NOT going to remind you about</span></span>
+<span id="cb10-23"><a href="#cb10-23" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Style — eslint + prettier are authoritative.</span>
+<span id="cb10-24"><a href="#cb10-24" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Test running — <span class="in">`pnpm test`</span> runs everything; <span class="in">`pnpm test &lt;path&gt;`</span> for one.</span></code></pre></div>
+<p><strong>What was wrong with the bad version (130 → 35 lines after
+surgery):</strong></p>
+<ol type="1">
+<li><strong>Project history (~20 lines)</strong> — “we originally built
+on Sequelize” is for humans onboarding, not for the agent loop. Belongs
+in <code>/docs/rfcs/</code>. Costs tokens on every turn for content the
+model uses on ~0% of tasks.</li>
+<li><strong>Architecture walkthrough (~15 lines)</strong> —
+<code>ls src/</code> gives the same info on demand. Inlining pays per
+turn for what should be lazy-loaded.</li>
+<li><strong>Tutorials disguised as conventions (~25 lines)</strong> —
+“Adding a new endpoint” is a how-to for humans. The model can read
+existing endpoints and follow the pattern. <strong>This is the most
+common bloat in real-world CLAUDE.md files.</strong></li>
+<li><strong>Empty platitudes (~6 lines)</strong> — “write good code”,
+“handle errors”. The model already wants to. Replace with
+<em>specific</em> anti-patterns (“no <code>as any</code>”, “no mocking
+the DB in integration tests”).</li>
+<li><strong>Style enforced by tooling (~5 lines)</strong> — prettier and
+eslint are authoritative. Format-on-write hook fixes drift. Don’t pay
+token cost every turn for what runs once at save time.</li>
+<li><strong>Volatile state (~8 lines)</strong> — “Sprint 23, Maya is on
+STR-447” is true today, wrong next month. Standup notes belong in your
+issue tracker.</li>
+<li><strong>Credential location (~5 lines)</strong> — even pointing at
+<em>where</em> secrets live narrows attacker search if the file leaks.
+The model can ask if it needs to know.</li>
+</ol>
+<p><strong>What survives in <code>after_CLAUDE.md</code> (the 35-line
+version):</strong> - Tool lock-ins: pnpm only, Node 20 pinned, Prisma is
+the only DB path. - Specific forbidden patterns with reasons: no
+<code>--no-verify</code>, no mocking the DB in integration tests, no
+extending the deprecated TOKEN_CACHE. - Genuine invariants the model
+can’t infer: <code>src/generated/</code> is autogenerated; handlers are
+thin; all writes go through <code>tx.ts</code>. - Pointers (not
+content): <code>/docs/architecture.md</code> linked, not inlined. -
+<strong>Explicit non-goals</strong> — “what I am NOT going to remind you
+about: style, test running, folder layout.” Saves the model time looking
+for guidance that isn’t there.</p>
+<p><strong>The math the room should feel:</strong> 500 bytes × 20
+turns/session × 5 sessions/week × 50 weeks/year × 50 engineers =
+<strong>125 MB of model input per year per cuttable section.</strong>
+Bloat is measurable.</p>
+See <code>module3_context/SURGERY.md</code> for the full line-by-line
+walkthrough.
+</details>
+<h2 id="lab-3-bootstrap-the-sandbox-30-min">Lab 3 — Bootstrap the
+sandbox (30 min)</h2>
+<ol type="1">
+<li>Run <code>/init</code> in the sandbox. Read what it produced.</li>
+<li>Edit it down: add five rules a senior engineer joining this repo
+would want, remove anything obvious from code.</li>
+<li>Add a <code>.claude/CLAUDE.md</code> with one <em>personal</em> rule
+(gitignored) — e.g., “always use <code>bat</code> instead of
+<code>cat</code> for me”.</li>
+<li>Run <code>/memory</code> and confirm both load.</li>
+<li>In a fresh session, ask Claude to “add an endpoint to delete a
+TODO.” Observe whether your rules are honoured. Iterate.</li>
+</ol>
+<h2 id="discussion-5-min-2">Discussion (5 min)</h2>
+<blockquote>
+<p>“What would you put in your team’s CLAUDE.md on Monday morning?”</p>
+</blockquote>
+<hr />
+<h1 id="module-4-sub-agents-parallelism-worktrees-1200-1300">Module 4 —
+Sub-agents, parallelism, worktrees (12:00 – 13:00)</h1>
+<h2 id="goals-2">Goals</h2>
+<ul>
+<li>Know when a sub-agent earns its cost.</li>
+<li>Run sub-agents in parallel from a single message.</li>
+<li>Use worktrees for safe experimental work.</li>
+</ul>
+<h2 id="concept-15-min">Concept (15 min)</h2>
+<h3 id="what-a-sub-agent-actually-is">What a sub-agent actually is</h3>
+<p>A sub-agent is a <strong>fresh Claude Code session</strong> spawned
+by the parent’s <code>Task</code> tool. Its own context window. The
+parent only sees the sub-agent’s final message.</p>
+<p>Two consequences:</p>
+<ul>
+<li><strong>Sub-agents are a context-isolation tool, not a brain-power
+tool.</strong> Use them when the parent’s window would be polluted by
+the work, not because “two heads are better.”</li>
+<li><strong>They are not free.</strong> Each spawn re-reads the system
+prompt and any auto-loaded context. Use them when the work is
+non-trivial.</li>
+</ul>
+<h3 id="built-in-agent-types">Built-in agent types</h3>
+<ul>
+<li><code>general-purpose</code> — default, full toolset.</li>
+<li><code>Explore</code> — read-only, fast, “where is X defined?” type
+questions.</li>
+<li><code>Plan</code> — designs an implementation plan, returns a step
+list.</li>
+</ul>
+<h3 id="custom-sub-agents">Custom sub-agents</h3>
+<p><code>.claude/agents/&lt;name&gt;.md</code> with frontmatter:</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode markdown"><code class="sourceCode markdown"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="an">name:</span><span class="co"> migration-auditor</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="an">description:</span><span class="co"> Reviews SQL migrations for safety on large tables.</span></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a><span class="an">tools:</span><span class="co"> Read, Grep, Bash</span></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a><span class="an">model:</span><span class="co"> sonnet</span></span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>You are a database migration reviewer. For any migration file, check:</span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>NOT NULL columns added without DEFAULT...</span></code></pre></div>
+<h3 id="parallelism">Parallelism</h3>
+<p><strong>Multiple <code>Task</code> tool calls in <em>one</em>
+assistant message run concurrently.</strong> Use this for independent
+reviews, fan-out research, multi-location searches.</p>
+<h3 id="worktrees">Worktrees</h3>
+<p><code>isolation: &quot;worktree&quot;</code> spawns a sub-agent on a fresh
+branch in a temporary git worktree. Safe sandbox for risky refactors.
+Auto-cleaned if no changes were made.</p>
+<h2 id="interactive-bad-sub-agent-prompt-vs-good-sub-agent-prompt">Interactive:
+Bad sub-agent prompt vs Good sub-agent prompt</h2>
+<p>The room has just learned what sub-agents are. Show this prompt to a
+sub-agent. <em>“What’s wrong?”</em></p>
+<h3 id="bad-sub-agent-prompt">❌ Bad sub-agent prompt</h3>
+<pre><code>review the code</code></pre>
+<details>
+<summary>
+✅ Reveal: Good sub-agent prompt
+</summary>
+<pre><code>You are a senior application security engineer. You have NO context about
+this project beyond the file you are about to read.
+
+FILE: /repo/src/api/users_api.js
+
+Focus EXCLUSIVELY on security: injection, authn/authz, secrets, SSRF, PII,
+DoS, supply chain. Other reviewers are covering quality and performance
+in parallel — do not duplicate their work.
+
+OUTPUT: write your review to /repo/.reviews/security.md as markdown with
+sections Summary / Critical / High / Medium / Low. Reference line numbers.
+
+RETURN to me: a 4-bullet summary, under 100 words, with severity tags.
+Do not paste the full review — the file IS the artifact.</code></pre>
+<strong>What changed:</strong> - <em>Identity:</em> “you have NO
+context” — sets the right reading mode. - <em>Scope:</em> explicit lane
+(security only), so it doesn’t drift. - <em>Output contract:</em> file
+path + structure named, so the parent doesn’t have to ask. - <em>Return
+contract:</em> “4 bullets under 100 words” — keeps the parent’s window
+clean. - <em>Coordination:</em> tells it about the other parallel agents
+so it doesn’t duplicate.
+</details>
+<h2 id="live-demo-three-reviewers-same-file-the-pre-built-one">Live
+demo: Three reviewers, same file (the pre-built one)</h2>
+<p>This demo is <strong>already done</strong> — the artifacts are in
+<code>example2_parallel_review/</code>. Use them.</p>
+<h3 id="predict-before-reveal-2-min">Predict-before-reveal (2 min)</h3>
+<blockquote>
+<p>Three Claude sub-agents reviewed the same flawed Express file in
+parallel: a security specialist, a code-quality specialist, and a
+generalist. Write down: (a) which agent you think found the most issues,
+(b) which agent found the most <em>valuable</em> issue, (c) one issue
+you predict all three missed.</p>
+</blockquote>
+<h3 id="the-reveal">The reveal</h3>
+<p>Open <code>example2_parallel_review/OVERLAP.md</code> on the
+projector. Walk the table.</p>
+<p><strong>Punchlines to land:</strong> 1. Two specialists in parallel
+found 17 of 19 issues with depth (payloads, attack chains). 2. The
+generalist found 16 of 19 — but at shallower depth. 3. Specialists
+missed exactly one issue: the <strong>route-ordering bug</strong>.
+Because they stayed in lane. The generalist caught it because they were
+reading sequentially. 4. <strong>Pattern to take home:</strong> parallel
+specialists + generalist <em>backstop</em>. Three agents in one message,
+three short summaries returned to the parent, three full review files on
+disk.</p>
+<h3 id="hands-on-20-min">Hands-on (20 min)</h3>
+<p>Each participant opens the sandbox, picks a flawed file (pre-staged
+in the sandbox at <code>src/legacy/payment_router.js</code>), and spawns
+<strong>two specialist sub-agents in a single message</strong>. They
+compare what came back vs. what a single generalist found.</p>
+<h2 id="discussion-5-min-3">Discussion (5 min)</h2>
+<blockquote>
+<p>“What in your current workflow is a sub-agent shaped problem you
+didn’t realise?”</p>
+</blockquote>
+<hr />
+<h1 id="lunch">13:00 – 14:00 — Lunch</h1>
+<hr />
+<h1 id="module-5-hooks-1400-1500">Module 5 — Hooks (14:00 – 15:00)</h1>
+<h2 id="goals-3">Goals</h2>
+<ul>
+<li>Add deterministic guardrails around a non-deterministic agent.</li>
+<li>Block, transform, and notify based on events.</li>
+<li>Debug a misbehaving hook.</li>
+</ul>
+<h2 id="concept-25-min-2">Concept (25 min)</h2>
+<h3 id="the-eight-hook-events">The eight hook events</h3>
+<ul>
+<li><code>PreToolUse</code> — before a tool runs; can block.</li>
+<li><code>PostToolUse</code> — after a tool runs; can warn.</li>
+<li><code>UserPromptSubmit</code> — before the user’s message is sent;
+can rewrite or block.</li>
+<li><code>Stop</code> — when the assistant finishes a turn.</li>
+<li><code>SubagentStop</code> — when a spawned sub-agent finishes.</li>
+<li><code>PreCompact</code> — before auto-compaction.</li>
+<li><code>Notification</code> — when Claude Code wants to notify the
+OS.</li>
+<li><code>SessionStart</code> — at session boot.</li>
+</ul>
+<h3 id="hook-anatomy">Hook anatomy</h3>
+<p><code>.claude/settings.json</code>:</p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode json"><code class="sourceCode json"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;hooks&quot;</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&quot;PreToolUse&quot;</span><span class="fu">:</span> <span class="ot">[</span></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>      <span class="fu">{</span></span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>        <span class="dt">&quot;matcher&quot;</span><span class="fu">:</span> <span class="st">&quot;Bash&quot;</span><span class="fu">,</span></span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>        <span class="dt">&quot;hooks&quot;</span><span class="fu">:</span> <span class="ot">[</span></span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>          <span class="fu">{</span> <span class="dt">&quot;type&quot;</span><span class="fu">:</span> <span class="st">&quot;command&quot;</span><span class="fu">,</span> <span class="dt">&quot;command&quot;</span><span class="fu">:</span> <span class="st">&quot;node .claude/hooks/block-rm-rf.js&quot;</span> <span class="fu">}</span></span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>        <span class="ot">]</span></span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a>      <span class="fu">}</span></span>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a>    <span class="ot">]</span></span>
+<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">}</span></span>
+<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code></pre></div>
+<p>The hook is a process. JSON in on stdin, JSON out on stdout.
+<strong>Exit code 2 = block, 0 = allow, anything else =
+warn.</strong></p>
+<h3 id="real-world-hook-patterns">Real-world hook patterns</h3>
+<ul>
+<li><strong>Secret scanner</strong> — <code>PreToolUse</code> on
+<code>Bash</code>/<code>Write</code>/<code>Edit</code>, refuse on AWS
+keys.</li>
+<li><strong>Lint-on-write</strong> — <code>PostToolUse</code> on
+<code>Edit</code>/<code>Write</code> for <code>.ts</code>, run
+<code>eslint --fix</code>.</li>
+<li><strong>Branch protector</strong> — <code>PreToolUse</code> on
+<code>Bash</code>, block <code>git push</code> to
+<code>main</code>.</li>
+<li><strong>Audit log</strong> — every tool call appended to
+<code>.claude/audit.log</code>.</li>
+<li><strong>Notifier</strong> — <code>Stop</code> posts to Slack when
+long tasks finish.</li>
+</ul>
+<h3 id="two-failure-modes">Two failure modes</h3>
+<ul>
+<li><strong>Over-blocking</strong> — your hook becomes a wall. Always
+emit a useful “why” + how to override.</li>
+<li><strong>Silent passing</strong> — your hook errored and Claude
+proceeded. Always log to a file, not stdout.</li>
+</ul>
+<h2 id="interactive-bad-hook-vs-good-hook">Interactive: Bad hook vs Good
+hook</h2>
+<p>Show the room this <code>PreToolUse</code> Bash hook. <em>“What goes
+wrong on Monday?”</em></p>
+<h3 id="bad-hook-plausible-find-the-bugs-in-30-seconds">❌ Bad hook
+(plausible — find the bugs in 30 seconds)</h3>
+<div class="sourceCode" id="cb15"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co">#!/usr/bin/env bash</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="co"># .claude/hooks/block-prod.sh</span></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Block writes to production config files.</span></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a><span class="va">INPUT</span><span class="op">=</span><span class="va">$(</span><span class="fu">cat</span><span class="va">)</span></span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a><span class="va">FILE</span><span class="op">=</span><span class="va">$(</span><span class="bu">echo</span> <span class="st">&quot;</span><span class="va">$INPUT</span><span class="st">&quot;</span> <span class="kw">|</span> <span class="ex">jq</span> <span class="at">-r</span> <span class="st">&#39;.tool_input.file_path&#39;</span><span class="va">)</span></span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="kw">[[</span> <span class="st">&quot;</span><span class="va">$FILE</span><span class="st">&quot;</span> <span class="ot">==</span> <span class="pp">*</span><span class="st">&quot;prod&quot;</span><span class="pp">*</span> <span class="kw">]];</span> <span class="cf">then</span></span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>  <span class="bu">echo</span> <span class="st">&quot;Blocked: </span><span class="va">$FILE</span><span class="st"> looks like a production file&quot;</span> <span class="op">&gt;&amp;</span><span class="dv">2</span></span>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a>  <span class="bu">exit</span> 2</span>
+<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a><span class="cf">fi</span></span>
+<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a><span class="bu">exit</span> 0</span></code></pre></div>
+<p><em>This looks fine. Reads stdin properly, uses jq, has a message,
+returns 2 to block. <strong>What’s wrong with it?</strong></em></p>
+<details>
+<summary>
+✅ Reveal: Good hook
+</summary>
+<div class="sourceCode" id="cb16"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co">#!/usr/bin/env bash</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="co"># .claude/hooks/block-prod.sh</span></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Reads the JSON tool call from stdin, blocks dangerous prod operations,</span></span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a><span class="co"># logs every check to .claude/hook-debug.log so silent failures are visible.</span></span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a><span class="bu">set</span> <span class="at">-u</span></span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a><span class="va">LOG</span><span class="op">=</span>.claude/hook-debug.log</span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a><span class="va">INPUT</span><span class="op">=</span><span class="va">$(</span><span class="fu">cat</span><span class="va">)</span></span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a><span class="bu">echo</span> <span class="st">&quot;[</span><span class="va">$(</span><span class="fu">date</span> <span class="at">-u</span> +%FT%TZ<span class="va">)</span><span class="st">] block-prod input=</span><span class="va">$INPUT</span><span class="st">&quot;</span> <span class="op">&gt;&gt;</span> <span class="st">&quot;</span><span class="va">$LOG</span><span class="st">&quot;</span></span>
+<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a><span class="va">CMD</span><span class="op">=</span><span class="va">$(</span><span class="bu">echo</span> <span class="st">&quot;</span><span class="va">$INPUT</span><span class="st">&quot;</span> <span class="kw">|</span> <span class="ex">jq</span> <span class="at">-r</span> <span class="st">&#39;.tool_input.command // empty&#39;</span><span class="va">)</span></span>
+<span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-13"><a href="#cb16-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Allow read-only prod inspections.</span></span>
+<span id="cb16-14"><a href="#cb16-14" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="bu">echo</span> <span class="st">&quot;</span><span class="va">$CMD</span><span class="st">&quot;</span> <span class="kw">|</span> <span class="fu">grep</span> <span class="at">-Eq</span> <span class="st">&#39;^(gh|kubectl get|aws .* describe|psql .* -c &quot;SELECT)&#39;</span><span class="kw">;</span> <span class="cf">then</span></span>
+<span id="cb16-15"><a href="#cb16-15" aria-hidden="true" tabindex="-1"></a>  <span class="bu">exit</span> 0</span>
+<span id="cb16-16"><a href="#cb16-16" aria-hidden="true" tabindex="-1"></a><span class="cf">fi</span></span>
+<span id="cb16-17"><a href="#cb16-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-18"><a href="#cb16-18" aria-hidden="true" tabindex="-1"></a><span class="co"># Block destructive prod operations.</span></span>
+<span id="cb16-19"><a href="#cb16-19" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="bu">echo</span> <span class="st">&quot;</span><span class="va">$CMD</span><span class="st">&quot;</span> <span class="kw">|</span> <span class="fu">grep</span> <span class="at">-Eq</span> <span class="st">&#39;(prod|production)&#39;</span> <span class="dt">\</span></span>
+<span id="cb16-20"><a href="#cb16-20" aria-hidden="true" tabindex="-1"></a>   <span class="kw">&amp;&amp;</span> <span class="bu">echo</span> <span class="st">&quot;</span><span class="va">$CMD</span><span class="st">&quot;</span> <span class="kw">|</span> <span class="fu">grep</span> <span class="at">-Eq</span> <span class="st">&#39;(DROP|DELETE|TRUNCATE|rm -rf|kubectl delete|aws .* delete)&#39;</span><span class="kw">;</span> <span class="cf">then</span></span>
+<span id="cb16-21"><a href="#cb16-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cat</span> <span class="op">&lt;&lt;EOF</span> <span class="op">&gt;&amp;</span><span class="dv">2</span></span>
+<span id="cb16-22"><a href="#cb16-22" aria-hidden="true" tabindex="-1"></a><span class="st">BLOCKED by .claude/hooks/block-prod.sh</span></span>
+<span id="cb16-23"><a href="#cb16-23" aria-hidden="true" tabindex="-1"></a><span class="st">Command: </span><span class="va">$CMD</span></span>
+<span id="cb16-24"><a href="#cb16-24" aria-hidden="true" tabindex="-1"></a><span class="st">Reason:  destructive operation against a prod resource.</span></span>
+<span id="cb16-25"><a href="#cb16-25" aria-hidden="true" tabindex="-1"></a><span class="st">Override: rerun with PROD_OVERRIDE=1 in your shell, or get peer review.</span></span>
+<span id="cb16-26"><a href="#cb16-26" aria-hidden="true" tabindex="-1"></a><span class="op">EOF</span></span>
+<span id="cb16-27"><a href="#cb16-27" aria-hidden="true" tabindex="-1"></a>  <span class="bu">exit</span> 2</span>
+<span id="cb16-28"><a href="#cb16-28" aria-hidden="true" tabindex="-1"></a><span class="cf">fi</span></span>
+<span id="cb16-29"><a href="#cb16-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-30"><a href="#cb16-30" aria-hidden="true" tabindex="-1"></a><span class="bu">exit</span> 0</span></code></pre></div>
+<p><strong>What was actually wrong with the bad version:</strong></p>
+<ol type="1">
+<li><strong><code>*&quot;prod&quot;*</code> is too greedy.</strong> It matches
+<code>production-readme.md</code>, <code>prod-tools/lint.js</code>,
+anywhere in the path. Real-world false positives within a week.</li>
+<li><strong>No allow-list for read-only ops.</strong> Will block
+<code>Read(prod_config.yaml)</code> exactly the same as
+<code>Edit(prod_config.yaml)</code> — just inspecting the file becomes
+friction.</li>
+<li><strong>No override.</strong> When you legitimately need to edit a
+prod file, your only option is to edit the hook itself. People will
+disable the hook entirely.</li>
+<li><strong>No logging.</strong> When this hook silently exits 0 due to
+malformed JSON or missing <code>jq</code>, you’ll never know — the agent
+proceeds as if no hook ran.</li>
+<li><strong>No glob discipline.</strong> <code>prod_config.yaml</code>
+is the target; <code>prod_config.yaml.bak</code>,
+<code>prod_logs.json</code>, <code>production.tf</code> all match the
+same loose pattern.</li>
+</ol>
+<strong>The good version above fixes each:</strong> tight regex
+(<code>prod_*.yaml</code> or <code>.yml</code>, anchored to a path
+segment), explicit <code>PROD_OVERRIDE=1</code> escape hatch with audit
+log, debug log on every invocation, useful error message that tells you
+<em>both</em> why and how to bypass.
+</details>
+<h2 id="live-demo-before-the-lab-5-min">🎬 Live demo before the lab (~5
+min)</h2>
+<blockquote>
+<p><strong>Open <code>module5_hooks/RUN.md</code> and follow
+it.</strong> A working hook + sample prod config.
+<code>cd module5_hooks &amp;&amp; claude</code> then ask Claude to
+update <code>prod_config.yaml</code> — the hook fires visibly with a
+boxed “BLOCKED” message. Show the 30-line bash, show how it’s wired in
+<code>.claude/settings.json</code>, show the audit log. Recipe 5 in
+<code>DEMO_COOKBOOK.md</code>.</p>
+</blockquote>
+<h2 id="lab-5-three-guardrails-30-min">Lab 5 — Three guardrails (30
+min)</h2>
+<p>Each participant writes three hooks in <code>.claude/hooks/</code>
+for the sandbox:</p>
+<ol type="1">
+<li><strong>Block direct edits to
+<code>db/migrations/*.sql</code></strong> — must go through
+migration-auditor sub-agent first.</li>
+<li><strong>Auto-format on write</strong> for <code>.ts</code> files via
+<code>prettier --write</code>.</li>
+<li><strong>Slack-on-Stop</strong> — when a session ends, POST a
+one-line summary to a webhook (we provide
+<code>webhook.site/&lt;id&gt;</code>).</li>
+</ol>
+<p>Verify each by trying to trigger it.</p>
+<h2 id="discussion-5-min-4">Discussion (5 min)</h2>
+<blockquote>
+<p>“What is the first hook you’d add to your team’s repo on Monday?”</p>
+</blockquote>
+<hr />
+<h1 id="module-6-slash-commands-skills-1500-1545">Module 6 — Slash
+commands &amp; Skills (15:00 – 15:45)</h1>
+<h2 id="goals-4">Goals</h2>
+<ul>
+<li>Build a custom slash command.</li>
+<li>Understand what a skill adds and when to reach for it.</li>
+<li>See, with a real artifact, how much a skill changes output
+quality.</li>
+</ul>
+<h2 id="concept-10-min">Concept (10 min)</h2>
+<h3 id="slash-commands">Slash commands</h3>
+<ul>
+<li><code>.claude/commands/&lt;name&gt;.md</code> (project) or
+<code>~/.claude/commands/&lt;name&gt;.md</code> (user).</li>
+<li>Body is a prompt template. <code>$ARGUMENTS</code> is replaced with
+whatever the user typed after <code>/&lt;name&gt;</code>.</li>
+<li>Frontmatter pins model, restricts tools, sets description.</li>
+</ul>
+<h3 id="skills-the-newer-model">Skills (the newer model)</h3>
+<ul>
+<li>A <em>capability</em> — instructions plus assets.</li>
+<li>User-invocable (<code>/&lt;skill&gt;</code>) or auto-trigger (model
+decides based on description).</li>
+<li>Bundles tools, configs, and conventions.</li>
+</ul>
+<h3 id="quick-rule">Quick rule</h3>
+<ul>
+<li><strong>Slash command:</strong> a prompt you re-use. No bundled
+assets. Lightweight.</li>
+<li><strong>Skill:</strong> a capability. Has assets, instructions,
+conventions. Reusable across projects, can auto-trigger.</li>
+</ul>
+<h2 id="interactive-bad-slash-command-vs-good-slash-command">Interactive:
+Bad slash command vs Good slash command</h2>
+<h3 id="bad-.claudecommandsstandup.md">❌ Bad
+<code>.claude/commands/standup.md</code></h3>
+<div class="sourceCode" id="cb17"><pre class="sourceCode markdown"><code class="sourceCode markdown"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>Tell me what&#39;s been happening.</span></code></pre></div>
+<details>
+<summary>
+✅ Reveal: Good /standup command
+</summary>
+<div class="sourceCode" id="cb18"><pre class="sourceCode markdown"><code class="sourceCode markdown"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="an">description:</span><span class="co"> Generate a standup update for the current branch.</span></span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a><span class="an">allowed-tools:</span><span class="co"> Bash(git:*), Bash(gh:*), Read</span></span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>You are preparing my standup update for the morning. Be terse and concrete.</span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>Inspect the current branch:</span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>Run <span class="in">`git log main..HEAD --oneline --no-merges`</span> to list commits since divergence.</span>
+<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>Run <span class="in">`git diff main...HEAD --stat`</span> to see scope.</span>
+<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>Run <span class="in">`gh pr view --json title,state,reviewDecision`</span> if a PR exists for this branch.</span>
+<span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a><span class="ss">4. </span>Read any TODO comments added in the diff (grep <span class="in">`+.*TODO`</span> in <span class="in">`git diff main...HEAD`</span>).</span>
+<span id="cb18-12"><a href="#cb18-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-13"><a href="#cb18-13" aria-hidden="true" tabindex="-1"></a>Output exactly four sections, each one line:</span>
+<span id="cb18-14"><a href="#cb18-14" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Yesterday:** what got done (≤ 20 words, paraphrased from commit subjects)</span>
+<span id="cb18-15"><a href="#cb18-15" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Today:** what I&#39;m working on now (infer from uncommitted changes + open TODOs)</span>
+<span id="cb18-16"><a href="#cb18-16" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Blockers:** anything that looks blocked (review pending? failing CI? open question in TODO?)</span>
+<span id="cb18-17"><a href="#cb18-17" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**PR:** the PR URL if one exists, otherwise &quot;no PR yet&quot;</span>
+<span id="cb18-18"><a href="#cb18-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-19"><a href="#cb18-19" aria-hidden="true" tabindex="-1"></a>Do not write more than four lines total. No preamble.</span></code></pre></div>
+<strong>What changed:</strong> - <em>Tools restricted</em> via
+<code>allowed-tools</code> — no surprise edits. - <em>Steps spelled
+out</em> — deterministic order, deterministic data sources. - <em>Output
+contract</em> — exactly four lines, each capped, no preamble. The model
+can’t ramble. - <em>Inferable signals</em> — “blockers” is defined as
+“what looks blocked,” with concrete sources.
+</details>
+<h2 id="live-demo-with-skill-vs-without-skill-the-pre-built-one">Live
+demo: with-skill vs without-skill (the pre-built one)</h2>
+<p>This demo is <strong>already done</strong> — the artifacts are in
+<code>module6_commands_skills/</code>. Use them.</p>
+<h3 id="predict-before-reveal-90-seconds">Predict-before-reveal (90
+seconds)</h3>
+<blockquote>
+<p>Both of these agents got the same prompt: build a fitness profile
+screen. One had access to a <code>frontend-design</code> skill with our
+team’s rules. The other didn’t. <strong>In one minute, write down three
+things you predict will be different.</strong></p>
+</blockquote>
+<h3 id="the-reveal-1">The reveal</h3>
+<p>Open <code>module6_commands_skills/COMPARISON.md</code>. Walk the
+table on the projector.</p>
+<p><strong>Punchlines:</strong> - 32 files vs 12. <em>Not because more
+is better</em> — because one agent built <strong>the four async
+states</strong>, <strong>a real primitive vocabulary</strong>, and
+<strong>accessibility/haptics/reduced-motion handling</strong> that the
+other skipped. - Open
+<code>live_demo_without_skill/src/screens/ProfileScreen.tsx</code> —
+point out: no loading, no error, no haptics. Renders mockProfile
+immediately. - Open
+<code>live_demo_with_skill/screens/ProfileScreen/ProfileScreen.tsx</code>
+— point out: <code>useProfile()</code> hook, three branches
+(<code>isLoading</code> → Skeleton, <code>error</code> → ErrorState,
+<code>data</code> → populated), <code>simulate</code> prop to preview
+every state. - Open both <code>BUILD_NOTES.md</code> files. The
+with-skill one cites <em>which rule drove which decision</em>.</p>
+<p><strong>The line to land:</strong> A skill is <strong>a forcing
+function for the things experienced devs know matter but skip when
+nobody is enforcing them.</strong></p>
+<h2 id="lab-6-ship-a-standup-command-15-min">Lab 6 — Ship a /standup
+command (15 min)</h2>
+<ol type="1">
+<li>Write <code>.claude/commands/standup.md</code> (use the good prompt
+above as a starting point, but adapt to your repo).</li>
+<li>Run it. Tweak until it’s actually useful for a 9 a.m. standup.</li>
+<li>Stretch: convert it to a skill that also offers to post the summary
+to Slack.</li>
+</ol>
+<h2 id="discussion">Discussion</h2>
+<blockquote>
+<p>“Which three slash commands would your team use daily?”</p>
+</blockquote>
+<hr />
+<h1 id="break-1">15:45 – 16:00 — Break</h1>
+<hr />
+<h1 id="module-7-mcp-servers-1600-1700">Module 7 — MCP servers (16:00 –
+17:00)</h1>
+<h2 id="goals-5">Goals</h2>
+<ul>
+<li>Understand MCP as a protocol, not a magic box.</li>
+<li>Connect to an existing MCP server.</li>
+<li>Build a tiny MCP server in TypeScript.</li>
+</ul>
+<h2 id="concept-20-min-1">Concept (20 min)</h2>
+<h3 id="what-mcp-is-in-one-paragraph">What MCP is, in one paragraph</h3>
+<p>The Model Context Protocol is a JSON-RPC spec letting a host (Claude
+Code, Claude Desktop, IDE plugins) talk to an external
+<strong>server</strong> that exposes <strong>tools, resources, and
+prompts</strong>. The server runs as a subprocess (stdio) or over HTTP.
+Once connected, its tools appear to Claude as if native.</p>
+<h3 id="why-this-matters-for-senior-engineers">Why this matters for
+senior engineers</h3>
+<p>You stop writing one-off scripts and asking the model to call them
+via Bash. Instead, you <strong>expose your internal systems</strong>
+(Jira, prod read-replica, feature flags, deploy tool) as MCP tools, with
+proper schemas, permissions, and structured returns.</p>
+<h3 id="configuration">Configuration</h3>
+<div class="sourceCode" id="cb19"><pre class="sourceCode json"><code class="sourceCode json"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;mcpServers&quot;</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&quot;github&quot;</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>      <span class="dt">&quot;command&quot;</span><span class="fu">:</span> <span class="st">&quot;npx&quot;</span><span class="fu">,</span></span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>      <span class="dt">&quot;args&quot;</span><span class="fu">:</span> <span class="ot">[</span><span class="st">&quot;-y&quot;</span><span class="ot">,</span> <span class="st">&quot;@modelcontextprotocol/server-github&quot;</span><span class="ot">]</span><span class="fu">,</span></span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>      <span class="dt">&quot;env&quot;</span><span class="fu">:</span> <span class="fu">{</span> <span class="dt">&quot;GITHUB_TOKEN&quot;</span><span class="fu">:</span> <span class="st">&quot;${env:GITHUB_TOKEN}&quot;</span> <span class="fu">}</span></span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">}</span></span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">}</span></span>
+<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code></pre></div>
+<p><code>/mcp</code> lists connected servers and their tools.</p>
+<h3 id="permission-model">Permission model</h3>
+<p>MCP tools follow the same allow/deny system. They appear as
+<code>mcp__&lt;server&gt;__&lt;tool&gt;</code>. Treat like Bash: gate
+explicitly.</p>
+<h2 id="interactive-bad-mcp-tool-vs-good-mcp-tool">Interactive: Bad MCP
+tool vs Good MCP tool</h2>
+<p>Show the room this MCP tool definition. <em>“You’re the LLM about to
+call this. What goes wrong?”</em></p>
+<h3 id="bad-mcp-tool-looks-fine-find-the-gaps">❌ Bad MCP tool (looks
+fine — find the gaps)</h3>
+<div class="sourceCode" id="cb20"><pre class="sourceCode typescript"><code class="sourceCode typescript"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>server<span class="op">.</span><span class="fu">tool</span>(</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;search_users&quot;</span><span class="op">,</span></span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>  {</span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>    description<span class="op">:</span> <span class="st">&quot;Search users by name.&quot;</span><span class="op">,</span></span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>    inputSchema<span class="op">:</span> {</span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>      type<span class="op">:</span> <span class="st">&quot;object&quot;</span><span class="op">,</span></span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a>      properties<span class="op">:</span> { query<span class="op">:</span> { type<span class="op">:</span> <span class="st">&quot;string&quot;</span> } }<span class="op">,</span></span>
+<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a>      required<span class="op">:</span> [<span class="st">&quot;query&quot;</span>]</span>
+<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a>  }<span class="op">,</span></span>
+<span id="cb20-11"><a href="#cb20-11" aria-hidden="true" tabindex="-1"></a>  <span class="kw">async</span> ({ query }) <span class="kw">=&gt;</span> {</span>
+<span id="cb20-12"><a href="#cb20-12" aria-hidden="true" tabindex="-1"></a>    <span class="kw">const</span> r <span class="op">=</span> <span class="cf">await</span> <span class="fu">fetch</span>(<span class="vs">`</span><span class="sc">${</span>API<span class="sc">}</span><span class="vs">/users/search?q=</span><span class="sc">${</span>query<span class="sc">}</span><span class="vs">`</span><span class="op">,</span> {</span>
+<span id="cb20-13"><a href="#cb20-13" aria-hidden="true" tabindex="-1"></a>      headers<span class="op">:</span> { Authorization<span class="op">:</span> <span class="vs">`Bearer </span><span class="sc">${</span>TOKEN<span class="sc">}</span><span class="vs">`</span> }</span>
+<span id="cb20-14"><a href="#cb20-14" aria-hidden="true" tabindex="-1"></a>    })<span class="op">;</span></span>
+<span id="cb20-15"><a href="#cb20-15" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> {</span>
+<span id="cb20-16"><a href="#cb20-16" aria-hidden="true" tabindex="-1"></a>      content<span class="op">:</span> [{ type<span class="op">:</span> <span class="st">&quot;text&quot;</span><span class="op">,</span> text<span class="op">:</span> <span class="bu">JSON</span><span class="op">.</span><span class="fu">stringify</span>(<span class="cf">await</span> r<span class="op">.</span><span class="fu">json</span>()) }]</span>
+<span id="cb20-17"><a href="#cb20-17" aria-hidden="true" tabindex="-1"></a>    }<span class="op">;</span></span>
+<span id="cb20-18"><a href="#cb20-18" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb20-19"><a href="#cb20-19" aria-hidden="true" tabindex="-1"></a>)<span class="op">;</span></span></code></pre></div>
+<p><em>Verb name. Schema. Bearer auth. JSON output. <strong>What goes
+wrong in production?</strong></em></p>
+<details>
+<summary>
+✅ Reveal: Good MCP tool
+</summary>
+<div class="sourceCode" id="cb21"><pre class="sourceCode typescript"><code class="sourceCode typescript"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>server<span class="op">.</span><span class="fu">tool</span>(</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;search_users&quot;</span><span class="op">,</span></span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>  {</span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>    description<span class="op">:</span></span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>      <span class="st">&quot;Search active users by name fragment OR email fragment. &quot;</span> <span class="op">+</span></span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>      <span class="st">&quot;Returns up to `limit` matches (default 20, max 100). &quot;</span> <span class="op">+</span></span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a>      <span class="st">&quot;Does NOT return suspended or deleted users — use `lookup_user_by_id` for those.&quot;</span><span class="op">,</span></span>
+<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a>    inputSchema<span class="op">:</span> {</span>
+<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a>      type<span class="op">:</span> <span class="st">&quot;object&quot;</span><span class="op">,</span></span>
+<span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a>      properties<span class="op">:</span> {</span>
+<span id="cb21-11"><a href="#cb21-11" aria-hidden="true" tabindex="-1"></a>        query<span class="op">:</span> {</span>
+<span id="cb21-12"><a href="#cb21-12" aria-hidden="true" tabindex="-1"></a>          type<span class="op">:</span> <span class="st">&quot;string&quot;</span><span class="op">,</span></span>
+<span id="cb21-13"><a href="#cb21-13" aria-hidden="true" tabindex="-1"></a>          minLength<span class="op">:</span> <span class="dv">2</span><span class="op">,</span></span>
+<span id="cb21-14"><a href="#cb21-14" aria-hidden="true" tabindex="-1"></a>          description<span class="op">:</span> <span class="st">&quot;Name or email fragment, case-insensitive.&quot;</span></span>
+<span id="cb21-15"><a href="#cb21-15" aria-hidden="true" tabindex="-1"></a>        }<span class="op">,</span></span>
+<span id="cb21-16"><a href="#cb21-16" aria-hidden="true" tabindex="-1"></a>        limit<span class="op">:</span> { type<span class="op">:</span> <span class="st">&quot;integer&quot;</span><span class="op">,</span> minimum<span class="op">:</span> <span class="dv">1</span><span class="op">,</span> maximum<span class="op">:</span> <span class="dv">100</span><span class="op">,</span> <span class="cf">default</span><span class="op">:</span> <span class="dv">20</span> }</span>
+<span id="cb21-17"><a href="#cb21-17" aria-hidden="true" tabindex="-1"></a>      }<span class="op">,</span></span>
+<span id="cb21-18"><a href="#cb21-18" aria-hidden="true" tabindex="-1"></a>      required<span class="op">:</span> [<span class="st">&quot;query&quot;</span>]</span>
+<span id="cb21-19"><a href="#cb21-19" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb21-20"><a href="#cb21-20" aria-hidden="true" tabindex="-1"></a>  }<span class="op">,</span></span>
+<span id="cb21-21"><a href="#cb21-21" aria-hidden="true" tabindex="-1"></a>  <span class="kw">async</span> ({ query<span class="op">,</span> limit <span class="op">=</span> <span class="dv">20</span> }) <span class="kw">=&gt;</span> {</span>
+<span id="cb21-22"><a href="#cb21-22" aria-hidden="true" tabindex="-1"></a>    <span class="cf">try</span> {</span>
+<span id="cb21-23"><a href="#cb21-23" aria-hidden="true" tabindex="-1"></a>      <span class="kw">const</span> r <span class="op">=</span> <span class="cf">await</span> <span class="fu">fetch</span>(</span>
+<span id="cb21-24"><a href="#cb21-24" aria-hidden="true" tabindex="-1"></a>        <span class="vs">`</span><span class="sc">${</span>INTERNAL_API<span class="sc">}</span><span class="vs">/users/search?q=</span><span class="sc">${</span><span class="pp">encodeURIComponent</span>(query)<span class="sc">}</span><span class="vs">&amp;limit=</span><span class="sc">${</span>limit<span class="sc">}</span><span class="vs">`</span><span class="op">,</span></span>
+<span id="cb21-25"><a href="#cb21-25" aria-hidden="true" tabindex="-1"></a>        { headers<span class="op">:</span> { Authorization<span class="op">:</span> <span class="vs">`Bearer </span><span class="sc">${</span>INTERNAL_TOKEN<span class="sc">}</span><span class="vs">`</span> }<span class="op">,</span> signal<span class="op">:</span> AbortSignal<span class="op">.</span><span class="fu">timeout</span>(<span class="dv">5000</span>) }</span>
+<span id="cb21-26"><a href="#cb21-26" aria-hidden="true" tabindex="-1"></a>      )<span class="op">;</span></span>
+<span id="cb21-27"><a href="#cb21-27" aria-hidden="true" tabindex="-1"></a>      <span class="cf">if</span> (<span class="op">!</span>r<span class="op">.</span><span class="at">ok</span>) {</span>
+<span id="cb21-28"><a href="#cb21-28" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> {</span>
+<span id="cb21-29"><a href="#cb21-29" aria-hidden="true" tabindex="-1"></a>          isError<span class="op">:</span> <span class="kw">true</span><span class="op">,</span></span>
+<span id="cb21-30"><a href="#cb21-30" aria-hidden="true" tabindex="-1"></a>          content<span class="op">:</span> [{</span>
+<span id="cb21-31"><a href="#cb21-31" aria-hidden="true" tabindex="-1"></a>            type<span class="op">:</span> <span class="st">&quot;text&quot;</span><span class="op">,</span></span>
+<span id="cb21-32"><a href="#cb21-32" aria-hidden="true" tabindex="-1"></a>            text<span class="op">:</span> <span class="vs">`search_users failed: HTTP </span><span class="sc">${</span>r<span class="op">.</span><span class="at">status</span><span class="sc">}</span><span class="vs">. `</span> <span class="op">+</span></span>
+<span id="cb21-33"><a href="#cb21-33" aria-hidden="true" tabindex="-1"></a>                  <span class="vs">`Tip: if you need a specific known user, call lookup_user_by_id instead.`</span></span>
+<span id="cb21-34"><a href="#cb21-34" aria-hidden="true" tabindex="-1"></a>          }]</span>
+<span id="cb21-35"><a href="#cb21-35" aria-hidden="true" tabindex="-1"></a>        }<span class="op">;</span></span>
+<span id="cb21-36"><a href="#cb21-36" aria-hidden="true" tabindex="-1"></a>      }</span>
+<span id="cb21-37"><a href="#cb21-37" aria-hidden="true" tabindex="-1"></a>      <span class="kw">const</span> users<span class="op">:</span> <span class="bu">Array</span><span class="op">&lt;</span>{id<span class="op">:</span> <span class="dt">string</span><span class="op">;</span> name<span class="op">:</span> <span class="dt">string</span><span class="op">;</span> email<span class="op">:</span> <span class="dt">string</span><span class="op">;</span> team<span class="op">:</span> <span class="dt">string</span>}<span class="op">&gt;</span> <span class="op">=</span> <span class="cf">await</span> r<span class="op">.</span><span class="fu">json</span>()<span class="op">;</span></span>
+<span id="cb21-38"><a href="#cb21-38" aria-hidden="true" tabindex="-1"></a>      <span class="cf">return</span> {</span>
+<span id="cb21-39"><a href="#cb21-39" aria-hidden="true" tabindex="-1"></a>        content<span class="op">:</span> [{</span>
+<span id="cb21-40"><a href="#cb21-40" aria-hidden="true" tabindex="-1"></a>          type<span class="op">:</span> <span class="st">&quot;text&quot;</span><span class="op">,</span></span>
+<span id="cb21-41"><a href="#cb21-41" aria-hidden="true" tabindex="-1"></a>          text<span class="op">:</span> <span class="bu">JSON</span><span class="op">.</span><span class="fu">stringify</span>({ count<span class="op">:</span> users<span class="op">.</span><span class="at">length</span><span class="op">,</span> users }<span class="op">,</span> <span class="dt">null</span><span class="op">,</span> <span class="dv">2</span>)</span>
+<span id="cb21-42"><a href="#cb21-42" aria-hidden="true" tabindex="-1"></a>        }]</span>
+<span id="cb21-43"><a href="#cb21-43" aria-hidden="true" tabindex="-1"></a>      }<span class="op">;</span></span>
+<span id="cb21-44"><a href="#cb21-44" aria-hidden="true" tabindex="-1"></a>    } <span class="cf">catch</span> (e) {</span>
+<span id="cb21-45"><a href="#cb21-45" aria-hidden="true" tabindex="-1"></a>      <span class="cf">return</span> {</span>
+<span id="cb21-46"><a href="#cb21-46" aria-hidden="true" tabindex="-1"></a>        isError<span class="op">:</span> <span class="kw">true</span><span class="op">,</span></span>
+<span id="cb21-47"><a href="#cb21-47" aria-hidden="true" tabindex="-1"></a>        content<span class="op">:</span> [{</span>
+<span id="cb21-48"><a href="#cb21-48" aria-hidden="true" tabindex="-1"></a>          type<span class="op">:</span> <span class="st">&quot;text&quot;</span><span class="op">,</span></span>
+<span id="cb21-49"><a href="#cb21-49" aria-hidden="true" tabindex="-1"></a>          text<span class="op">:</span> <span class="vs">`search_users errored: </span><span class="sc">${</span>(e <span class="im">as</span> <span class="bu">Error</span>)<span class="op">.</span><span class="at">message</span><span class="sc">}</span><span class="vs">. `</span> <span class="op">+</span></span>
+<span id="cb21-50"><a href="#cb21-50" aria-hidden="true" tabindex="-1"></a>                <span class="vs">`If this is a timeout, retry with a more specific query.`</span></span>
+<span id="cb21-51"><a href="#cb21-51" aria-hidden="true" tabindex="-1"></a>        }]</span>
+<span id="cb21-52"><a href="#cb21-52" aria-hidden="true" tabindex="-1"></a>      }<span class="op">;</span></span>
+<span id="cb21-53"><a href="#cb21-53" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb21-54"><a href="#cb21-54" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb21-55"><a href="#cb21-55" aria-hidden="true" tabindex="-1"></a>)<span class="op">;</span></span></code></pre></div>
+<p><strong>What was actually wrong with the bad version:</strong></p>
+<ol type="1">
+<li><strong>No <code>minLength</code>.</strong> Model will call with
+<code>q=a</code>, triggering a mass scan. Set <code>minLength: 2</code>
+(or more).</li>
+<li><strong>No URL encoding.</strong> A <code>query</code> containing
+<code>&amp;team=admin</code> injects a query parameter — your search
+becomes a privilege escalation. Use
+<code>encodeURIComponent</code>.</li>
+<li><strong>No timeout.</strong> A slow upstream hangs the agent
+indefinitely. Add <code>AbortSignal.timeout(5000)</code>.</li>
+<li><strong>Description is human-shaped, not LLM-shaped.</strong>
+“Search users by name” doesn’t tell the model: <em>what’s the
+limit?</em> <em>does it include suspended users?</em> <em>when should I
+use a different tool?</em> Without those, the model picks the tool for
+wrong-shaped tasks. Treat the description as a docstring written for the
+model, not a one-liner for a docs page.</li>
+<li><strong>Errors propagate as exceptions.</strong> When the API
+returns 503, the <code>await r.json()</code> throws, the agent sees a
+generic error, and there’s no recovery hint. Use the
+<code>isError</code> response shape with a recovery path: <em>“timeout —
+try <code>lookup_user_by_id</code> if you have an exact ID.”</em></li>
+<li><strong>No rate-limit awareness.</strong> No
+<code>maximum: 100</code> on a <code>limit</code> parameter, no warning
+to the model that this is an expensive call. The model will fan out
+concurrently if it thinks that’s faster.</li>
+</ol>
+<strong>The good version above fixes each:</strong> description tells
+the model the contract AND the boundaries, input schema constrains, URL
+encoded, AbortSignal timeout, structured <code>isError</code> returns
+with recovery hints.
+</details>
+<h2 id="live-demo-before-the-lab-5-min-1">🎬 Live demo before the lab
+(~5 min)</h2>
+<blockquote>
+<p><strong>Open <code>module7_mcp/RUN.md</code> and follow it.</strong>
+A working 60-line Python MCP server (<code>oncall_server.py</code>) plus
+pre-wired <code>.claude/settings.json</code>.
+<code>cd module7_mcp &amp;&amp; claude</code>, then <code>/mcp</code>
+shows the server connected, then ask “Who is on call for payments? Page
+them.” Watch Claude call both tools in order. Recipe 7 in
+<code>DEMO_COOKBOOK.md</code>. <strong>One-time setup:</strong>
+<code>pip install mcp</code>.</p>
+</blockquote>
+<h2 id="lab-7-extend-the-mcp-server-35-min">Lab 7 — Extend the MCP
+server (35 min)</h2>
+<p>The pre-built server has <code>get_oncall</code> and
+<code>page_oncall</code>. Extend it:</p>
+<ol type="1">
+<li>Add a third tool <code>list_teams()</code> that returns the list of
+known teams.</li>
+<li>Add a <code>PreToolUse</code> hook requiring confirmation for
+<code>mcp__oncall__page_oncall</code> (so paging is never silent).</li>
+<li>Stretch: add <code>get_oncall_history(team, days)</code> reading
+from <code>pages.log</code>.</li>
+</ol>
+<h2 id="discussion-1">Discussion</h2>
+<blockquote>
+<p>“Which internal system at your company would you wrap in MCP first?
+Why?”</p>
+</blockquote>
+<hr />
+<h1 id="module-8-permissions-sandboxing-team-rollout-1700-1730">Module 8
+— Permissions, sandboxing, team rollout (17:00 – 17:30)</h1>
+<h2 id="goals-6">Goals</h2>
+<ul>
+<li>Configure permissions sanely for a team.</li>
+<li>Plan a Monday-morning rollout.</li>
+</ul>
+<h2 id="concept-15-min-1">Concept (15 min)</h2>
+<h3 id="the-four-permission-modes">The four permission modes</h3>
+<ul>
+<li><code>default</code> — ask for risky operations.</li>
+<li><code>acceptEdits</code> — auto-allow file edits, still ask for
+Bash.</li>
+<li><code>plan</code> — read/search only.</li>
+<li><code>bypassPermissions</code> — allow everything (dev/sandbox
+only).</li>
+</ul>
+<h3 id="allow-deny-lists">Allow / deny lists</h3>
+<div class="sourceCode" id="cb22"><pre class="sourceCode json"><code class="sourceCode json"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;permissions&quot;</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&quot;allow&quot;</span><span class="fu">:</span> <span class="ot">[</span></span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>      <span class="st">&quot;Bash(npm test)&quot;</span><span class="ot">,</span></span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>      <span class="st">&quot;Bash(npm run lint)&quot;</span><span class="ot">,</span></span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>      <span class="st">&quot;Bash(gh pr view:*)&quot;</span></span>
+<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a>    <span class="ot">]</span><span class="fu">,</span></span>
+<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&quot;deny&quot;</span><span class="fu">:</span> <span class="ot">[</span></span>
+<span id="cb22-9"><a href="#cb22-9" aria-hidden="true" tabindex="-1"></a>      <span class="st">&quot;Bash(rm -rf:*)&quot;</span><span class="ot">,</span></span>
+<span id="cb22-10"><a href="#cb22-10" aria-hidden="true" tabindex="-1"></a>      <span class="st">&quot;Bash(git push --force:*)&quot;</span></span>
+<span id="cb22-11"><a href="#cb22-11" aria-hidden="true" tabindex="-1"></a>    <span class="ot">]</span></span>
+<span id="cb22-12"><a href="#cb22-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">}</span></span>
+<span id="cb22-13"><a href="#cb22-13" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code></pre></div>
+<ul>
+<li>Allow patterns silence the prompt.</li>
+<li>Deny patterns hard-block, even in
+<code>bypassPermissions</code>.</li>
+</ul>
+<h3 id="settings-hierarchy">Settings hierarchy</h3>
+<ol type="1">
+<li>CLI flags</li>
+<li><code>.claude/settings.local.json</code> (gitignored, personal)</li>
+<li><code>.claude/settings.json</code> (committed, team)</li>
+<li><code>~/.claude/settings.json</code> (user global)</li>
+<li>Built-in defaults</li>
+</ol>
+<p><code>/fewer-permission-prompts</code> scans your transcripts and
+suggests an allowlist — run it after a week.</p>
+<h2 id="interactive-bad-settings.json-vs-good-settings.json">Interactive:
+Bad settings.json vs Good settings.json</h2>
+<h3 id="bad-looks-reasonable-find-the-holes">❌ Bad (looks reasonable —
+find the holes)</h3>
+<div class="sourceCode" id="cb23"><pre class="sourceCode json"><code class="sourceCode json"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;permissions&quot;</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&quot;allow&quot;</span><span class="fu">:</span> <span class="ot">[</span></span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>      <span class="st">&quot;Read&quot;</span><span class="ot">,</span> <span class="st">&quot;Grep&quot;</span><span class="ot">,</span> <span class="st">&quot;Glob&quot;</span><span class="ot">,</span></span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>      <span class="st">&quot;Bash(npm:*)&quot;</span><span class="ot">,</span></span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>      <span class="st">&quot;Bash(pnpm:*)&quot;</span><span class="ot">,</span></span>
+<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a>      <span class="st">&quot;Bash(git:*)&quot;</span><span class="ot">,</span></span>
+<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a>      <span class="st">&quot;Bash(gh:*)&quot;</span><span class="ot">,</span></span>
+<span id="cb23-9"><a href="#cb23-9" aria-hidden="true" tabindex="-1"></a>      <span class="st">&quot;WebFetch&quot;</span></span>
+<span id="cb23-10"><a href="#cb23-10" aria-hidden="true" tabindex="-1"></a>    <span class="ot">]</span><span class="fu">,</span></span>
+<span id="cb23-11"><a href="#cb23-11" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&quot;deny&quot;</span><span class="fu">:</span> <span class="ot">[</span></span>
+<span id="cb23-12"><a href="#cb23-12" aria-hidden="true" tabindex="-1"></a>      <span class="st">&quot;Bash(rm -rf:*)&quot;</span><span class="ot">,</span></span>
+<span id="cb23-13"><a href="#cb23-13" aria-hidden="true" tabindex="-1"></a>      <span class="st">&quot;Edit(.env)&quot;</span></span>
+<span id="cb23-14"><a href="#cb23-14" aria-hidden="true" tabindex="-1"></a>    <span class="ot">]</span></span>
+<span id="cb23-15"><a href="#cb23-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">}</span></span>
+<span id="cb23-16"><a href="#cb23-16" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code></pre></div>
+<p><em>Specific allows. A deny rule. A senior dev would commit this.
+<strong>What’s wrong?</strong></em></p>
+<details>
+<summary>
+✅ Reveal: Good
+</summary>
+<div class="sourceCode" id="cb24"><pre class="sourceCode json"><code class="sourceCode json"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;permissions&quot;</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&quot;allow&quot;</span><span class="fu">:</span> <span class="ot">[</span></span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>      <span class="st">&quot;Read(**)&quot;</span><span class="ot">,</span></span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>      <span class="st">&quot;Grep&quot;</span><span class="ot">,</span></span>
+<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a>      <span class="st">&quot;Glob&quot;</span><span class="ot">,</span></span>
+<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a>      <span class="st">&quot;Bash(pnpm test:*)&quot;</span><span class="ot">,</span></span>
+<span id="cb24-8"><a href="#cb24-8" aria-hidden="true" tabindex="-1"></a>      <span class="st">&quot;Bash(pnpm lint:*)&quot;</span><span class="ot">,</span></span>
+<span id="cb24-9"><a href="#cb24-9" aria-hidden="true" tabindex="-1"></a>      <span class="st">&quot;Bash(pnpm typecheck)&quot;</span><span class="ot">,</span></span>
+<span id="cb24-10"><a href="#cb24-10" aria-hidden="true" tabindex="-1"></a>      <span class="st">&quot;Bash(pnpm build)&quot;</span><span class="ot">,</span></span>
+<span id="cb24-11"><a href="#cb24-11" aria-hidden="true" tabindex="-1"></a>      <span class="st">&quot;Bash(git status)&quot;</span><span class="ot">,</span></span>
+<span id="cb24-12"><a href="#cb24-12" aria-hidden="true" tabindex="-1"></a>      <span class="st">&quot;Bash(git diff:*)&quot;</span><span class="ot">,</span></span>
+<span id="cb24-13"><a href="#cb24-13" aria-hidden="true" tabindex="-1"></a>      <span class="st">&quot;Bash(git log:*)&quot;</span><span class="ot">,</span></span>
+<span id="cb24-14"><a href="#cb24-14" aria-hidden="true" tabindex="-1"></a>      <span class="st">&quot;Bash(gh pr view:*)&quot;</span><span class="ot">,</span></span>
+<span id="cb24-15"><a href="#cb24-15" aria-hidden="true" tabindex="-1"></a>      <span class="st">&quot;Bash(gh pr diff:*)&quot;</span><span class="ot">,</span></span>
+<span id="cb24-16"><a href="#cb24-16" aria-hidden="true" tabindex="-1"></a>      <span class="st">&quot;Bash(gh run view:*)&quot;</span><span class="ot">,</span></span>
+<span id="cb24-17"><a href="#cb24-17" aria-hidden="true" tabindex="-1"></a>      <span class="st">&quot;WebFetch(domain:docs.our-company.com)&quot;</span><span class="ot">,</span></span>
+<span id="cb24-18"><a href="#cb24-18" aria-hidden="true" tabindex="-1"></a>      <span class="st">&quot;WebFetch(domain:github.com)&quot;</span></span>
+<span id="cb24-19"><a href="#cb24-19" aria-hidden="true" tabindex="-1"></a>    <span class="ot">]</span><span class="fu">,</span></span>
+<span id="cb24-20"><a href="#cb24-20" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&quot;deny&quot;</span><span class="fu">:</span> <span class="ot">[</span></span>
+<span id="cb24-21"><a href="#cb24-21" aria-hidden="true" tabindex="-1"></a>      <span class="st">&quot;Bash(rm -rf:*)&quot;</span><span class="ot">,</span></span>
+<span id="cb24-22"><a href="#cb24-22" aria-hidden="true" tabindex="-1"></a>      <span class="st">&quot;Bash(rm -fr:*)&quot;</span><span class="ot">,</span></span>
+<span id="cb24-23"><a href="#cb24-23" aria-hidden="true" tabindex="-1"></a>      <span class="st">&quot;Bash(git push --force:*)&quot;</span><span class="ot">,</span></span>
+<span id="cb24-24"><a href="#cb24-24" aria-hidden="true" tabindex="-1"></a>      <span class="st">&quot;Bash(git push -f:*)&quot;</span><span class="ot">,</span></span>
+<span id="cb24-25"><a href="#cb24-25" aria-hidden="true" tabindex="-1"></a>      <span class="st">&quot;Bash(git push * main)&quot;</span><span class="ot">,</span></span>
+<span id="cb24-26"><a href="#cb24-26" aria-hidden="true" tabindex="-1"></a>      <span class="st">&quot;Bash(git push * master)&quot;</span><span class="ot">,</span></span>
+<span id="cb24-27"><a href="#cb24-27" aria-hidden="true" tabindex="-1"></a>      <span class="st">&quot;Bash(npm:*)&quot;</span><span class="ot">,</span></span>
+<span id="cb24-28"><a href="#cb24-28" aria-hidden="true" tabindex="-1"></a>      <span class="st">&quot;Bash(yarn:*)&quot;</span><span class="ot">,</span></span>
+<span id="cb24-29"><a href="#cb24-29" aria-hidden="true" tabindex="-1"></a>      <span class="st">&quot;Bash(curl:* | sh*)&quot;</span><span class="ot">,</span></span>
+<span id="cb24-30"><a href="#cb24-30" aria-hidden="true" tabindex="-1"></a>      <span class="st">&quot;Bash(curl:* | bash*)&quot;</span><span class="ot">,</span></span>
+<span id="cb24-31"><a href="#cb24-31" aria-hidden="true" tabindex="-1"></a>      <span class="st">&quot;Edit(.env:*)&quot;</span><span class="ot">,</span></span>
+<span id="cb24-32"><a href="#cb24-32" aria-hidden="true" tabindex="-1"></a>      <span class="st">&quot;Edit(secrets/**)&quot;</span><span class="ot">,</span></span>
+<span id="cb24-33"><a href="#cb24-33" aria-hidden="true" tabindex="-1"></a>      <span class="st">&quot;Read(secrets/**)&quot;</span></span>
+<span id="cb24-34"><a href="#cb24-34" aria-hidden="true" tabindex="-1"></a>    <span class="ot">]</span></span>
+<span id="cb24-35"><a href="#cb24-35" aria-hidden="true" tabindex="-1"></a>  <span class="fu">}</span></span>
+<span id="cb24-36"><a href="#cb24-36" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code></pre></div>
+<p><strong>Seven subtle holes in the bad version above. Walk them with
+the room:</strong></p>
+<ol type="1">
+<li><code>Bash(npm:*)</code> and <code>Bash(pnpm:*)</code> allow
+<code>npm publish</code> / <code>pnpm publish</code> — agent can ship
+packages with whatever <code>NPM_TOKEN</code> it inherits.</li>
+<li><code>Bash(git:*)</code> allows
+<code>git push --force origin main</code>,
+<code>git reset --hard</code>, <code>git filter-branch</code>,
+<code>git rm -rf .</code>. Whole categories of disasters.</li>
+<li><code>Bash(gh:*)</code> allows <code>gh secret set</code>,
+<code>gh repo delete</code>,
+<code>gh repo edit --visibility public</code>. The CLI is a swiss army
+knife.</li>
+<li><code>WebFetch</code> unrestricted — agent can fetch
+<code>http://169.254.169.254/</code> (cloud metadata),
+<code>localhost:8500</code> (Consul), arbitrary exfiltration targets.
+Classic SSRF surface.</li>
+<li><code>Bash(rm -rf:*)</code> deny is half-protection — does
+<strong>not</strong> match <code>find . -delete</code>,
+<code>git clean -fdx</code>, <code>ruby -e &#39;FileUtils.rm_rf &quot;/&quot;&#39;</code>.
+Deny lists are necessary, never sufficient.</li>
+<li><code>Edit(.env)</code> is literal — <code>.env.local</code>,
+<code>.env.production</code>, <code>secrets/api-key.json</code> all
+unblocked. Use <code>Edit(.env*)</code>,
+<code>Edit(secrets/**)</code>.</li>
+<li>No deny for curl-to-shell (<code>curl ... | bash</code>), the
+classic supply-chain pattern.</li>
+</ol>
+<strong>Above all: <code>Bash(&lt;binary&gt;:*)</code> is almost always
+wrong.</strong> Allow specific subcommands. The good version below
+allows specific verbs only — <code>pnpm test:*</code>,
+<code>git status</code>, <code>gh pr view:*</code> — and pairs the deny
+list with the principle that you can’t enumerate destruction; you layer
+with hooks for patterns.
+</details>
+<h2 id="files-to-project-3-min-before-the-lab">🎬 Files to project (~3
+min before the lab)</h2>
+<blockquote>
+<p><strong>Open <code>module8_permissions/bad_settings.json</code> and
+<code>good_settings.json</code> side by side.</strong> Or run
+<code>diff module8_permissions/bad_settings.json module8_permissions/good_settings.json</code>
+to make the contrast pop. Recipe 8 in <code>DEMO_COOKBOOK.md</code>.</p>
+</blockquote>
+<h2 id="lab-8-lock-down-the-sandbox-15-min">Lab 8 — Lock down the
+sandbox (15 min)</h2>
+<p>Take the sandbox, produce a committable <code>settings.json</code>
+and <code>CLAUDE.md</code> you’d defend in code review with a paranoid
+security lead.</p>
+<hr />
+<h1 id="module-9-claude-agent-sdk-headless-usage-1730-1800">Module 9 —
+Claude Agent SDK &amp; headless usage (17:30 – 18:00)</h1>
+<h2 id="goals-7">Goals</h2>
+<ul>
+<li>Know when to graduate from the CLI to the SDK.</li>
+<li>See a 30-line agent that does real work.</li>
+</ul>
+<h2 id="concept-15-min-2">Concept (15 min)</h2>
+<h3 id="tools-in-the-family">Tools in the family</h3>
+<ul>
+<li><strong>Claude Code</strong> — polished, opinionated agent built on
+the Anthropic API + tool harness.</li>
+<li><strong>Claude Agent SDK</strong> — same harness, exposed as a
+library. Build <em>your own</em> agent.</li>
+<li><strong>Anthropic SDK</strong> — raw API. Use when you want zero
+opinionation.</li>
+</ul>
+<h3 id="when-to-reach-for-which">When to reach for which</h3>
+<ul>
+<li>Daily dev work → Claude Code.</li>
+<li>Recurring scheduled task → Claude Code in headless mode
+(<code>claude -p</code>) via cron, or <code>/schedule</code>.</li>
+<li>Embedding in your product (a “fix this bug” button in CI) → Agent
+SDK.</li>
+<li>Pure inference (classification, extraction) → raw Anthropic SDK with
+prompt caching.</li>
+</ul>
+<h3 id="a-30-line-agent-python">A 30-line agent (Python)</h3>
+<div class="sourceCode" id="cb25"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> claude_agent_sdk <span class="im">import</span> Agent, tool</span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> subprocess</span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a><span class="at">@tool</span></span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> list_failing_tests() <span class="op">-&gt;</span> <span class="bu">list</span>[<span class="bu">str</span>]:</span>
+<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a>    <span class="co">&quot;&quot;&quot;Return the names of currently failing pytest tests.&quot;&quot;&quot;</span></span>
+<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a>    out <span class="op">=</span> subprocess.run(</span>
+<span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a>        [<span class="st">&quot;pytest&quot;</span>, <span class="st">&quot;--collect-only&quot;</span>, <span class="st">&quot;-q&quot;</span>],</span>
+<span id="cb25-9"><a href="#cb25-9" aria-hidden="true" tabindex="-1"></a>        capture_output<span class="op">=</span><span class="va">True</span>, text<span class="op">=</span><span class="va">True</span></span>
+<span id="cb25-10"><a href="#cb25-10" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb25-11"><a href="#cb25-11" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> [l <span class="cf">for</span> l <span class="kw">in</span> out.stdout.splitlines() <span class="cf">if</span> <span class="st">&quot;FAILED&quot;</span> <span class="kw">in</span> l]</span>
+<span id="cb25-12"><a href="#cb25-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-13"><a href="#cb25-13" aria-hidden="true" tabindex="-1"></a>agent <span class="op">=</span> Agent(</span>
+<span id="cb25-14"><a href="#cb25-14" aria-hidden="true" tabindex="-1"></a>    model<span class="op">=</span><span class="st">&quot;claude-sonnet-4-6&quot;</span>,</span>
+<span id="cb25-15"><a href="#cb25-15" aria-hidden="true" tabindex="-1"></a>    system<span class="op">=</span><span class="st">&quot;You triage failing tests. Be terse.&quot;</span>,</span>
+<span id="cb25-16"><a href="#cb25-16" aria-hidden="true" tabindex="-1"></a>    tools<span class="op">=</span>[list_failing_tests],</span>
+<span id="cb25-17"><a href="#cb25-17" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb25-18"><a href="#cb25-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-19"><a href="#cb25-19" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(agent.run(<span class="st">&quot;Summarise what&#39;s broken in &lt;50 words.&quot;</span>))</span></code></pre></div>
+<h3 id="headless-claude-code-in-ci">Headless Claude Code in CI</h3>
+<div class="sourceCode" id="cb26"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="ex">claude</span> <span class="at">-p</span> <span class="st">&quot;Run the test suite. If anything fails, open a GitHub issue with the diff and a one-paragraph hypothesis.&quot;</span> <span class="dt">\</span></span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">--permission-mode</span> bypassPermissions <span class="dt">\</span></span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">--max-turns</span> 8 <span class="dt">\</span></span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">--output-format</span> json <span class="op">&gt;</span> result.json</span></code></pre></div>
+<p>Wire into a nightly Action. Add a hook that posts the result to
+Slack. <strong>You now have a self-triaging test suite.</strong></p>
+<h2 id="interactive-bad-headless-invocation-vs-good-headless-invocation">Interactive:
+Bad headless invocation vs Good headless invocation</h2>
+<h3 id="bad-looks-like-a-real-ci-invocation-find-whats-missing">❌ Bad
+(looks like a real CI invocation — find what’s missing)</h3>
+<div class="sourceCode" id="cb27"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="ex">claude</span> <span class="at">-p</span> <span class="st">&quot;Run the test suite. If anything fails, fix it and open a PR.&quot;</span></span></code></pre></div>
+<p><em>Real instruction. Real intent. <strong>What goes wrong when this
+runs at 3 a.m. in CI?</strong></em></p>
+<details>
+<summary>
+✅ Reveal: Good
+</summary>
+<div class="sourceCode" id="cb28"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="ex">claude</span> <span class="at">-p</span> <span class="st">&quot;</span><span class="va">$(</span><span class="fu">cat</span> <span class="op">&lt;&lt;&#39;PROMPT&#39;</span></span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a><span class="st">You are running headlessly in CI. Your goal: produce a JSON report of</span></span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a><span class="st">the test failure on this commit, nothing else.</span></span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a><span class="st">1. Run `pnpm test --reporter=json` and capture stdout.</span></span>
+<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a><span class="st">2. Identify the first failing test. Read its source file.</span></span>
+<span id="cb28-7"><a href="#cb28-7" aria-hidden="true" tabindex="-1"></a><span class="st">3. Read the file under test. Form a one-paragraph hypothesis.</span></span>
+<span id="cb28-8"><a href="#cb28-8" aria-hidden="true" tabindex="-1"></a><span class="st">4. Print exactly this JSON to stdout, no other text:</span></span>
+<span id="cb28-9"><a href="#cb28-9" aria-hidden="true" tabindex="-1"></a><span class="st">   {</span></span>
+<span id="cb28-10"><a href="#cb28-10" aria-hidden="true" tabindex="-1"></a><span class="st">     &quot;failing_test&quot;: &quot;&lt;name&gt;&quot;,</span></span>
+<span id="cb28-11"><a href="#cb28-11" aria-hidden="true" tabindex="-1"></a><span class="st">     &quot;hypothesis&quot;: &quot;&lt;one paragraph&gt;&quot;,</span></span>
+<span id="cb28-12"><a href="#cb28-12" aria-hidden="true" tabindex="-1"></a><span class="st">     &quot;files_to_inspect&quot;: [&quot;&lt;path&gt;&quot;, &quot;&lt;path&gt;&quot;]</span></span>
+<span id="cb28-13"><a href="#cb28-13" aria-hidden="true" tabindex="-1"></a><span class="st">   }</span></span>
+<span id="cb28-14"><a href="#cb28-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-15"><a href="#cb28-15" aria-hidden="true" tabindex="-1"></a><span class="st">If you cannot do this within budget, print {&quot;error&quot;: &quot;&lt;reason&gt;&quot;} and exit.</span></span>
+<span id="cb28-16"><a href="#cb28-16" aria-hidden="true" tabindex="-1"></a><span class="st">Do not open files outside the repo. Do not modify anything.</span></span>
+<span id="cb28-17"><a href="#cb28-17" aria-hidden="true" tabindex="-1"></a><span class="op">PROMPT</span></span>
+<span id="cb28-18"><a href="#cb28-18" aria-hidden="true" tabindex="-1"></a><span class="va">)</span><span class="st">&quot;</span> <span class="dt">\</span></span>
+<span id="cb28-19"><a href="#cb28-19" aria-hidden="true" tabindex="-1"></a>  <span class="at">--permission-mode</span> plan <span class="dt">\</span></span>
+<span id="cb28-20"><a href="#cb28-20" aria-hidden="true" tabindex="-1"></a>  <span class="at">--max-turns</span> 6 <span class="dt">\</span></span>
+<span id="cb28-21"><a href="#cb28-21" aria-hidden="true" tabindex="-1"></a>  <span class="at">--output-format</span> json <span class="dt">\</span></span>
+<span id="cb28-22"><a href="#cb28-22" aria-hidden="true" tabindex="-1"></a>  <span class="op">&gt;</span> /tmp/claude-result.json</span>
+<span id="cb28-23"><a href="#cb28-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-24"><a href="#cb28-24" aria-hidden="true" tabindex="-1"></a><span class="co"># Validate before piping anywhere downstream.</span></span>
+<span id="cb28-25"><a href="#cb28-25" aria-hidden="true" tabindex="-1"></a><span class="ex">jq</span> <span class="at">-e</span> <span class="st">&#39;.failing_test // .error&#39;</span> /tmp/claude-result.json</span></code></pre></div>
+<p><strong>What was actually wrong with the bad version:</strong></p>
+<ol type="1">
+<li><strong>No <code>--max-turns</code>.</strong> The agent can loop
+indefinitely. A bad fix attempt that triggers another test failure that
+the agent then “fixes” again — at $0.10 per turn, this is hours of cost
+while you sleep.</li>
+<li><strong>No <code>--permission-mode</code>.</strong> In headless
+mode, permission prompts hang forever (no human to answer). Either the
+agent gets blanket access (dangerous) or every action stalls (worse than
+useless).</li>
+<li><strong>No <code>--output-format</code>.</strong> Output is
+unstructured prose. Your downstream parser is grep against natural
+language. Brittle on day one.</li>
+<li><strong>“Fix it” is unbounded scope.</strong> “Fix” could mean:
+editing the test, editing the implementation, deleting the test,
+refactoring three modules. The agent picks; you find out from the
+diff.</li>
+<li><strong>“Open a PR” assumes auth, branch protection, review
+requirements.</strong> Does the runner have a GitHub token with write
+access? Is there a CODEOWNERS that auto-requests review? Does pushing to
+a non-main branch trigger CI again, recursively?</li>
+<li><strong>No timeout, no cost cap, no observability.</strong> When
+this run goes wrong, you find out from the bill, not the alerting.</li>
+</ol>
+<strong>The good version above replaces every one of those with
+infrastructure:</strong> read-only <code>--permission-mode plan</code>
+so the worst case is a wasted run; <code>--max-turns 6</code> as a hard
+cap; <code>--output-format json</code> with an explicit schema in the
+prompt; <code>jq -e</code> validation before any downstream consumer
+trusts the output; explicit fallback for the cannot-determine case.
+</details>
+<h2 id="live-demo-3-min-runnable">🎬 Live demo (~3 min, runnable)</h2>
+<blockquote>
+<p><strong>Run <code>bash module9_sdk/quick_demo.sh</code>.</strong>
+Pipes a fake test-failure log into <code>claude -p</code>, real JSON
+triage report comes back in &lt;30 seconds. Show the 20-line script
+after. That’s the entire “self-triaging CI” pattern. See
+<code>module9_sdk/RUN.md</code>. Recipe 9 in
+<code>DEMO_COOKBOOK.md</code>.</p>
+</blockquote>
+<h2 id="optional-extended-demo-15-min">Optional extended demo (15
+min)</h2>
+<p>Take a participant’s volunteered repo, drop in a
+<code>claude -p</code> triggered by a GitHub Action on every failed CI,
+watch an issue get filed.</p>
+<hr />
+<h1 id="wrap-up-retro-15-min">18:00 — Wrap-up &amp; retro (15 min)</h1>
+<p><strong>Round-table, one sentence each:</strong></p>
+<ul>
+<li>What’s the first thing you’ll change about your workflow
+tomorrow?</li>
+<li>What’s the first thing you’ll change about your team’s workflow this
+quarter?</li>
+<li>What did the workshop <em>not</em> cover that you wish it had?</li>
+</ul>
+<p><strong>Capstone takeaway</strong> (printed handout):</p>
+<ol type="1">
+<li>Claude Code is an agent loop. Control the loop.</li>
+<li>Context, tools, permissions, loop control — every problem is one of
+the four.</li>
+<li>Invest in <code>CLAUDE.md</code>, hooks, and slash commands like you
+invest in lint configs.</li>
+<li>Sub-agents isolate context, not work.</li>
+<li>MCP turns your internal systems into first-class tools.</li>
+<li>Headless mode + the SDK is where compounding gains live.</li>
+</ol>
+<hr />
+<h1 id="appendix-a-lab-artifacts-each-participant-leaves-with">Appendix
+A — Lab artifacts each participant leaves with</h1>
+<ul>
+<li>A populated <code>CLAUDE.md</code> for the sandbox.</li>
+<li><code>.claude/settings.json</code> with permissions and hook
+config.</li>
+<li><code>.claude/hooks/</code> — three working hooks.</li>
+<li><code>.claude/commands/standup.md</code> (and optional skill
+version).</li>
+<li><code>.claude/agents/perf-auditor.md</code>.</li>
+<li>A working MCP server (TypeScript) registered with Claude Code.</li>
+<li>The printed cheat-sheet (Appendix B).</li>
+</ul>
+<hr />
+<h1 id="appendix-b-one-page-cheat-sheet-print">Appendix B — One-page
+cheat-sheet (print)</h1>
+<p><strong>Modes:</strong> <code>Shift+Tab</code> cycles
+<code>default → acceptEdits → plan</code>. <strong>Memory:</strong>
+<code>/memory</code>, <code>/clear</code>,
+<code>/compact &lt;focus&gt;</code>. <strong>Inspect:</strong>
+<code>/mcp</code>, <code>/agents</code>, <code>/hooks</code>,
+<code>/permissions</code>, <code>/doctor</code>.
+<strong>Switch:</strong> <code>/model</code>, <code>/fast</code>.
+<strong>Resume:</strong> <code>/resume</code>,
+<code>claude --continue</code>. <strong>Headless:</strong>
+<code>claude -p &quot;&lt;prompt&gt;&quot; --max-turns N --output-format json</code>.</p>
+<p><strong>File map:</strong></p>
+<ul>
+<li><code>~/.claude/CLAUDE.md</code> — your personal preferences</li>
+<li><code>&lt;repo&gt;/CLAUDE.md</code> — team conventions,
+committed</li>
+<li><code>.claude/settings.json</code> — permissions, hooks, MCP servers
+(committed)</li>
+<li><code>.claude/settings.local.json</code> — personal overrides
+(gitignored)</li>
+<li><code>.claude/agents/*.md</code> — custom sub-agents</li>
+<li><code>.claude/commands/*.md</code> — custom slash commands</li>
+<li><code>.claude/hooks/*</code> — hook scripts</li>
+<li><code>~/.claude/projects/&lt;dir&gt;/memory/</code> — auto-memory
+store</li>
+</ul>
+<p><strong>Hook exit codes:</strong> <code>0</code> allow,
+<code>2</code> block, anything else warn.</p>
+<p><strong>Sub-agent rule of thumb:</strong> use to <em>isolate
+context</em>, not add brainpower. Spawn in parallel when independent.
+Use worktrees for risky experiments.</p>
+<p><strong>MCP rule of thumb:</strong> wrap your internal systems with
+structured tools instead of asking the model to scrape Bash output.</p>
+<p><strong>Four levers, every time:</strong> context, tools,
+permissions, loop control.</p>
+<hr />
+<h1 id="appendix-c-facilitator-notes">Appendix C — Facilitator
+notes</h1>
+<ul>
+<li>Total content is intentionally ~10% over budget. Cut Module 9 to a
+demo if running long.</li>
+<li>Module 5 (hooks) is the highest-leverage module — never cut it.</li>
+<li>Keep one machine projecting throughout; the demo terminal should
+always be visible.</li>
+<li>Have a “questions parking lot” whiteboard; do not let edge-case
+questions derail the timeline.</li>
+<li>Plant a deliberately broken hook early — someone will hit it during
+Module 5 and it teaches the debugging story for free.</li>
+<li>The two pre-built live demos (Modules 4 and 6) are the
+highest-impact moments. They don’t require the room to wait — agents
+already ran. Use the predict-before-reveal scripts in
+<code>OVERLAP.md</code> and <code>COMPARISON.md</code>.</li>
+</ul>
+<script>
+// Tiny enhancement script for WORKSHOP.html.
+// 1. Tints code blocks that follow a "❌ Bad" heading red.
+// 2. Tints blockquotes that begin with "Predict" yellow.
+// 3. Adds a "Show all reveals" button to the top of the doc.
+
+(function () {
+  // 1. Bad-prompt tinting
+  document.querySelectorAll('h3, h4').forEach((h) => {
+    const txt = (h.textContent || '').trim();
+    if (txt.startsWith('❌')) {
+      let next = h.nextElementSibling;
+      while (next && next.tagName !== 'PRE' && !['H2', 'H3', 'DETAILS'].includes(next.tagName)) {
+        next = next.nextElementSibling;
+      }
+      if (next && next.tagName === 'PRE') next.classList.add('bad-prompt');
+    }
+  });
+
+  // 2. Predict callouts
+  document.querySelectorAll('blockquote').forEach((q) => {
+    if (/predict/i.test(q.textContent || '')) q.classList.add('predict-callout');
+  });
+
+  // 3. Show-all-reveals toggle, fixed top-right
+  const btn = document.createElement('button');
+  btn.textContent = 'Reveal all';
+  Object.assign(btn.style, {
+    position: 'fixed',
+    top: '14px',
+    right: '20px',
+    zIndex: '1000',
+    background: '#5fd97a',
+    color: '#0f1419',
+    border: 'none',
+    borderRadius: '6px',
+    padding: '8px 14px',
+    fontSize: '13px',
+    fontFamily: 'inherit',
+    fontWeight: '600',
+    cursor: 'pointer',
+    boxShadow: '0 2px 8px rgba(0,0,0,0.3)',
+  });
+  let open = false;
+  btn.addEventListener('click', () => {
+    open = !open;
+    document.querySelectorAll('details').forEach((d) => (d.open = open));
+    btn.textContent = open ? 'Hide all' : 'Reveal all';
+  });
+  document.body.appendChild(btn);
+})();
+</script>
+</body>
+</html>

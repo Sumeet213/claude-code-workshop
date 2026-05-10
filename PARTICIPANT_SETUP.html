@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>Pre-flight setup for participants</title>
+  <style>
+
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+
+ul.task-list[class]{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+font-size: inherit;
+width: 0.8em;
+margin: 0 0.8em 0.2em -1.6em;
+vertical-align: middle;
+}
+.display.math{display: block; text-align: center; margin: 0.5rem auto;}
+
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+{ counter-reset: source-line 0; }
+pre.numberSource code > span
+{ position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+{ content: counter(source-line);
+position: relative; left: -1em; text-align: right; vertical-align: baseline;
+border: none; display: inline-block;
+-webkit-touch-callout: none; -webkit-user-select: none;
+-khtml-user-select: none; -moz-user-select: none;
+-ms-user-select: none; user-select: none;
+padding: 0 4px; width: 4em;
+background-color: #232629;
+color: #7a7c7d;
+}
+pre.numberSource { margin-left: 3em; border-left: 1px solid #7a7c7d; padding-left: 4px; }
+div.sourceCode
+{ color: #cfcfc2; background-color: #232629; }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span { color: #cfcfc2; } 
+code span.al { color: #95da4c; background-color: #4d1f24; font-weight: bold; } 
+code span.an { color: #3f8058; } 
+code span.at { color: #2980b9; } 
+code span.bn { color: #f67400; } 
+code span.bu { color: #7f8c8d; } 
+code span.cf { color: #fdbc4b; font-weight: bold; } 
+code span.ch { color: #3daee9; } 
+code span.cn { color: #27aeae; font-weight: bold; } 
+code span.co { color: #7a7c7d; } 
+code span.cv { color: #7f8c8d; } 
+code span.do { color: #a43340; } 
+code span.dt { color: #2980b9; } 
+code span.dv { color: #f67400; } 
+code span.er { color: #da4453; text-decoration: underline; } 
+code span.ex { color: #0099ff; font-weight: bold; } 
+code span.fl { color: #f67400; } 
+code span.fu { color: #8e44ad; } 
+code span.im { color: #27ae60; } 
+code span.in { color: #c45b00; } 
+code span.kw { color: #cfcfc2; font-weight: bold; } 
+code span.op { color: #cfcfc2; } 
+code span.ot { color: #27ae60; } 
+code span.pp { color: #27ae60; } 
+code span.re { color: #2980b9; background-color: #153042; } 
+code span.sc { color: #3daee9; } 
+code span.ss { color: #da4453; } 
+code span.st { color: #f44f4f; } 
+code span.va { color: #27aeae; } 
+code span.vs { color: #da4453; } 
+code span.wa { color: #da4453; } 
+</style>
+  <style type="text/css">
+:root {
+--bg: #0f1419;
+--fg: #f0f0f0;
+--muted: #9aa4b2;
+--accent: #6cc1ff;
+--bad: #ff7a7a;
+--good: #5fd97a;
+--warn: #ffb84d;
+--rule: #2a2f3a;
+--code-bg: #161a23;
+--card-bg: #131722;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+margin: 0 auto;
+max-width: 1100px;
+padding: 64px 72px 120px;
+background: var(--bg);
+color: var(--fg);
+font-family: -apple-system, BlinkMacSystemFont, "Inter", "Segoe UI", Roboto, sans-serif;
+font-size: 22px;
+line-height: 1.55;
+}
+h1, h2, h3, h4 { color: #fff; line-height: 1.2; }
+h1 { font-size: 48px; margin-top: 0; padding-bottom: 16px; border-bottom: 3px solid var(--rule); }
+h2 { font-size: 36px; margin-top: 64px; padding-top: 16px; border-top: 1px solid var(--rule); }
+h3 { font-size: 28px; margin-top: 40px; color: var(--accent); }
+h4 { font-size: 22px; margin-top: 28px; }
+p, ul, ol { margin: 14px 0; }
+li { margin: 8px 0; }
+a { color: var(--accent); }
+hr { border: none; border-top: 1px solid var(--rule); margin: 56px 0; }
+blockquote {
+border-left: 5px solid var(--accent);
+margin: 24px 0;
+padding: 14px 22px;
+background: rgba(108, 193, 255, 0.07);
+border-radius: 0 8px 8px 0;
+color: #d3dae6;
+font-style: italic;
+font-size: 22px;
+}
+
+pre, code {
+font-family: "JetBrains Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+font-size: 17px;
+}
+code {
+background: var(--code-bg);
+padding: 2px 7px;
+border-radius: 4px;
+color: #ffd58a;
+}
+pre {
+background: var(--code-bg);
+padding: 20px 24px;
+border-radius: 10px;
+border: 1px solid var(--rule);
+overflow-x: auto;
+line-height: 1.55;
+}
+pre code { background: transparent; padding: 0; color: var(--fg); font-size: 17px; }
+
+table {
+border-collapse: collapse;
+margin: 24px 0;
+width: 100%;
+font-size: 18px;
+}
+th, td {
+border: 1px solid var(--rule);
+padding: 10px 14px;
+text-align: left;
+vertical-align: top;
+}
+th { background: rgba(108, 193, 255, 0.10); color: #fff; font-weight: 600; }
+tr:nth-child(even) td { background: rgba(255, 255, 255, 0.018); }
+
+details {
+background: var(--card-bg);
+border: 2px solid var(--good);
+border-radius: 10px;
+padding: 0;
+margin: 24px 0;
+overflow: hidden;
+}
+details[open] { box-shadow: 0 0 0 1px var(--good); }
+details > summary {
+cursor: pointer;
+padding: 18px 24px;
+font-weight: 700;
+font-size: 22px;
+color: var(--good);
+background: rgba(95, 217, 122, 0.08);
+list-style: none;
+user-select: none;
+display: flex;
+align-items: center;
+gap: 12px;
+}
+details > summary::-webkit-details-marker { display: none; }
+details > summary::before {
+content: "▶";
+font-size: 16px;
+transition: transform 0.15s;
+color: var(--good);
+}
+details[open] > summary::before { transform: rotate(90deg); }
+details > *:not(summary) { padding-left: 24px; padding-right: 24px; }
+details > *:last-child { padding-bottom: 18px; }
+
+.bad-prompt {
+border-color: var(--bad) !important;
+background: rgba(255, 122, 122, 0.05) !important;
+}
+
+.predict-callout {
+border-left-color: var(--warn) !important;
+background: rgba(255, 184, 77, 0.08) !important;
+font-size: 24px !important;
+}
+
+h2:first-of-type { margin-top: 32px; }
+
+@media print {
+body { background: #fff; color: #000; max-width: 100%; padding: 16pt; font-size: 11pt; }
+details { border-color: #000; }
+details > summary { color: #000; background: #f0f0f0; }
+details:not([open]) > *:not(summary) { display: block !important; }
+pre, code { background: #f4f4f4; color: #000; }
+blockquote { color: #000; background: #f9f9f9; }
+}
+</style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">Pre-flight setup for participants</h1>
+</header>
+<h1 id="workshop-pre-flight-read-this-the-night-before">Workshop
+pre-flight — read this the night before</h1>
+<p><strong>Estimated time: 10 minutes.</strong> If you can’t get past
+step 4, ping the workshop organiser before 9 a.m. on the day.</p>
+<hr />
+<h2 id="install-claude-code">1. Install Claude Code</h2>
+<div class="sourceCode" id="cb1"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">npm</span> install <span class="at">-g</span> @anthropic-ai/claude-code</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="ex">claude</span> <span class="at">--version</span>    <span class="co"># should print a version</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="ex">claude</span> doctor       <span class="co"># should pass all checks</span></span></code></pre></div>
+<p>If you don’t have an Anthropic account / API access, the organiser
+will hand out throwaway keys at 09:00 — but <strong>you must have the
+CLI installed</strong>.</p>
+<h2 id="get-the-workshop-repo">2. Get the workshop repo</h2>
+<p>You’ll receive a link / USB drive / AirDrop on the day. Extract
+to:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ex">~/workshop_demo</span></span></code></pre></div>
+<p>(Or anywhere — the absolute paths in
+<code>module7_mcp/.claude/settings.json</code> need updating to wherever
+you put it. The setup script handles that.)</p>
+<h2 id="run-the-setup-script">3. Run the setup script</h2>
+<div class="sourceCode" id="cb3"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> ~/workshop_demo</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> scripts/setup.sh</span></code></pre></div>
+<p>This will: - Make hook scripts executable. - Install the
+<code>mcp</code> Python package (for Module 7). - Patch the MCP server
+path in <code>module7_mcp/.claude/settings.json</code> to your machine.
+- Sanity-check that <code>claude</code>, <code>python3</code>,
+<code>pip</code>, <code>git</code>, <code>jq</code>, and
+<code>bat</code> (or <code>cat</code>) are present. - Open
+<code>WORKSHOP.html</code> in your browser.</p>
+<p>If <code>bat</code> is missing, install it for syntax-highlighted
+file viewing during exercises:</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="ex">brew</span> install bat       <span class="co"># macOS</span></span></code></pre></div>
+<p>(Plain <code>cat</code> works fine if you skip this.)</p>
+<h2 id="verify-each-modules-runnable-demo">4. Verify each module’s
+runnable demo</h2>
+<div class="sourceCode" id="cb5"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Module 5 — hook fires</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> ~/workshop_demo/module5_hooks</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="ex">claude</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="op">&gt;</span> Update <span class="ex">sample_files/prod_config.yaml</span> — change the database host to <span class="st">&quot;test.internal&quot;</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="co"># You should see a red BLOCKED box. Type /exit to leave.</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> <span class="at">-</span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Module 7 — MCP server connects</span></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> ~/workshop_demo/module7_mcp</span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a><span class="ex">claude</span></span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a><span class="op">&gt;</span> /mcp</span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a><span class="co"># You should see &quot;oncall&quot; listed with two tools. Type /exit.</span></span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> <span class="at">-</span></span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a><span class="co"># Module 9 — headless one-shot</span></span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> ~/workshop_demo/module9_sdk/quick_demo.sh</span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a><span class="co"># You should see JSON output within 30 seconds.</span></span></code></pre></div>
+<p>If all three pass, you’re ready.</p>
+<h2 id="what-the-day-looks-like">5. What the day looks like</h2>
+<ul>
+<li>9 modules over 8 hours.</li>
+<li><strong>Most modules end with a 5–15 minute “Your turn”</strong>
+where you run the same exercise in your own Claude, then compare with
+your neighbour.</li>
+<li>Two big moments are pre-built artifacts the trainer walks through
+(parallel reviewers in Module 4, skill comparison in Module 6).</li>
+<li>Bring a sandbox repo of your own — by lunch you’ll want to try
+things on real code.</li>
+</ul>
+<h2 id="what-to-bring">6. What to bring</h2>
+<ul>
+<li>Laptop with the above installed.</li>
+<li>Headphones (optional, for individual lab moments).</li>
+<li>A small repo of your own — ideally one you know well but where you’d
+accept some experimental edits.</li>
+<li>Coffee.</li>
+</ul>
+<h2 id="troubleshooting">Troubleshooting</h2>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr>
+<th>Symptom</th>
+<th>Fix</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>claude doctor</code> fails</td>
+<td>Re-install:
+<code>npm uninstall -g @anthropic-ai/claude-code &amp;&amp; npm install -g @anthropic-ai/claude-code</code></td>
+</tr>
+<tr>
+<td><code>pip install mcp</code> fails</td>
+<td>Use a venv:
+<code>python3 -m venv .venv &amp;&amp; source .venv/bin/activate &amp;&amp; pip install mcp</code>
+and update the python path in
+<code>module7_mcp/.claude/settings.json</code></td>
+</tr>
+<tr>
+<td><code>/mcp</code> shows no servers</td>
+<td>The path in <code>.claude/settings.json</code> is wrong — re-run
+<code>bash scripts/setup.sh</code></td>
+</tr>
+<tr>
+<td>Hook doesn’t fire</td>
+<td><code>chmod +x module5_hooks/.claude/hooks/*.sh</code></td>
+</tr>
+<tr>
+<td><code>claude</code> asks you to authenticate</td>
+<td>Use the API key handed out at 09:00</td>
+</tr>
+</tbody>
+</table>
+<script>
+// Tiny enhancement script for WORKSHOP.html.
+// 1. Tints code blocks that follow a "❌ Bad" heading red.
+// 2. Tints blockquotes that begin with "Predict" yellow.
+// 3. Adds a "Show all reveals" button to the top of the doc.
+
+(function () {
+  // 1. Bad-prompt tinting
+  document.querySelectorAll('h3, h4').forEach((h) => {
+    const txt = (h.textContent || '').trim();
+    if (txt.startsWith('❌')) {
+      let next = h.nextElementSibling;
+      while (next && next.tagName !== 'PRE' && !['H2', 'H3', 'DETAILS'].includes(next.tagName)) {
+        next = next.nextElementSibling;
+      }
+      if (next && next.tagName === 'PRE') next.classList.add('bad-prompt');
+    }
+  });
+
+  // 2. Predict callouts
+  document.querySelectorAll('blockquote').forEach((q) => {
+    if (/predict/i.test(q.textContent || '')) q.classList.add('predict-callout');
+  });
+
+  // 3. Show-all-reveals toggle, fixed top-right
+  const btn = document.createElement('button');
+  btn.textContent = 'Reveal all';
+  Object.assign(btn.style, {
+    position: 'fixed',
+    top: '14px',
+    right: '20px',
+    zIndex: '1000',
+    background: '#5fd97a',
+    color: '#0f1419',
+    border: 'none',
+    borderRadius: '6px',
+    padding: '8px 14px',
+    fontSize: '13px',
+    fontFamily: 'inherit',
+    fontWeight: '600',
+    cursor: 'pointer',
+    boxShadow: '0 2px 8px rgba(0,0,0,0.3)',
+  });
+  let open = false;
+  btn.addEventListener('click', () => {
+    open = !open;
+    document.querySelectorAll('details').forEach((d) => (d.open = open));
+    btn.textContent = open ? 'Hide all' : 'Reveal all';
+  });
+  document.body.appendChild(btn);
+})();
+</script>
+</body>
+</html>

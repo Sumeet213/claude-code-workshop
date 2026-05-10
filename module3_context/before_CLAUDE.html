@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>M3 — Bloated CLAUDE.md (before surgery)</title>
+  <style>
+
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+
+ul.task-list[class]{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+font-size: inherit;
+width: 0.8em;
+margin: 0 0.8em 0.2em -1.6em;
+vertical-align: middle;
+}
+.display.math{display: block; text-align: center; margin: 0.5rem auto;}
+
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+{ counter-reset: source-line 0; }
+pre.numberSource code > span
+{ position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+{ content: counter(source-line);
+position: relative; left: -1em; text-align: right; vertical-align: baseline;
+border: none; display: inline-block;
+-webkit-touch-callout: none; -webkit-user-select: none;
+-khtml-user-select: none; -moz-user-select: none;
+-ms-user-select: none; user-select: none;
+padding: 0 4px; width: 4em;
+background-color: #232629;
+color: #7a7c7d;
+}
+pre.numberSource { margin-left: 3em; border-left: 1px solid #7a7c7d; padding-left: 4px; }
+div.sourceCode
+{ color: #cfcfc2; background-color: #232629; }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span { color: #cfcfc2; } 
+code span.al { color: #95da4c; background-color: #4d1f24; font-weight: bold; } 
+code span.an { color: #3f8058; } 
+code span.at { color: #2980b9; } 
+code span.bn { color: #f67400; } 
+code span.bu { color: #7f8c8d; } 
+code span.cf { color: #fdbc4b; font-weight: bold; } 
+code span.ch { color: #3daee9; } 
+code span.cn { color: #27aeae; font-weight: bold; } 
+code span.co { color: #7a7c7d; } 
+code span.cv { color: #7f8c8d; } 
+code span.do { color: #a43340; } 
+code span.dt { color: #2980b9; } 
+code span.dv { color: #f67400; } 
+code span.er { color: #da4453; text-decoration: underline; } 
+code span.ex { color: #0099ff; font-weight: bold; } 
+code span.fl { color: #f67400; } 
+code span.fu { color: #8e44ad; } 
+code span.im { color: #27ae60; } 
+code span.in { color: #c45b00; } 
+code span.kw { color: #cfcfc2; font-weight: bold; } 
+code span.op { color: #cfcfc2; } 
+code span.ot { color: #27ae60; } 
+code span.pp { color: #27ae60; } 
+code span.re { color: #2980b9; background-color: #153042; } 
+code span.sc { color: #3daee9; } 
+code span.ss { color: #da4453; } 
+code span.st { color: #f44f4f; } 
+code span.va { color: #27aeae; } 
+code span.vs { color: #da4453; } 
+code span.wa { color: #da4453; } 
+</style>
+  <style type="text/css">
+:root {
+--bg: #0f1419;
+--fg: #f0f0f0;
+--muted: #9aa4b2;
+--accent: #6cc1ff;
+--bad: #ff7a7a;
+--good: #5fd97a;
+--warn: #ffb84d;
+--rule: #2a2f3a;
+--code-bg: #161a23;
+--card-bg: #131722;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+margin: 0 auto;
+max-width: 1100px;
+padding: 64px 72px 120px;
+background: var(--bg);
+color: var(--fg);
+font-family: -apple-system, BlinkMacSystemFont, "Inter", "Segoe UI", Roboto, sans-serif;
+font-size: 22px;
+line-height: 1.55;
+}
+h1, h2, h3, h4 { color: #fff; line-height: 1.2; }
+h1 { font-size: 48px; margin-top: 0; padding-bottom: 16px; border-bottom: 3px solid var(--rule); }
+h2 { font-size: 36px; margin-top: 64px; padding-top: 16px; border-top: 1px solid var(--rule); }
+h3 { font-size: 28px; margin-top: 40px; color: var(--accent); }
+h4 { font-size: 22px; margin-top: 28px; }
+p, ul, ol { margin: 14px 0; }
+li { margin: 8px 0; }
+a { color: var(--accent); }
+hr { border: none; border-top: 1px solid var(--rule); margin: 56px 0; }
+blockquote {
+border-left: 5px solid var(--accent);
+margin: 24px 0;
+padding: 14px 22px;
+background: rgba(108, 193, 255, 0.07);
+border-radius: 0 8px 8px 0;
+color: #d3dae6;
+font-style: italic;
+font-size: 22px;
+}
+
+pre, code {
+font-family: "JetBrains Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+font-size: 17px;
+}
+code {
+background: var(--code-bg);
+padding: 2px 7px;
+border-radius: 4px;
+color: #ffd58a;
+}
+pre {
+background: var(--code-bg);
+padding: 20px 24px;
+border-radius: 10px;
+border: 1px solid var(--rule);
+overflow-x: auto;
+line-height: 1.55;
+}
+pre code { background: transparent; padding: 0; color: var(--fg); font-size: 17px; }
+
+table {
+border-collapse: collapse;
+margin: 24px 0;
+width: 100%;
+font-size: 18px;
+}
+th, td {
+border: 1px solid var(--rule);
+padding: 10px 14px;
+text-align: left;
+vertical-align: top;
+}
+th { background: rgba(108, 193, 255, 0.10); color: #fff; font-weight: 600; }
+tr:nth-child(even) td { background: rgba(255, 255, 255, 0.018); }
+
+details {
+background: var(--card-bg);
+border: 2px solid var(--good);
+border-radius: 10px;
+padding: 0;
+margin: 24px 0;
+overflow: hidden;
+}
+details[open] { box-shadow: 0 0 0 1px var(--good); }
+details > summary {
+cursor: pointer;
+padding: 18px 24px;
+font-weight: 700;
+font-size: 22px;
+color: var(--good);
+background: rgba(95, 217, 122, 0.08);
+list-style: none;
+user-select: none;
+display: flex;
+align-items: center;
+gap: 12px;
+}
+details > summary::-webkit-details-marker { display: none; }
+details > summary::before {
+content: "▶";
+font-size: 16px;
+transition: transform 0.15s;
+color: var(--good);
+}
+details[open] > summary::before { transform: rotate(90deg); }
+details > *:not(summary) { padding-left: 24px; padding-right: 24px; }
+details > *:last-child { padding-bottom: 18px; }
+
+.bad-prompt {
+border-color: var(--bad) !important;
+background: rgba(255, 122, 122, 0.05) !important;
+}
+
+.predict-callout {
+border-left-color: var(--warn) !important;
+background: rgba(255, 184, 77, 0.08) !important;
+font-size: 24px !important;
+}
+
+h2:first-of-type { margin-top: 32px; }
+
+@media print {
+body { background: #fff; color: #000; max-width: 100%; padding: 16pt; font-size: 11pt; }
+details { border-color: #000; }
+details > summary { color: #000; background: #f0f0f0; }
+details:not([open]) > *:not(summary) { display: block !important; }
+pre, code { background: #f4f4f4; color: #000; }
+blockquote { color: #000; background: #f9f9f9; }
+}
+</style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">M3 — Bloated CLAUDE.md (before surgery)</h1>
+</header>
+<h1 id="stride-backend-engineering-context">Stride Backend — Engineering
+Context</h1>
+<blockquote>
+<p>Maintained by the platform team. Last updated 2026-04-12 by Maya.</p>
+</blockquote>
+<p>This file gives Claude the context it needs to work effectively in
+our repo. Please keep it up to date as the codebase evolves.</p>
+<h2 id="about-the-project">About the project</h2>
+<p>Stride is a fitness-tracking platform. The backend is a Node.js +
+TypeScript service running on Express, backed by Postgres 15 (managed
+via Prisma), with Redis for sessions and BullMQ for background jobs. We
+deploy to AWS ECS via GitHub Actions.</p>
+<p>The team is currently 9 engineers split across two pods:
+<strong>Platform</strong> (auth, observability, infra) and
+<strong>Product</strong> (workouts, social, feeds). The auth/social
+systems were largely written by Diego (now on parental leave); the
+workout module is owned by Priya. Direct questions about the workout
+schema to Priya in #stride-product.</p>
+<h2 id="a-short-history-of-why-things-are-the-way-they-are">A short
+history of why things are the way they are</h2>
+<p>We originally built on Sequelize but migrated to Prisma in Q3 2024
+after the third major migration footgun (Sequelize would silently drop
+NOT NULL on column rename — ask Diego if you want the war story). The
+Prisma migration took ~6 weeks; some legacy code in
+<code>src/legacy/</code> still uses raw SQL queries which we’re slowly
+porting.</p>
+<p>We tried microservices in 2023 and rolled it back six months later
+(Conway’s Law won). The repo is intentionally a modular monolith now.
+Don’t propose splitting it without an RFC.</p>
+<p>The session store moved from in-process LRU to Redis after a P0 in
+November 2024. There is <strong>still</strong> a TOKEN_CACHE export in
+<code>src/middleware/auth.ts</code> for backwards compatibility — it’s
+deprecated but not yet removed because three internal tools still import
+it.</p>
+<h2 id="architecture-overview">Architecture overview</h2>
+<pre><code>src/
+├── api/        — HTTP handlers, one file per resource
+├── services/   — business logic, called from handlers
+├── db/         — Prisma client, transaction wrappers, raw escape hatch
+├── jobs/       — BullMQ workers and schedules
+├── middleware/ — auth, rate-limit, request-id, observability
+├── lib/        — shared utilities (validators, formatters, error types)
+├── types/      — shared TypeScript types
+└── legacy/     — pre-Prisma code being slowly retired</code></pre>
+<p>Handlers should be thin (parse → call service → return). Services
+should be testable without HTTP. Database access goes through Prisma
+except in <code>src/legacy/</code> and <code>src/db/raw/</code>.</p>
+<h2 id="how-to-develop">How to develop</h2>
+<p>We use pnpm (npm and yarn will break our lockfile). Common
+commands:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ex">pnpm</span> install         <span class="co"># one-time setup</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="ex">pnpm</span> dev             <span class="co"># local dev server with hot reload</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="ex">pnpm</span> test            <span class="co"># vitest, watch mode in dev</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="ex">pnpm</span> test:ci         <span class="co"># vitest single run for CI</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="ex">pnpm</span> lint            <span class="co"># eslint + prettier check</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="ex">pnpm</span> lint:fix        <span class="co"># eslint + prettier write</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="ex">pnpm</span> typecheck       <span class="co"># tsc --noEmit</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="ex">pnpm</span> build           <span class="co"># esbuild output to dist/</span></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a><span class="ex">pnpm</span> gen             <span class="co"># regenerate Prisma client + OpenAPI types</span></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a><span class="ex">pnpm</span> migrate:dev     <span class="co"># apply Prisma migrations to local DB</span></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a><span class="ex">pnpm</span> migrate:prod    <span class="co"># apply Prisma migrations to prod (DO NOT RUN LOCALLY)</span></span></code></pre></div>
+<p>Local DB is in <code>docker-compose.yml</code>. Run
+<code>docker compose up -d db redis</code> first.</p>
+<h2 id="coding-standards">Coding standards</h2>
+<p>We try to follow these:</p>
+<ul>
+<li>Write good code. Be careful with security — we had a token-leak
+incident in 2023 and are still recovering trust internally.</li>
+<li>Handle errors. Use our custom error types in
+<code>src/lib/errors.ts</code> (<code>AppError</code>,
+<code>NotFoundError</code>, <code>ValidationError</code>).</li>
+<li>Write tests for new features. Aim for 80% coverage on new code.</li>
+<li>Use descriptive variable names — no single letters except in tight
+loops.</li>
+<li>Use 2-space indentation, single quotes, semicolons. Prettier config
+is in <code>.prettierrc</code>.</li>
+<li>Avoid <code>any</code> in TypeScript. Use <code>unknown</code> and
+narrow.</li>
+<li>Follow the existing patterns in the codebase. If you’re adding
+something new, look at how a similar thing is done first.</li>
+<li>Write JSDoc on exported functions for non-obvious behavior.</li>
+<li>Prefer named exports over default exports.</li>
+<li>Files under <code>src/generated/</code> are autogenerated by
+<code>pnpm gen</code>. Never edit them.</li>
+<li>Don’t use <code>--no-verify</code> on commits. The pre-commit hooks
+are load-bearing (see <code>.husky/pre-commit</code>).</li>
+</ul>
+<h2 id="adding-a-new-endpoint">Adding a new endpoint</h2>
+<ol type="1">
+<li>Create the handler in <code>src/api/&lt;resource&gt;.ts</code>.</li>
+<li>Register the route in <code>src/app.ts</code>.</li>
+<li>Add the request/response types in
+<code>src/types/&lt;resource&gt;.ts</code>.</li>
+<li>Add the service in
+<code>src/services/&lt;resource&gt;.ts</code>.</li>
+<li>Write a test in <code>src/api/&lt;resource&gt;.test.ts</code>.</li>
+<li>Update <code>docs/openapi.yaml</code> (or run <code>pnpm gen</code>
+to regenerate from types).</li>
+<li>Add the new endpoint to the rate-limit config in
+<code>src/middleware/rate-limit.ts</code>.</li>
+<li>If the endpoint requires auth, add it to the protected routes list
+in <code>src/middleware/auth.ts</code>.</li>
+</ol>
+<h2 id="adding-a-database-migration">Adding a database migration</h2>
+<ol type="1">
+<li>Edit <code>prisma/schema.prisma</code> with your changes.</li>
+<li>Run
+<code>pnpm prisma migrate dev --name &lt;descriptive_name&gt;</code> —
+this creates a migration file and applies it locally.</li>
+<li>Inspect the generated SQL in <code>prisma/migrations/</code>.</li>
+<li>Write a rollback in the Down section. Do not leave
+<code>-- TODO</code>.</li>
+<li>Test the rollback works locally:
+<code>pnpm prisma migrate resolve --rolled-back &lt;name&gt;</code>.</li>
+<li>Open a PR — migrations require security team review.</li>
+</ol>
+<h2 id="current-sprint">Current sprint</h2>
+<p>We are in Sprint 23. Priorities:</p>
+<ul>
+<li>STR-432 — Bulk import endpoint (Priya, in review)</li>
+<li>STR-441 — Migrate <code>/users/me</code> to new SessionStore (Diego,
+blocked on parental leave)</li>
+<li>STR-447 — Rate limit improvements (Maya)</li>
+<li>STR-449 — Investigation: why Redis evictions spiked Tuesday
+(Maya)</li>
+</ul>
+<p>The next planning meeting is Thursday 2pm IST.</p>
+<h2 id="credentials">Credentials</h2>
+<p>The <code>.env.example</code> shows what variables you need. For
+local dev, copy to <code>.env</code> and fill in the dev DB credentials
+from 1Password (Engineering vault → “Stride Dev DB”). The production
+DATABASE_URL is in AWS Secrets Manager under
+<code>stride/prod/db</code>. Rotate monthly.</p>
+<h2 id="where-to-ask-questions">Where to ask questions</h2>
+<ul>
+<li>General eng: #stride-eng</li>
+<li>Platform pod: #stride-platform</li>
+<li>Product pod: #stride-product</li>
+<li>On-call: PagerDuty, current rotation in <code>oncall.md</code></li>
+<li>For architectural decisions, write an RFC in
+<code>/docs/rfcs/</code> first.</li>
+</ul>
+<h2 id="useful-links">Useful links</h2>
+<ul>
+<li>Production dashboard: grafana.stride.io/d/api</li>
+<li>Logs: papertrail.com/stride-prod</li>
+<li>Error tracking: sentry.io/stride</li>
+<li>Architecture decisions: /docs/rfcs/</li>
+</ul>
+<script>
+// Tiny enhancement script for WORKSHOP.html.
+// 1. Tints code blocks that follow a "❌ Bad" heading red.
+// 2. Tints blockquotes that begin with "Predict" yellow.
+// 3. Adds a "Show all reveals" button to the top of the doc.
+
+(function () {
+  // 1. Bad-prompt tinting
+  document.querySelectorAll('h3, h4').forEach((h) => {
+    const txt = (h.textContent || '').trim();
+    if (txt.startsWith('❌')) {
+      let next = h.nextElementSibling;
+      while (next && next.tagName !== 'PRE' && !['H2', 'H3', 'DETAILS'].includes(next.tagName)) {
+        next = next.nextElementSibling;
+      }
+      if (next && next.tagName === 'PRE') next.classList.add('bad-prompt');
+    }
+  });
+
+  // 2. Predict callouts
+  document.querySelectorAll('blockquote').forEach((q) => {
+    if (/predict/i.test(q.textContent || '')) q.classList.add('predict-callout');
+  });
+
+  // 3. Show-all-reveals toggle, fixed top-right
+  const btn = document.createElement('button');
+  btn.textContent = 'Reveal all';
+  Object.assign(btn.style, {
+    position: 'fixed',
+    top: '14px',
+    right: '20px',
+    zIndex: '1000',
+    background: '#5fd97a',
+    color: '#0f1419',
+    border: 'none',
+    borderRadius: '6px',
+    padding: '8px 14px',
+    fontSize: '13px',
+    fontFamily: 'inherit',
+    fontWeight: '600',
+    cursor: 'pointer',
+    boxShadow: '0 2px 8px rgba(0,0,0,0.3)',
+  });
+  let open = false;
+  btn.addEventListener('click', () => {
+    open = !open;
+    document.querySelectorAll('details').forEach((d) => (d.open = open));
+    btn.textContent = open ? 'Hide all' : 'Reveal all';
+  });
+  document.body.appendChild(btn);
+})();
+</script>
+</body>
+</html>

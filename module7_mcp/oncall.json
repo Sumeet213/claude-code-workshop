@@ -1,0 +1,26 @@
+{
+  "payments": {
+    "name": "Priya Mehta",
+    "email": "priya@stride.io",
+    "slack_handle": "@priya",
+    "until_iso": "2026-05-12T09:00:00Z"
+  },
+  "search": {
+    "name": "Diego Alvarez",
+    "email": "diego@stride.io",
+    "slack_handle": "@diego",
+    "until_iso": "2026-05-15T09:00:00Z"
+  },
+  "platform": {
+    "name": "Yuki Tanaka",
+    "email": "yuki@stride.io",
+    "slack_handle": "@yuki",
+    "until_iso": "2026-05-13T09:00:00Z"
+  },
+  "mobile": {
+    "name": "Sam Okonkwo",
+    "email": "sam@stride.io",
+    "slack_handle": "@sam",
+    "until_iso": "2026-05-14T09:00:00Z"
+  }
+}

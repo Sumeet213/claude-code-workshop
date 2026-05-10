@@ -1,0 +1,20 @@
+FAIL src/payments/refund.test.ts
+  Refund Service
+    ✓ refunds a captured charge (12ms)
+    ✗ rolls back on partial-refund failure (438ms)
+
+  ✗ rolls back on partial-refund failure
+    Expected balance: 4500
+    Actual balance:   5000
+
+    at src/payments/refund.ts:84:14
+
+       82 |     const remaining = original - amount;
+       83 |     await ledger.adjust(account, -amount);
+    >  84 |     if (response.status === 'PARTIAL') {
+       85 |       throw new PartialRefundError(response);
+       86 |     }
+       87 |   }
+
+Test Suites: 1 failed, 12 passed
+Tests:       1 failed, 47 passed

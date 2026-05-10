@@ -1,0 +1,29 @@
+# Local artifacts and noise — don't commit these.
+
+# Python venv (per-machine; recreated by scripts/setup.sh)
+**/.venv/
+**/__pycache__/
+*.pyc
+
+# Node
+node_modules/
+
+# Hook + MCP runtime artifacts
+**/hook-debug.log
+**/pages.log
+**/audit.log
+*.log
+
+# Editor / OS noise
+.DS_Store
+.idea/
+.vscode/
+*.swp
+
+# Local overrides
+.claude/settings.local.json
+.env
+.env.local
+
+# Testing scratch
+/tmp/

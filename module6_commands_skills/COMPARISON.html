@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>M6 — Skill comparison</title>
+  <style>
+
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+
+ul.task-list[class]{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+font-size: inherit;
+width: 0.8em;
+margin: 0 0.8em 0.2em -1.6em;
+vertical-align: middle;
+}
+.display.math{display: block; text-align: center; margin: 0.5rem auto;}
+</style>
+  <style type="text/css">
+:root {
+--bg: #0f1419;
+--fg: #f0f0f0;
+--muted: #9aa4b2;
+--accent: #6cc1ff;
+--bad: #ff7a7a;
+--good: #5fd97a;
+--warn: #ffb84d;
+--rule: #2a2f3a;
+--code-bg: #161a23;
+--card-bg: #131722;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+margin: 0 auto;
+max-width: 1100px;
+padding: 64px 72px 120px;
+background: var(--bg);
+color: var(--fg);
+font-family: -apple-system, BlinkMacSystemFont, "Inter", "Segoe UI", Roboto, sans-serif;
+font-size: 22px;
+line-height: 1.55;
+}
+h1, h2, h3, h4 { color: #fff; line-height: 1.2; }
+h1 { font-size: 48px; margin-top: 0; padding-bottom: 16px; border-bottom: 3px solid var(--rule); }
+h2 { font-size: 36px; margin-top: 64px; padding-top: 16px; border-top: 1px solid var(--rule); }
+h3 { font-size: 28px; margin-top: 40px; color: var(--accent); }
+h4 { font-size: 22px; margin-top: 28px; }
+p, ul, ol { margin: 14px 0; }
+li { margin: 8px 0; }
+a { color: var(--accent); }
+hr { border: none; border-top: 1px solid var(--rule); margin: 56px 0; }
+blockquote {
+border-left: 5px solid var(--accent);
+margin: 24px 0;
+padding: 14px 22px;
+background: rgba(108, 193, 255, 0.07);
+border-radius: 0 8px 8px 0;
+color: #d3dae6;
+font-style: italic;
+font-size: 22px;
+}
+
+pre, code {
+font-family: "JetBrains Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+font-size: 17px;
+}
+code {
+background: var(--code-bg);
+padding: 2px 7px;
+border-radius: 4px;
+color: #ffd58a;
+}
+pre {
+background: var(--code-bg);
+padding: 20px 24px;
+border-radius: 10px;
+border: 1px solid var(--rule);
+overflow-x: auto;
+line-height: 1.55;
+}
+pre code { background: transparent; padding: 0; color: var(--fg); font-size: 17px; }
+
+table {
+border-collapse: collapse;
+margin: 24px 0;
+width: 100%;
+font-size: 18px;
+}
+th, td {
+border: 1px solid var(--rule);
+padding: 10px 14px;
+text-align: left;
+vertical-align: top;
+}
+th { background: rgba(108, 193, 255, 0.10); color: #fff; font-weight: 600; }
+tr:nth-child(even) td { background: rgba(255, 255, 255, 0.018); }
+
+details {
+background: var(--card-bg);
+border: 2px solid var(--good);
+border-radius: 10px;
+padding: 0;
+margin: 24px 0;
+overflow: hidden;
+}
+details[open] { box-shadow: 0 0 0 1px var(--good); }
+details > summary {
+cursor: pointer;
+padding: 18px 24px;
+font-weight: 700;
+font-size: 22px;
+color: var(--good);
+background: rgba(95, 217, 122, 0.08);
+list-style: none;
+user-select: none;
+display: flex;
+align-items: center;
+gap: 12px;
+}
+details > summary::-webkit-details-marker { display: none; }
+details > summary::before {
+content: "▶";
+font-size: 16px;
+transition: transform 0.15s;
+color: var(--good);
+}
+details[open] > summary::before { transform: rotate(90deg); }
+details > *:not(summary) { padding-left: 24px; padding-right: 24px; }
+details > *:last-child { padding-bottom: 18px; }
+
+.bad-prompt {
+border-color: var(--bad) !important;
+background: rgba(255, 122, 122, 0.05) !important;
+}
+
+.predict-callout {
+border-left-color: var(--warn) !important;
+background: rgba(255, 184, 77, 0.08) !important;
+font-size: 24px !important;
+}
+
+h2:first-of-type { margin-top: 32px; }
+
+@media print {
+body { background: #fff; color: #000; max-width: 100%; padding: 16pt; font-size: 11pt; }
+details { border-color: #000; }
+details > summary { color: #000; background: #f0f0f0; }
+details:not([open]) > *:not(summary) { display: block !important; }
+pre, code { background: #f4f4f4; color: #000; }
+blockquote { color: #000; background: #f9f9f9; }
+}
+</style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">M6 — Skill comparison</h1>
+</header>
+<h1 id="live-demo-comparison-skills-make-the-difference">Live demo
+comparison — Skills make the difference</h1>
+<p><strong>Setup:</strong> two <code>general-purpose</code> sub-agents
+were spawned in parallel from the same root prompt — <em>“Build a React
+Native profile screen for a fitness app called Stride.”</em> The only
+difference: the <strong>with_skill</strong> agent received the team’s
+<code>frontend-design</code> rules in its prompt; the
+<strong>without_skill</strong> agent did not.</p>
+<p>Both agents had the same model, same tools, same time budget, same
+blank working directory. Neither was told what “good” looks like beyond
+what was in its prompt.</p>
+<h2 id="what-each-one-produced-raw-counts">What each one produced (raw
+counts)</h2>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th></th>
+<th><code>with_skill/</code></th>
+<th><code>without_skill/</code></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Total source files</td>
+<td><strong>32</strong></td>
+<td><strong>12</strong></td>
+</tr>
+<tr>
+<td>Theme / token files</td>
+<td>7 (<code>colors</code>, <code>spacing</code>, <code>radii</code>,
+<code>typography</code>, <code>shadows</code>, <code>motion</code>,
+<code>index</code>)</td>
+<td>1 (<code>colors.ts</code> containing everything)</td>
+</tr>
+<tr>
+<td>Reusable primitives</td>
+<td>10 (Button, Card, Avatar, Skeleton, EmptyState, ErrorState,
+StatTile, WorkoutRow, Text, Divider)</td>
+<td>4 (Avatar, StatCard, WorkoutListItem, PrimaryButton)</td>
+</tr>
+<tr>
+<td>Screen split into sub-components</td>
+<td>4 (<code>ProfileHeader</code>, <code>StatsRow</code>,
+<code>RecentWorkouts</code>, <code>ProfileSkeleton</code>)</td>
+<td>0 (single screen file)</td>
+</tr>
+<tr>
+<td>Loading state</td>
+<td>✅ skeleton mirroring layout</td>
+<td>❌ none — renders <code>mockProfile</code> immediately</td>
+</tr>
+<tr>
+<td>Error state</td>
+<td>✅ <code>ErrorState</code> primitive + retry wired to
+<code>refetch</code></td>
+<td>❌ none</td>
+</tr>
+<tr>
+<td>Empty state</td>
+<td>✅ <code>EmptyState</code> shown when zero workouts</td>
+<td>❌ none</td>
+</tr>
+<tr>
+<td>Async data hook</td>
+<td>✅ <code>useProfile()</code> returning
+<code>{data, isLoading, error, refetch}</code></td>
+<td>❌ static import of <code>mockProfile</code></td>
+</tr>
+<tr>
+<td>Accessibility</td>
+<td>✅ <code>accessibilityRole</code>, <code>accessibilityLabel</code>,
+<code>accessibilityHint</code> on every interactive</td>
+<td>⚠️ minimal — relies on RN defaults</td>
+</tr>
+<tr>
+<td>Haptics on press</td>
+<td>✅ <code>Haptics.impactAsync</code> gated on
+<code>Platform.OS !== &#39;web&#39;</code></td>
+<td>❌ none</td>
+</tr>
+<tr>
+<td>Reanimated press-scale</td>
+<td>✅ <code>withSpring(0.96)</code> on button, respects reduced
+motion</td>
+<td>❌ none</td>
+</tr>
+<tr>
+<td>Reduced-motion respect</td>
+<td>✅ <code>useReducedMotion()</code> checked in animations and
+Skeleton</td>
+<td>❌ none</td>
+</tr>
+<tr>
+<td>Tokens vs magic numbers</td>
+<td>✅ zero raw hex outside <code>theme/colors.ts</code></td>
+<td>⚠️ tokens used, but values like <code>size={104}</code> and
+<code>marginHorizontal: -spacing.xs</code> leak</td>
+</tr>
+<tr>
+<td>Card shadow XOR border</td>
+<td>✅ enforced (Card primitive accepts one OR the other)</td>
+<td>❌ no Card primitive</td>
+</tr>
+<tr>
+<td>Typography sizes per screen</td>
+<td>✅ 3 (per the rule)</td>
+<td>⚠️ <code>h1</code>, <code>h2</code>, <code>body</code>, plus inline
+overrides</td>
+</tr>
+<tr>
+<td>BUILD_NOTES traceability</td>
+<td>✅ rule-by-rule provenance + explicit skips with reasoning</td>
+<td>⚠️ generic “decisions” section</td>
+</tr>
+</tbody>
+</table>
+<h2 id="what-this-means">What this means</h2>
+<p>The skill is not “more code.” It’s <strong>a forcing function for the
+four async states, accessibility, and a real component
+vocabulary</strong> — the things experienced devs <em>know</em> matter
+but skip when nobody is enforcing them.</p>
+<p>A blank-slate agent will always write the happy path. A
+skill-equipped agent writes the path you’d actually ship.</p>
+<h2 id="how-to-run-this-demo-live-in-90-seconds">How to run this demo
+live in 90 seconds</h2>
+<ol type="1">
+<li>Show the file trees side by side:
+<code>tree live_demo_with_skill &amp;&amp; tree live_demo_without_skill</code>.</li>
+<li>Open
+<code>live_demo_without_skill/src/screens/ProfileScreen.tsx</code> —
+point out: no loading, no error, no haptics.</li>
+<li>Open
+<code>live_demo_with_skill/screens/ProfileScreen/ProfileScreen.tsx</code>
+— point out: <code>useProfile</code> hook, three branches
+(<code>isLoading</code> → Skeleton, <code>error</code> → ErrorState,
+<code>data</code> → populated), the <code>simulate</code> prop that lets
+you preview every state.</li>
+<li>Open both <code>BUILD_NOTES.md</code> files. The with-skill one
+cites which rule drove which decision. The without-skill one is a
+generic “what I built” summary.</li>
+<li>Ask the room: <em>“On Monday, which one of these gets through code
+review faster?”</em></li>
+</ol>
+<h2 id="predict-before-reveal-prompt-for-participants">Predict-before-reveal
+prompt for participants</h2>
+<p>Before you show the artifacts:</p>
+<blockquote>
+<p>Both of these agents got the same prompt: build a fitness profile
+screen. One had access to a <code>frontend-design</code> skill with our
+team’s rules. The other didn’t. <strong>In one minute, write down three
+things you predict will be different.</strong> Then we open the
+files.</p>
+</blockquote>
+<p>Common predictions: “the with-skill one will be longer,” “it will use
+design tokens,” “it will be more accessible.” Most groups
+<em>under-predict</em> the structural difference (10 vs 4 primitives,
+async-state branching, reduced-motion handling).</p>
+<script>
+// Tiny enhancement script for WORKSHOP.html.
+// 1. Tints code blocks that follow a "❌ Bad" heading red.
+// 2. Tints blockquotes that begin with "Predict" yellow.
+// 3. Adds a "Show all reveals" button to the top of the doc.
+
+(function () {
+  // 1. Bad-prompt tinting
+  document.querySelectorAll('h3, h4').forEach((h) => {
+    const txt = (h.textContent || '').trim();
+    if (txt.startsWith('❌')) {
+      let next = h.nextElementSibling;
+      while (next && next.tagName !== 'PRE' && !['H2', 'H3', 'DETAILS'].includes(next.tagName)) {
+        next = next.nextElementSibling;
+      }
+      if (next && next.tagName === 'PRE') next.classList.add('bad-prompt');
+    }
+  });
+
+  // 2. Predict callouts
+  document.querySelectorAll('blockquote').forEach((q) => {
+    if (/predict/i.test(q.textContent || '')) q.classList.add('predict-callout');
+  });
+
+  // 3. Show-all-reveals toggle, fixed top-right
+  const btn = document.createElement('button');
+  btn.textContent = 'Reveal all';
+  Object.assign(btn.style, {
+    position: 'fixed',
+    top: '14px',
+    right: '20px',
+    zIndex: '1000',
+    background: '#5fd97a',
+    color: '#0f1419',
+    border: 'none',
+    borderRadius: '6px',
+    padding: '8px 14px',
+    fontSize: '13px',
+    fontFamily: 'inherit',
+    fontWeight: '600',
+    cursor: 'pointer',
+    boxShadow: '0 2px 8px rgba(0,0,0,0.3)',
+  });
+  let open = false;
+  btn.addEventListener('click', () => {
+    open = !open;
+    document.querySelectorAll('details').forEach((d) => (d.open = open));
+    btn.textContent = open ? 'Hide all' : 'Reveal all';
+  });
+  document.body.appendChild(btn);
+})();
+</script>
+</body>
+</html>

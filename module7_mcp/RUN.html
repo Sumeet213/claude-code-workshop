@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>M7 — MCP server run-book</title>
+  <style>
+
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+
+ul.task-list[class]{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+font-size: inherit;
+width: 0.8em;
+margin: 0 0.8em 0.2em -1.6em;
+vertical-align: middle;
+}
+.display.math{display: block; text-align: center; margin: 0.5rem auto;}
+
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+{ counter-reset: source-line 0; }
+pre.numberSource code > span
+{ position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+{ content: counter(source-line);
+position: relative; left: -1em; text-align: right; vertical-align: baseline;
+border: none; display: inline-block;
+-webkit-touch-callout: none; -webkit-user-select: none;
+-khtml-user-select: none; -moz-user-select: none;
+-ms-user-select: none; user-select: none;
+padding: 0 4px; width: 4em;
+background-color: #232629;
+color: #7a7c7d;
+}
+pre.numberSource { margin-left: 3em; border-left: 1px solid #7a7c7d; padding-left: 4px; }
+div.sourceCode
+{ color: #cfcfc2; background-color: #232629; }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span { color: #cfcfc2; } 
+code span.al { color: #95da4c; background-color: #4d1f24; font-weight: bold; } 
+code span.an { color: #3f8058; } 
+code span.at { color: #2980b9; } 
+code span.bn { color: #f67400; } 
+code span.bu { color: #7f8c8d; } 
+code span.cf { color: #fdbc4b; font-weight: bold; } 
+code span.ch { color: #3daee9; } 
+code span.cn { color: #27aeae; font-weight: bold; } 
+code span.co { color: #7a7c7d; } 
+code span.cv { color: #7f8c8d; } 
+code span.do { color: #a43340; } 
+code span.dt { color: #2980b9; } 
+code span.dv { color: #f67400; } 
+code span.er { color: #da4453; text-decoration: underline; } 
+code span.ex { color: #0099ff; font-weight: bold; } 
+code span.fl { color: #f67400; } 
+code span.fu { color: #8e44ad; } 
+code span.im { color: #27ae60; } 
+code span.in { color: #c45b00; } 
+code span.kw { color: #cfcfc2; font-weight: bold; } 
+code span.op { color: #cfcfc2; } 
+code span.ot { color: #27ae60; } 
+code span.pp { color: #27ae60; } 
+code span.re { color: #2980b9; background-color: #153042; } 
+code span.sc { color: #3daee9; } 
+code span.ss { color: #da4453; } 
+code span.st { color: #f44f4f; } 
+code span.va { color: #27aeae; } 
+code span.vs { color: #da4453; } 
+code span.wa { color: #da4453; } 
+</style>
+  <style type="text/css">
+:root {
+--bg: #0f1419;
+--fg: #f0f0f0;
+--muted: #9aa4b2;
+--accent: #6cc1ff;
+--bad: #ff7a7a;
+--good: #5fd97a;
+--warn: #ffb84d;
+--rule: #2a2f3a;
+--code-bg: #161a23;
+--card-bg: #131722;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+margin: 0 auto;
+max-width: 1100px;
+padding: 64px 72px 120px;
+background: var(--bg);
+color: var(--fg);
+font-family: -apple-system, BlinkMacSystemFont, "Inter", "Segoe UI", Roboto, sans-serif;
+font-size: 22px;
+line-height: 1.55;
+}
+h1, h2, h3, h4 { color: #fff; line-height: 1.2; }
+h1 { font-size: 48px; margin-top: 0; padding-bottom: 16px; border-bottom: 3px solid var(--rule); }
+h2 { font-size: 36px; margin-top: 64px; padding-top: 16px; border-top: 1px solid var(--rule); }
+h3 { font-size: 28px; margin-top: 40px; color: var(--accent); }
+h4 { font-size: 22px; margin-top: 28px; }
+p, ul, ol { margin: 14px 0; }
+li { margin: 8px 0; }
+a { color: var(--accent); }
+hr { border: none; border-top: 1px solid var(--rule); margin: 56px 0; }
+blockquote {
+border-left: 5px solid var(--accent);
+margin: 24px 0;
+padding: 14px 22px;
+background: rgba(108, 193, 255, 0.07);
+border-radius: 0 8px 8px 0;
+color: #d3dae6;
+font-style: italic;
+font-size: 22px;
+}
+
+pre, code {
+font-family: "JetBrains Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+font-size: 17px;
+}
+code {
+background: var(--code-bg);
+padding: 2px 7px;
+border-radius: 4px;
+color: #ffd58a;
+}
+pre {
+background: var(--code-bg);
+padding: 20px 24px;
+border-radius: 10px;
+border: 1px solid var(--rule);
+overflow-x: auto;
+line-height: 1.55;
+}
+pre code { background: transparent; padding: 0; color: var(--fg); font-size: 17px; }
+
+table {
+border-collapse: collapse;
+margin: 24px 0;
+width: 100%;
+font-size: 18px;
+}
+th, td {
+border: 1px solid var(--rule);
+padding: 10px 14px;
+text-align: left;
+vertical-align: top;
+}
+th { background: rgba(108, 193, 255, 0.10); color: #fff; font-weight: 600; }
+tr:nth-child(even) td { background: rgba(255, 255, 255, 0.018); }
+
+details {
+background: var(--card-bg);
+border: 2px solid var(--good);
+border-radius: 10px;
+padding: 0;
+margin: 24px 0;
+overflow: hidden;
+}
+details[open] { box-shadow: 0 0 0 1px var(--good); }
+details > summary {
+cursor: pointer;
+padding: 18px 24px;
+font-weight: 700;
+font-size: 22px;
+color: var(--good);
+background: rgba(95, 217, 122, 0.08);
+list-style: none;
+user-select: none;
+display: flex;
+align-items: center;
+gap: 12px;
+}
+details > summary::-webkit-details-marker { display: none; }
+details > summary::before {
+content: "▶";
+font-size: 16px;
+transition: transform 0.15s;
+color: var(--good);
+}
+details[open] > summary::before { transform: rotate(90deg); }
+details > *:not(summary) { padding-left: 24px; padding-right: 24px; }
+details > *:last-child { padding-bottom: 18px; }
+
+.bad-prompt {
+border-color: var(--bad) !important;
+background: rgba(255, 122, 122, 0.05) !important;
+}
+
+.predict-callout {
+border-left-color: var(--warn) !important;
+background: rgba(255, 184, 77, 0.08) !important;
+font-size: 24px !important;
+}
+
+h2:first-of-type { margin-top: 32px; }
+
+@media print {
+body { background: #fff; color: #000; max-width: 100%; padding: 16pt; font-size: 11pt; }
+details { border-color: #000; }
+details > summary { color: #000; background: #f0f0f0; }
+details:not([open]) > *:not(summary) { display: block !important; }
+pre, code { background: #f4f4f4; color: #000; }
+blockquote { color: #000; background: #f9f9f9; }
+}
+</style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">M7 — MCP server run-book</h1>
+</header>
+<h1 id="module-7-live-mcp-server-demo-5-min">Module 7 — Live MCP server
+demo (~5 min)</h1>
+<h2 id="what-this-demonstrates">What this demonstrates</h2>
+<p>A 60-line Python MCP server exposing two tools
+(<code>get_oncall</code>, <code>page_oncall</code>) — Claude Code picks
+them up automatically and uses them like any built-in tool. Same pattern
+works for wrapping any internal system at your company.</p>
+<h2 id="setup-one-time-do-this-before-the-workshop">Setup (one-time, do
+this BEFORE the workshop)</h2>
+<div class="sourceCode" id="cb1"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> /Users/sdesai/work/workshop_demo/module7_mcp</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="ex">pip</span> install mcp                 <span class="co"># installs the official MCP SDK</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="ex">python3</span> oncall_server.py        <span class="co"># sanity-check it starts; Ctrl-C to exit</span></span></code></pre></div>
+<p>If <code>pip install mcp</code> fails, try
+<code>pip install mcp[cli]</code> or use a venv:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ex">python3</span> <span class="at">-m</span> venv .venv <span class="kw">&amp;&amp;</span> <span class="bu">source</span> .venv/bin/activate <span class="kw">&amp;&amp;</span> <span class="ex">pip</span> install mcp</span></code></pre></div>
+<p>Then update <code>.claude/settings.json</code> to use the venv’s
+python:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode json"><code class="sourceCode json"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="st">&quot;command&quot;</span><span class="er">:</span> <span class="st">&quot;/Users/sdesai/work/workshop_demo/module7_mcp/.venv/bin/python&quot;</span></span></code></pre></div>
+<h2 id="on-the-day-exactly-what-to-type">On the day — exactly what to
+type</h2>
+<p><strong>Read this aloud first:</strong> <em>“I have a tiny Python MCP
+server exposing our oncall rotation. Watch Claude pick it up.”</em></p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> /Users/sdesai/work/workshop_demo/module7_mcp</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="ex">claude</span></span></code></pre></div>
+<p>In Claude:</p>
+<pre><code>&gt; /mcp</code></pre>
+<p><strong>You should see:</strong> the <code>oncall</code> server
+connected, with <code>get_oncall</code> and <code>page_oncall</code>
+listed.</p>
+<pre><code>&gt; Who is on call for the payments team? Page them about the failing migration on prod-db-3.</code></pre>
+<p><strong>You should see:</strong> Claude calls
+<code>mcp__oncall__get_oncall(team=&quot;payments&quot;)</code> first, sees Priya
+is on call, then calls
+<code>mcp__oncall__page_oncall(team=&quot;payments&quot;, message=&quot;...&quot;)</code>.
+Both with approval prompts the first time.</p>
+<pre><code>&gt; /exit
+cat pages.log                   # the page you just sent
+bat oncall_server.py            # show the 60-line implementation
+bat .claude/settings.json       # show how it&#39;s wired</code></pre>
+<p><strong>Punchline:</strong> <em>“Stop writing one-off scripts and
+asking the model to call them via Bash. Wrap your internal systems with
+structured tools — names that are verbs, descriptions that tell the
+model the boundaries, structured returns. The model uses them like any
+other tool.”</em></p>
+<h2 id="what-to-point-at-in-oncall_server.py">What to point at in
+<code>oncall_server.py</code></h2>
+<ul>
+<li><code>@mcp.tool()</code> decorator — that’s the entire registration
+story.</li>
+<li>The docstring becomes the tool description the model reads.</li>
+<li>Return value is JSON-serialised automatically.</li>
+<li>Error path returns <code>{&quot;error&quot;: &quot;...&quot;}</code> instead of raising
+— the model can read it and recover.</li>
+</ul>
+<h2 id="if-the-demo-dies">If the demo dies</h2>
+<ul>
+<li><code>/mcp</code> shows nothing → check the path in
+<code>.claude/settings.json</code> is absolute and correct.</li>
+<li>Server crashes → check Python version
+(<code>python3 --version</code>, want ≥ 3.10) and
+<code>pip show mcp</code>.</li>
+<li>Hangs on first call → first-time MCP handshake can take 2-3 seconds;
+just wait.</li>
+</ul>
+<script>
+// Tiny enhancement script for WORKSHOP.html.
+// 1. Tints code blocks that follow a "❌ Bad" heading red.
+// 2. Tints blockquotes that begin with "Predict" yellow.
+// 3. Adds a "Show all reveals" button to the top of the doc.
+
+(function () {
+  // 1. Bad-prompt tinting
+  document.querySelectorAll('h3, h4').forEach((h) => {
+    const txt = (h.textContent || '').trim();
+    if (txt.startsWith('❌')) {
+      let next = h.nextElementSibling;
+      while (next && next.tagName !== 'PRE' && !['H2', 'H3', 'DETAILS'].includes(next.tagName)) {
+        next = next.nextElementSibling;
+      }
+      if (next && next.tagName === 'PRE') next.classList.add('bad-prompt');
+    }
+  });
+
+  // 2. Predict callouts
+  document.querySelectorAll('blockquote').forEach((q) => {
+    if (/predict/i.test(q.textContent || '')) q.classList.add('predict-callout');
+  });
+
+  // 3. Show-all-reveals toggle, fixed top-right
+  const btn = document.createElement('button');
+  btn.textContent = 'Reveal all';
+  Object.assign(btn.style, {
+    position: 'fixed',
+    top: '14px',
+    right: '20px',
+    zIndex: '1000',
+    background: '#5fd97a',
+    color: '#0f1419',
+    border: 'none',
+    borderRadius: '6px',
+    padding: '8px 14px',
+    fontSize: '13px',
+    fontFamily: 'inherit',
+    fontWeight: '600',
+    cursor: 'pointer',
+    boxShadow: '0 2px 8px rgba(0,0,0,0.3)',
+  });
+  let open = false;
+  btn.addEventListener('click', () => {
+    open = !open;
+    document.querySelectorAll('details').forEach((d) => (d.open = open));
+    btn.textContent = open ? 'Hide all' : 'Reveal all';
+  });
+  document.body.appendChild(btn);
+})();
+</script>
+</body>
+</html>

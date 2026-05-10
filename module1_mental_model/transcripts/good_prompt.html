@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>M1 — Good prompt transcript</title>
+  <style>
+
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+
+ul.task-list[class]{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+font-size: inherit;
+width: 0.8em;
+margin: 0 0.8em 0.2em -1.6em;
+vertical-align: middle;
+}
+.display.math{display: block; text-align: center; margin: 0.5rem auto;}
+</style>
+  <style type="text/css">
+:root {
+--bg: #0f1419;
+--fg: #f0f0f0;
+--muted: #9aa4b2;
+--accent: #6cc1ff;
+--bad: #ff7a7a;
+--good: #5fd97a;
+--warn: #ffb84d;
+--rule: #2a2f3a;
+--code-bg: #161a23;
+--card-bg: #131722;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+margin: 0 auto;
+max-width: 1100px;
+padding: 64px 72px 120px;
+background: var(--bg);
+color: var(--fg);
+font-family: -apple-system, BlinkMacSystemFont, "Inter", "Segoe UI", Roboto, sans-serif;
+font-size: 22px;
+line-height: 1.55;
+}
+h1, h2, h3, h4 { color: #fff; line-height: 1.2; }
+h1 { font-size: 48px; margin-top: 0; padding-bottom: 16px; border-bottom: 3px solid var(--rule); }
+h2 { font-size: 36px; margin-top: 64px; padding-top: 16px; border-top: 1px solid var(--rule); }
+h3 { font-size: 28px; margin-top: 40px; color: var(--accent); }
+h4 { font-size: 22px; margin-top: 28px; }
+p, ul, ol { margin: 14px 0; }
+li { margin: 8px 0; }
+a { color: var(--accent); }
+hr { border: none; border-top: 1px solid var(--rule); margin: 56px 0; }
+blockquote {
+border-left: 5px solid var(--accent);
+margin: 24px 0;
+padding: 14px 22px;
+background: rgba(108, 193, 255, 0.07);
+border-radius: 0 8px 8px 0;
+color: #d3dae6;
+font-style: italic;
+font-size: 22px;
+}
+
+pre, code {
+font-family: "JetBrains Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+font-size: 17px;
+}
+code {
+background: var(--code-bg);
+padding: 2px 7px;
+border-radius: 4px;
+color: #ffd58a;
+}
+pre {
+background: var(--code-bg);
+padding: 20px 24px;
+border-radius: 10px;
+border: 1px solid var(--rule);
+overflow-x: auto;
+line-height: 1.55;
+}
+pre code { background: transparent; padding: 0; color: var(--fg); font-size: 17px; }
+
+table {
+border-collapse: collapse;
+margin: 24px 0;
+width: 100%;
+font-size: 18px;
+}
+th, td {
+border: 1px solid var(--rule);
+padding: 10px 14px;
+text-align: left;
+vertical-align: top;
+}
+th { background: rgba(108, 193, 255, 0.10); color: #fff; font-weight: 600; }
+tr:nth-child(even) td { background: rgba(255, 255, 255, 0.018); }
+
+details {
+background: var(--card-bg);
+border: 2px solid var(--good);
+border-radius: 10px;
+padding: 0;
+margin: 24px 0;
+overflow: hidden;
+}
+details[open] { box-shadow: 0 0 0 1px var(--good); }
+details > summary {
+cursor: pointer;
+padding: 18px 24px;
+font-weight: 700;
+font-size: 22px;
+color: var(--good);
+background: rgba(95, 217, 122, 0.08);
+list-style: none;
+user-select: none;
+display: flex;
+align-items: center;
+gap: 12px;
+}
+details > summary::-webkit-details-marker { display: none; }
+details > summary::before {
+content: "▶";
+font-size: 16px;
+transition: transform 0.15s;
+color: var(--good);
+}
+details[open] > summary::before { transform: rotate(90deg); }
+details > *:not(summary) { padding-left: 24px; padding-right: 24px; }
+details > *:last-child { padding-bottom: 18px; }
+
+.bad-prompt {
+border-color: var(--bad) !important;
+background: rgba(255, 122, 122, 0.05) !important;
+}
+
+.predict-callout {
+border-left-color: var(--warn) !important;
+background: rgba(255, 184, 77, 0.08) !important;
+font-size: 24px !important;
+}
+
+h2:first-of-type { margin-top: 32px; }
+
+@media print {
+body { background: #fff; color: #000; max-width: 100%; padding: 16pt; font-size: 11pt; }
+details { border-color: #000; }
+details > summary { color: #000; background: #f0f0f0; }
+details:not([open]) > *:not(summary) { display: block !important; }
+pre, code { background: #f4f4f4; color: #000; }
+blockquote { color: #000; background: #f9f9f9; }
+}
+</style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">M1 — Good prompt transcript</h1>
+</header>
+<pre><code>$ claude
+&gt; Refactor the authentication middleware to validate tokens against the
+  new SessionStore service instead of the local in-memory cache.
+
+  Before editing anything:
+  1. Read src/middleware/auth.ts to understand the current contract.
+  2. Read src/services/SessionStore.ts so you know its actual API
+     (it is async; respect that).
+  3. Run `rg &quot;TOKEN_CACHE&quot;` to find every call site that needs to move.
+
+  Use plan mode. Surface the full edit list — every file, every line —
+  before proposing changes. Don&#39;t change the middleware function&#39;s
+  signature; if SessionStore is async and the middleware is sync, that&#39;s
+  a constraint we need to discuss, not silently bypass.
+
+  Wait for my approval before editing.
+
+[Plan mode active.]
+
+[Read: src/middleware/auth.ts]
+[Read: src/services/SessionStore.ts]
+[Bash: rg &quot;TOKEN_CACHE&quot;]
+
+I&#39;m in plan mode — won&#39;t edit anything until you approve. Here&#39;s what
+I found and what I propose:
+
+CURRENT STATE
+  - Middleware is a synchronous Express handler.
+  - It checks tokens via TOKEN_CACHE.has(token) — sync, in-memory.
+  - SessionStore exposes async lookup(token) → Promise&lt;{valid, userId?}&gt;.
+  - rg finds TOKEN_CACHE in 7 files:
+      src/middleware/auth.ts            (the lookup site)
+      src/middleware/auth.test.ts       (mocks the cache)
+      src/api/login.ts                  (writes on login)
+      src/api/logout.ts                 (deletes on logout)
+      src/jobs/cache-warmer.ts          (pre-populates)
+      src/admin/cache-stats.ts          (read-only metrics endpoint)
+      src/cli/auth-debug.ts             (dev tool — prints cache contents)
+
+CONSTRAINT TENSION
+  Middleware is sync; SessionStore is async. We have three options:
+
+  A. Make the middleware async. This is correct but breaks the implicit
+     Express contract for any consumer that wraps it without await.
+     Express itself handles async middleware fine since 4.x, but I want
+     you to confirm there&#39;s no consumer that introspects the function
+     arity (some libraries do).
+
+  B. Keep the middleware sync; introduce a synchronous local cache that
+     SessionStore writes through. Middleware reads from the local cache,
+     SessionStore is the source of truth. Adds complexity but preserves
+     the contract.
+
+  C. Change scope: deprecate this middleware entirely, replace with a
+     new async-aware one in src/middleware/auth-v2.ts. Migrate callers
+     opt-in over time.
+
+PROPOSED EDIT PLAN (assuming you pick option A)
+
+  1. src/middleware/auth.ts                — make handler async, replace
+                                              cache lookup with await.
+  2. src/middleware/auth.test.ts           — update mocks to async API,
+                                              remove TOKEN_CACHE seed.
+  3. src/api/login.ts                      — replace TOKEN_CACHE.set
+                                              with SessionStore.write.
+  4. src/api/logout.ts                     — replace TOKEN_CACHE.delete
+                                              with SessionStore.invalidate.
+  5. src/jobs/cache-warmer.ts              — DELETE (cache no longer
+                                              warmed locally).
+  6. src/admin/cache-stats.ts              — repoint at SessionStore
+                                              metrics endpoint.
+  7. src/cli/auth-debug.ts                 — repoint or remove.
+
+OPEN QUESTIONS for you
+  - Which option (A/B/C)?
+  - Is auth-debug.ts something we keep, or are SessionStore&#39;s tools enough?
+  - Do we want a feature flag during the migration, or a hard cutover?
+
+Approve a plan, or pick option B/C, and I&#39;ll proceed.
+
+&gt; A. no consumers introspect arity (we audited last quarter).
+&gt; Keep auth-debug.ts but repoint it. No feature flag — hard cutover.
+&gt; Approved.
+
+[Edits 1 through 7 applied.]
+[Bash: npm test]   ✓ 247 passed
+[Bash: rg &quot;TOKEN_CACHE&quot;]   no results.
+
+Done. cache-warmer.ts deleted; auth-debug.ts now hits SessionStore.
+Tests pass. Should I open the PR?
+
+────────────────────────────────────────────────────────────────────────
+What went right:
+  - Same task. Same model. Same tools.
+  - Prompt did four things:
+      1. Specified READ ORDER — context loaded before any edits.
+      2. Specified the search command — model used rg, not guesswork.
+      3. Forbade silent contract changes (&quot;if async, that&#39;s a discussion&quot;).
+      4. Gated on plan mode + explicit approval.
+  - Result: model surfaced a CONSTRAINT TENSION the bad-prompt run
+    didn&#39;t even notice. Three options on the table. User picks one
+    informedly. Edit list is exhaustive — six other files identified
+    that the bad run silently missed.
+  - Total turns: 1 plan, 1 approval, 1 batch of edits. No rollback.
+────────────────────────────────────────────────────────────────────────</code></pre>
+<script>
+// Tiny enhancement script for WORKSHOP.html.
+// 1. Tints code blocks that follow a "❌ Bad" heading red.
+// 2. Tints blockquotes that begin with "Predict" yellow.
+// 3. Adds a "Show all reveals" button to the top of the doc.
+
+(function () {
+  // 1. Bad-prompt tinting
+  document.querySelectorAll('h3, h4').forEach((h) => {
+    const txt = (h.textContent || '').trim();
+    if (txt.startsWith('❌')) {
+      let next = h.nextElementSibling;
+      while (next && next.tagName !== 'PRE' && !['H2', 'H3', 'DETAILS'].includes(next.tagName)) {
+        next = next.nextElementSibling;
+      }
+      if (next && next.tagName === 'PRE') next.classList.add('bad-prompt');
+    }
+  });
+
+  // 2. Predict callouts
+  document.querySelectorAll('blockquote').forEach((q) => {
+    if (/predict/i.test(q.textContent || '')) q.classList.add('predict-callout');
+  });
+
+  // 3. Show-all-reveals toggle, fixed top-right
+  const btn = document.createElement('button');
+  btn.textContent = 'Reveal all';
+  Object.assign(btn.style, {
+    position: 'fixed',
+    top: '14px',
+    right: '20px',
+    zIndex: '1000',
+    background: '#5fd97a',
+    color: '#0f1419',
+    border: 'none',
+    borderRadius: '6px',
+    padding: '8px 14px',
+    fontSize: '13px',
+    fontFamily: 'inherit',
+    fontWeight: '600',
+    cursor: 'pointer',
+    boxShadow: '0 2px 8px rgba(0,0,0,0.3)',
+  });
+  let open = false;
+  btn.addEventListener('click', () => {
+    open = !open;
+    document.querySelectorAll('details').forEach((d) => (d.open = open));
+    btn.textContent = open ? 'Hide all' : 'Reveal all';
+  });
+  document.body.appendChild(btn);
+})();
+</script>
+</body>
+</html>

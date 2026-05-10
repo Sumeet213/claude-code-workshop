@@ -1,0 +1,36 @@
+{
+  "permissions": {
+    "allow": [
+      "Read(**)",
+      "Grep",
+      "Glob",
+      "Bash(pnpm test:*)",
+      "Bash(pnpm lint:*)",
+      "Bash(pnpm typecheck)",
+      "Bash(pnpm build)",
+      "Bash(git status)",
+      "Bash(git diff:*)",
+      "Bash(git log:*)",
+      "Bash(gh pr view:*)",
+      "Bash(gh pr diff:*)",
+      "Bash(gh run view:*)",
+      "WebFetch(domain:docs.stride.io)",
+      "WebFetch(domain:github.com)"
+    ],
+    "deny": [
+      "Bash(rm -rf:*)",
+      "Bash(rm -fr:*)",
+      "Bash(git push --force:*)",
+      "Bash(git push -f:*)",
+      "Bash(git push * main)",
+      "Bash(git push * master)",
+      "Bash(npm:*)",
+      "Bash(yarn:*)",
+      "Bash(curl:* | sh*)",
+      "Bash(curl:* | bash*)",
+      "Edit(.env:*)",
+      "Edit(secrets/**)",
+      "Read(secrets/**)"
+    ]
+  }
+}

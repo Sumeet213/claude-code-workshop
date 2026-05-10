@@ -1,0 +1,105 @@
+$ claude
+> Refactor the authentication middleware to validate tokens against the
+  new SessionStore service instead of the local in-memory cache.
+
+  Before editing anything:
+  1. Read src/middleware/auth.ts to understand the current contract.
+  2. Read src/services/SessionStore.ts so you know its actual API
+     (it is async; respect that).
+  3. Run `rg "TOKEN_CACHE"` to find every call site that needs to move.
+
+  Use plan mode. Surface the full edit list — every file, every line —
+  before proposing changes. Don't change the middleware function's
+  signature; if SessionStore is async and the middleware is sync, that's
+  a constraint we need to discuss, not silently bypass.
+
+  Wait for my approval before editing.
+
+[Plan mode active.]
+
+[Read: src/middleware/auth.ts]
+[Read: src/services/SessionStore.ts]
+[Bash: rg "TOKEN_CACHE"]
+
+I'm in plan mode — won't edit anything until you approve. Here's what
+I found and what I propose:
+
+CURRENT STATE
+  - Middleware is a synchronous Express handler.
+  - It checks tokens via TOKEN_CACHE.has(token) — sync, in-memory.
+  - SessionStore exposes async lookup(token) → Promise<{valid, userId?}>.
+  - rg finds TOKEN_CACHE in 7 files:
+      src/middleware/auth.ts            (the lookup site)
+      src/middleware/auth.test.ts       (mocks the cache)
+      src/api/login.ts                  (writes on login)
+      src/api/logout.ts                 (deletes on logout)
+      src/jobs/cache-warmer.ts          (pre-populates)
+      src/admin/cache-stats.ts          (read-only metrics endpoint)
+      src/cli/auth-debug.ts             (dev tool — prints cache contents)
+
+CONSTRAINT TENSION
+  Middleware is sync; SessionStore is async. We have three options:
+
+  A. Make the middleware async. This is correct but breaks the implicit
+     Express contract for any consumer that wraps it without await.
+     Express itself handles async middleware fine since 4.x, but I want
+     you to confirm there's no consumer that introspects the function
+     arity (some libraries do).
+
+  B. Keep the middleware sync; introduce a synchronous local cache that
+     SessionStore writes through. Middleware reads from the local cache,
+     SessionStore is the source of truth. Adds complexity but preserves
+     the contract.
+
+  C. Change scope: deprecate this middleware entirely, replace with a
+     new async-aware one in src/middleware/auth-v2.ts. Migrate callers
+     opt-in over time.
+
+PROPOSED EDIT PLAN (assuming you pick option A)
+
+  1. src/middleware/auth.ts                — make handler async, replace
+                                              cache lookup with await.
+  2. src/middleware/auth.test.ts           — update mocks to async API,
+                                              remove TOKEN_CACHE seed.
+  3. src/api/login.ts                      — replace TOKEN_CACHE.set
+                                              with SessionStore.write.
+  4. src/api/logout.ts                     — replace TOKEN_CACHE.delete
+                                              with SessionStore.invalidate.
+  5. src/jobs/cache-warmer.ts              — DELETE (cache no longer
+                                              warmed locally).
+  6. src/admin/cache-stats.ts              — repoint at SessionStore
+                                              metrics endpoint.
+  7. src/cli/auth-debug.ts                 — repoint or remove.
+
+OPEN QUESTIONS for you
+  - Which option (A/B/C)?
+  - Is auth-debug.ts something we keep, or are SessionStore's tools enough?
+  - Do we want a feature flag during the migration, or a hard cutover?
+
+Approve a plan, or pick option B/C, and I'll proceed.
+
+> A. no consumers introspect arity (we audited last quarter).
+> Keep auth-debug.ts but repoint it. No feature flag — hard cutover.
+> Approved.
+
+[Edits 1 through 7 applied.]
+[Bash: npm test]   ✓ 247 passed
+[Bash: rg "TOKEN_CACHE"]   no results.
+
+Done. cache-warmer.ts deleted; auth-debug.ts now hits SessionStore.
+Tests pass. Should I open the PR?
+
+────────────────────────────────────────────────────────────────────────
+What went right:
+  - Same task. Same model. Same tools.
+  - Prompt did four things:
+      1. Specified READ ORDER — context loaded before any edits.
+      2. Specified the search command — model used rg, not guesswork.
+      3. Forbade silent contract changes ("if async, that's a discussion").
+      4. Gated on plan mode + explicit approval.
+  - Result: model surfaced a CONSTRAINT TENSION the bad-prompt run
+    didn't even notice. Three options on the table. User picks one
+    informedly. Edit list is exhaustive — six other files identified
+    that the bad run silently missed.
+  - Total turns: 1 plan, 1 approval, 1 batch of edits. No rollback.
+────────────────────────────────────────────────────────────────────────

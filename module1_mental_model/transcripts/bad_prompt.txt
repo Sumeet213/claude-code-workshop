@@ -1,0 +1,78 @@
+$ claude
+> Refactor the authentication middleware to validate tokens against the
+  new SessionStore service instead of the local in-memory cache.
+
+I'll refactor the auth middleware. Let me start.
+
+[Read: src/middleware/auth.ts]
+
+I see — the middleware currently checks tokens against TOKEN_CACHE. I'll
+replace that with a call to the new SessionStore service.
+
+[Edit: src/middleware/auth.ts]
+   - removed:  if (TOKEN_CACHE.has(token)) { ... }
+   - added:    if (sessionStore.has(token)) { ... }
+
+Done. The middleware now uses SessionStore instead of the local cache.
+You may want to remove the TOKEN_CACHE definition if it's no longer used.
+
+> ok, run the tests
+
+[Bash: npm test]
+[approval prompt: Allow Bash(npm test)?] y
+
+[output] FAIL  src/middleware/auth.test.ts
+        ● rejects expired tokens
+          TypeError: sessionStore.has is not a function
+
+> hmm. did you check the SessionStore API?
+
+[Read: src/services/SessionStore.ts]
+
+I see the issue — SessionStore exposes an async lookup() method, not has().
+And the response is { valid: boolean, userId?: string }, not a boolean.
+Let me fix that.
+
+[Edit: src/middleware/auth.ts]
+   - replaced sessionStore.has(token) with await sessionStore.lookup(token)
+
+> wait, the function isn't async. did you make it async?
+
+[Read: src/middleware/auth.ts]
+
+Yes, I added `async` to the middleware function. Tests should pass now.
+
+> the function signature is the Express middleware contract.
+> changing it to async breaks every caller. revert.
+> also you only edited auth.ts — there are six other places that import
+> TOKEN_CACHE. did you find those?
+
+[Bash: rg "TOKEN_CACHE"]
+[output]
+  src/middleware/auth.ts
+  src/middleware/auth.test.ts
+  src/api/login.ts
+  src/api/logout.ts
+  src/jobs/cache-warmer.ts
+  src/admin/cache-stats.ts
+  src/cli/auth-debug.ts
+
+Six other call sites. I missed them.
+
+> revert all changes. let's start over.
+
+────────────────────────────────────────────────────────────────────────
+What went wrong:
+  - Plausible-looking prompt. No vague language. No "fix the test."
+  - But: model edited the FIRST file it saw, then ran tests, then patched
+    around the failure, then introduced a contract break.
+  - Never read SessionStore.ts up front to learn its async API.
+  - Never grep'd for TOKEN_CACHE callers — six other files would have
+    needed coordinated changes.
+  - User is now reverting and is more frustrated than if they'd done
+    it by hand.
+
+  Levers that failed: CONTEXT (didn't read SessionStore first),
+                       LOOP CONTROL (no plan, edited then patched),
+                       and a tools issue (didn't grep before editing).
+────────────────────────────────────────────────────────────────────────

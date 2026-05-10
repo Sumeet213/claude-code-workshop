@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>M3 — Surgery debrief</title>
+  <style>
+
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+
+ul.task-list[class]{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+font-size: inherit;
+width: 0.8em;
+margin: 0 0.8em 0.2em -1.6em;
+vertical-align: middle;
+}
+.display.math{display: block; text-align: center; margin: 0.5rem auto;}
+</style>
+  <style type="text/css">
+:root {
+--bg: #0f1419;
+--fg: #f0f0f0;
+--muted: #9aa4b2;
+--accent: #6cc1ff;
+--bad: #ff7a7a;
+--good: #5fd97a;
+--warn: #ffb84d;
+--rule: #2a2f3a;
+--code-bg: #161a23;
+--card-bg: #131722;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+margin: 0 auto;
+max-width: 1100px;
+padding: 64px 72px 120px;
+background: var(--bg);
+color: var(--fg);
+font-family: -apple-system, BlinkMacSystemFont, "Inter", "Segoe UI", Roboto, sans-serif;
+font-size: 22px;
+line-height: 1.55;
+}
+h1, h2, h3, h4 { color: #fff; line-height: 1.2; }
+h1 { font-size: 48px; margin-top: 0; padding-bottom: 16px; border-bottom: 3px solid var(--rule); }
+h2 { font-size: 36px; margin-top: 64px; padding-top: 16px; border-top: 1px solid var(--rule); }
+h3 { font-size: 28px; margin-top: 40px; color: var(--accent); }
+h4 { font-size: 22px; margin-top: 28px; }
+p, ul, ol { margin: 14px 0; }
+li { margin: 8px 0; }
+a { color: var(--accent); }
+hr { border: none; border-top: 1px solid var(--rule); margin: 56px 0; }
+blockquote {
+border-left: 5px solid var(--accent);
+margin: 24px 0;
+padding: 14px 22px;
+background: rgba(108, 193, 255, 0.07);
+border-radius: 0 8px 8px 0;
+color: #d3dae6;
+font-style: italic;
+font-size: 22px;
+}
+
+pre, code {
+font-family: "JetBrains Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+font-size: 17px;
+}
+code {
+background: var(--code-bg);
+padding: 2px 7px;
+border-radius: 4px;
+color: #ffd58a;
+}
+pre {
+background: var(--code-bg);
+padding: 20px 24px;
+border-radius: 10px;
+border: 1px solid var(--rule);
+overflow-x: auto;
+line-height: 1.55;
+}
+pre code { background: transparent; padding: 0; color: var(--fg); font-size: 17px; }
+
+table {
+border-collapse: collapse;
+margin: 24px 0;
+width: 100%;
+font-size: 18px;
+}
+th, td {
+border: 1px solid var(--rule);
+padding: 10px 14px;
+text-align: left;
+vertical-align: top;
+}
+th { background: rgba(108, 193, 255, 0.10); color: #fff; font-weight: 600; }
+tr:nth-child(even) td { background: rgba(255, 255, 255, 0.018); }
+
+details {
+background: var(--card-bg);
+border: 2px solid var(--good);
+border-radius: 10px;
+padding: 0;
+margin: 24px 0;
+overflow: hidden;
+}
+details[open] { box-shadow: 0 0 0 1px var(--good); }
+details > summary {
+cursor: pointer;
+padding: 18px 24px;
+font-weight: 700;
+font-size: 22px;
+color: var(--good);
+background: rgba(95, 217, 122, 0.08);
+list-style: none;
+user-select: none;
+display: flex;
+align-items: center;
+gap: 12px;
+}
+details > summary::-webkit-details-marker { display: none; }
+details > summary::before {
+content: "▶";
+font-size: 16px;
+transition: transform 0.15s;
+color: var(--good);
+}
+details[open] > summary::before { transform: rotate(90deg); }
+details > *:not(summary) { padding-left: 24px; padding-right: 24px; }
+details > *:last-child { padding-bottom: 18px; }
+
+.bad-prompt {
+border-color: var(--bad) !important;
+background: rgba(255, 122, 122, 0.05) !important;
+}
+
+.predict-callout {
+border-left-color: var(--warn) !important;
+background: rgba(255, 184, 77, 0.08) !important;
+font-size: 24px !important;
+}
+
+h2:first-of-type { margin-top: 32px; }
+
+@media print {
+body { background: #fff; color: #000; max-width: 100%; padding: 16pt; font-size: 11pt; }
+details { border-color: #000; }
+details > summary { color: #000; background: #f0f0f0; }
+details:not([open]) > *:not(summary) { display: block !important; }
+pre, code { background: #f4f4f4; color: #000; }
+blockquote { color: #000; background: #f9f9f9; }
+}
+</style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">M3 — Surgery debrief</h1>
+</header>
+<h1 id="claude.md-surgery-what-to-cut-and-why">CLAUDE.md surgery — what
+to cut and why</h1>
+<p>The bloated <code>before_CLAUDE.md</code> is 130 lines. <strong>It’s
+not obviously bad</strong> — every section was added in good faith, and
+most teams have something like it committed today. That’s the trap.</p>
+<p>The trimmed version is 35 lines. Here’s what came out, and <em>why a
+senior engineer should defend each cut even when their colleagues
+object</em>.</p>
+<h2 id="the-cuts-by-category">The cuts, by category</h2>
+<h3 id="project-history-and-lessons-learned-prose-20-lines-cut">❌
+Project history and “lessons learned” prose (~20 lines cut)</h3>
+<blockquote>
+<p><em>“We originally built on Sequelize but migrated to Prisma in Q3
+2024 after the third major migration footgun…”</em></p>
+<p><em>“We tried microservices in 2023 and rolled it back six months
+later…”</em></p>
+<p><em>“The session store moved from in-process LRU to Redis after a P0
+in November 2024…”</em></p>
+</blockquote>
+<p><strong>Why cut:</strong> Project history belongs in commit messages,
+RFCs, and the <code>/docs/rfcs/</code> directory you already linked.
+Inlining it costs tokens on <strong>every turn</strong> — the model
+reads the Sequelize war story when you ask it to format a date.</p>
+<p><strong>What to push back on if a colleague defends it:</strong>
+“Will the model do something demonstrably <em>wrong</em> if it doesn’t
+know we used to use Sequelize?” Almost always no. The history is for
+humans onboarding, not for the agent loop.</p>
+<h3 id="architecture-overview-prose-15-lines-cut">❌ Architecture
+overview prose (~15 lines cut)</h3>
+<p>The <code>src/api/</code>, <code>src/services/</code>,
+<code>src/db/</code> walkthrough.</p>
+<p><strong>Why cut:</strong> The model can run <code>ls src/</code> and
+see this in one tool call, on demand, when it actually matters. Inlining
+it pays the cost on every turn for context the model uses on maybe 5% of
+tasks.</p>
+<p><strong>What to keep instead:</strong> <em>one</em> line linking to a
+fuller architecture doc. <em>“Architecture overview:
+/docs/architecture.md (read on demand).”</em> Lazy loading.</p>
+<h3 id="how-to-develop-tutorial-15-lines-cut">❌ “How to develop”
+tutorial (~15 lines cut)</h3>
+<p>The <code>pnpm install</code>, <code>pnpm dev</code>,
+<code>pnpm test</code> table.</p>
+<p><strong>Why cut:</strong> All of those are in
+<code>package.json scripts</code>, which the model reads when it needs
+them. The CLAUDE.md is duplicating documentation that’s already
+authoritative elsewhere.</p>
+<p><strong>What to keep instead:</strong> the lock-ins that aren’t
+visible from <code>package.json</code> — <em>“pnpm only. npm and yarn
+will break the lockfile.”</em> That’s a load-bearing rule the model
+can’t infer.</p>
+<h3 id="tutorials-disguised-as-conventions-25-lines-cut">❌ Tutorials
+disguised as conventions (~25 lines cut)</h3>
+<blockquote>
+<p><em>“Adding a new endpoint: 1. Create the handler in src/api… 2.
+Register the route in src/app.ts… 3. Add types…”</em></p>
+<p><em>“Adding a database migration: 1. Edit prisma/schema.prisma… 2.
+Run pnpm prisma migrate dev…”</em></p>
+</blockquote>
+<p><strong>Why cut:</strong> These are how-to guides for
+<em>humans</em>. The model can read existing endpoints and follow the
+pattern by example. Inlining tutorials is the most common bloat in
+real-world CLAUDE.md files.</p>
+<p><strong>What to keep instead:</strong> the <em>anti-pattern</em> the
+tutorial is hinting at — <em>“do not leave <code>-- TODO</code> in the
+Down block of a migration; it breaks rollback tests.”</em> Specific.
+Loadbearing. The tutorial implied this rule but buried it on line 7 of
+step 4.</p>
+<h3 id="empty-platitudes-6-lines-cut">❌ Empty platitudes (~6 lines
+cut)</h3>
+<blockquote>
+<p><em>“Write good code. Be careful with security.”</em></p>
+<p><em>“Handle errors.”</em></p>
+<p><em>“Write tests for new features.”</em></p>
+</blockquote>
+<p><strong>Why cut:</strong> The model already wants to do these. Saying
+“be careful with security” doesn’t make it more careful — it just costs
+tokens. Replace with <strong>specific</strong> anti-patterns (“no
+<code>as any</code>”, “no mocking the DB in integration tests”).</p>
+<p><strong>Easy giveaway:</strong> any sentence that starts with
+“please” or “try to” is almost certainly cuttable.</p>
+<h3 id="style-rules-already-enforced-by-tooling-5-lines-cut">❌ Style
+rules already enforced by tooling (~5 lines cut)</h3>
+<blockquote>
+<p><em>“2-space indentation, single quotes, semicolons. Use descriptive
+variable names. Use named exports.”</em></p>
+</blockquote>
+<p><strong>Why cut:</strong> prettier and eslint are authoritative. If
+the model emits wrong style, the format-on-write hook fixes it. Don’t
+pay token cost on every turn for what runs once at save time.</p>
+<h3 id="volatile-state-8-lines-cut">❌ Volatile state (~8 lines
+cut)</h3>
+<blockquote>
+<p><em>“We are in Sprint 23. STR-432 (Priya, in review). STR-441 (Diego,
+blocked). The next planning meeting is Thursday 2pm IST.”</em></p>
+</blockquote>
+<p><strong>Why cut:</strong> True today, wrong next month. This is
+standup notes, not load-bearing rules. Project memory or your issue
+tracker holds volatile state.</p>
+<h3 id="credential-location-prose-5-lines-cut">❌ Credential location
+prose (~5 lines cut)</h3>
+<blockquote>
+<p><em>“The production DATABASE_URL is in AWS Secrets Manager under
+stride/prod/db.”</em></p>
+</blockquote>
+<p><strong>Why cut:</strong> Even pointing at <em>where</em> credentials
+live narrows attacker search if this file ever leaks. The model can ask
+if it needs to know.</p>
+<h3 id="useful-links-section-6-lines-cut">❌ Useful-links section (~6
+lines cut)</h3>
+<p>The Grafana, Papertrail, Sentry URLs.</p>
+<p><strong>Why cut:</strong> These are reference material. Belongs in a
+top-level <code>LINKS.md</code> or your team wiki — not in the file the
+model reads on every turn.</p>
+<h2 id="what-we-kept-and-why-each-line-earned-its-place">What we kept
+(and why each line earned its place)</h2>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr>
+<th>Kept</th>
+<th>Why it’s load-bearing</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>“pnpm only. npm/yarn break the lockfile.”</td>
+<td>Model defaults to npm; this stops it.</td>
+</tr>
+<tr>
+<td>“Files under src/generated/ are autogenerated. Never edit.”</td>
+<td>Genuine invariant the model can’t infer from the code.</td>
+</tr>
+<tr>
+<td>“Handlers should be thin (parse → call service → return).”</td>
+<td>Architectural rule; contradicts the obvious “put logic in handler”
+Express default.</td>
+</tr>
+<tr>
+<td>“DB access goes through Prisma except src/legacy/ and
+src/db/raw/.”</td>
+<td>Specific exception that prevents the model from rewriting raw
+queries it sees.</td>
+</tr>
+<tr>
+<td>“TOKEN_CACHE in src/middleware/auth.ts is deprecated; do not extend
+it.”</td>
+<td>Stops the model from “helpfully” adding to deprecated code.</td>
+</tr>
+<tr>
+<td>“No <code>--no-verify</code> on commits. Pre-commit hooks are
+load-bearing.”</td>
+<td>Specific anti-pattern; model will use –no-verify to “fix” hook
+failures otherwise.</td>
+</tr>
+<tr>
+<td>“No mocking the DB in integration tests (see
+/docs/testing.md).”</td>
+<td>Specific anti-pattern with reason via link.</td>
+</tr>
+<tr>
+<td>“Don’t leave <code>-- TODO</code> in migration Down blocks; it
+breaks rollback tests.”</td>
+<td>Specific, with the specific test that fails.</td>
+</tr>
+<tr>
+<td>“Architecture: /docs/architecture.md (read on demand).”</td>
+<td>Pointer, not content.</td>
+</tr>
+<tr>
+<td>“What I am NOT going to remind you about: style, test running,
+folder layout.”</td>
+<td>Sets boundaries — saves the model time looking for guidance that
+isn’t there.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="the-lesson">The lesson</h2>
+<p>A great CLAUDE.md is <strong>the smallest possible set of
+load-bearing invariants the model cannot derive from the code</strong>,
+plus <strong>the anti-patterns it would otherwise reach for</strong>,
+plus <strong>explicit non-goals so it stops looking</strong>.</p>
+<p>If you can’t answer the question <em>“what would the model otherwise
+get wrong?”</em> for a line — cut it.</p>
+<p>The math: a 500-byte section, in a CLAUDE.md, at 20 turns a session,
+5 sessions a week, 50 weeks a year, across 50 engineers — that’s
+<strong>125 megabytes of model input per year per section</strong>.
+Bloat isn’t aesthetic; it’s measurable.</p>
+<script>
+// Tiny enhancement script for WORKSHOP.html.
+// 1. Tints code blocks that follow a "❌ Bad" heading red.
+// 2. Tints blockquotes that begin with "Predict" yellow.
+// 3. Adds a "Show all reveals" button to the top of the doc.
+
+(function () {
+  // 1. Bad-prompt tinting
+  document.querySelectorAll('h3, h4').forEach((h) => {
+    const txt = (h.textContent || '').trim();
+    if (txt.startsWith('❌')) {
+      let next = h.nextElementSibling;
+      while (next && next.tagName !== 'PRE' && !['H2', 'H3', 'DETAILS'].includes(next.tagName)) {
+        next = next.nextElementSibling;
+      }
+      if (next && next.tagName === 'PRE') next.classList.add('bad-prompt');
+    }
+  });
+
+  // 2. Predict callouts
+  document.querySelectorAll('blockquote').forEach((q) => {
+    if (/predict/i.test(q.textContent || '')) q.classList.add('predict-callout');
+  });
+
+  // 3. Show-all-reveals toggle, fixed top-right
+  const btn = document.createElement('button');
+  btn.textContent = 'Reveal all';
+  Object.assign(btn.style, {
+    position: 'fixed',
+    top: '14px',
+    right: '20px',
+    zIndex: '1000',
+    background: '#5fd97a',
+    color: '#0f1419',
+    border: 'none',
+    borderRadius: '6px',
+    padding: '8px 14px',
+    fontSize: '13px',
+    fontFamily: 'inherit',
+    fontWeight: '600',
+    cursor: 'pointer',
+    boxShadow: '0 2px 8px rgba(0,0,0,0.3)',
+  });
+  let open = false;
+  btn.addEventListener('click', () => {
+    open = !open;
+    document.querySelectorAll('details').forEach((d) => (d.open = open));
+    btn.textContent = open ? 'Hide all' : 'Reveal all';
+  });
+  document.body.appendChild(btn);
+})();
+</script>
+</body>
+</html>

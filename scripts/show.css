@@ -1,0 +1,148 @@
+/* Projection-optimised CSS for the "show" files (M2, M3, M4, M6).
+   Bigger fonts, no sidebar, dark theme that reads from the back of the room. */
+:root {
+  --bg: #0f1419;
+  --fg: #f0f0f0;
+  --muted: #9aa4b2;
+  --accent: #6cc1ff;
+  --bad: #ff7a7a;
+  --good: #5fd97a;
+  --warn: #ffb84d;
+  --rule: #2a2f3a;
+  --code-bg: #161a23;
+  --card-bg: #131722;
+}
+
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+
+body {
+  margin: 0 auto;
+  max-width: 1100px;
+  padding: 64px 72px 120px;
+  background: var(--bg);
+  color: var(--fg);
+  font-family: -apple-system, BlinkMacSystemFont, "Inter", "Segoe UI", Roboto, sans-serif;
+  font-size: 22px;
+  line-height: 1.55;
+}
+
+h1, h2, h3, h4 { color: #fff; line-height: 1.2; }
+h1 { font-size: 48px; margin-top: 0; padding-bottom: 16px; border-bottom: 3px solid var(--rule); }
+h2 { font-size: 36px; margin-top: 64px; padding-top: 16px; border-top: 1px solid var(--rule); }
+h3 { font-size: 28px; margin-top: 40px; color: var(--accent); }
+h4 { font-size: 22px; margin-top: 28px; }
+
+p, ul, ol { margin: 14px 0; }
+li { margin: 8px 0; }
+
+a { color: var(--accent); }
+hr { border: none; border-top: 1px solid var(--rule); margin: 56px 0; }
+
+blockquote {
+  border-left: 5px solid var(--accent);
+  margin: 24px 0;
+  padding: 14px 22px;
+  background: rgba(108, 193, 255, 0.07);
+  border-radius: 0 8px 8px 0;
+  color: #d3dae6;
+  font-style: italic;
+  font-size: 22px;
+}
+
+/* Code */
+pre, code {
+  font-family: "JetBrains Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  font-size: 17px;
+}
+code {
+  background: var(--code-bg);
+  padding: 2px 7px;
+  border-radius: 4px;
+  color: #ffd58a;
+}
+pre {
+  background: var(--code-bg);
+  padding: 20px 24px;
+  border-radius: 10px;
+  border: 1px solid var(--rule);
+  overflow-x: auto;
+  line-height: 1.55;
+}
+pre code { background: transparent; padding: 0; color: var(--fg); font-size: 17px; }
+
+/* Tables — important, M4 and M6 show big tables */
+table {
+  border-collapse: collapse;
+  margin: 24px 0;
+  width: 100%;
+  font-size: 18px;
+}
+th, td {
+  border: 1px solid var(--rule);
+  padding: 10px 14px;
+  text-align: left;
+  vertical-align: top;
+}
+th { background: rgba(108, 193, 255, 0.10); color: #fff; font-weight: 600; }
+tr:nth-child(even) td { background: rgba(255, 255, 255, 0.018); }
+
+/* Reveal blocks */
+details {
+  background: var(--card-bg);
+  border: 2px solid var(--good);
+  border-radius: 10px;
+  padding: 0;
+  margin: 24px 0;
+  overflow: hidden;
+}
+details[open] { box-shadow: 0 0 0 1px var(--good); }
+details > summary {
+  cursor: pointer;
+  padding: 18px 24px;
+  font-weight: 700;
+  font-size: 22px;
+  color: var(--good);
+  background: rgba(95, 217, 122, 0.08);
+  list-style: none;
+  user-select: none;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+details > summary::-webkit-details-marker { display: none; }
+details > summary::before {
+  content: "▶";
+  font-size: 16px;
+  transition: transform 0.15s;
+  color: var(--good);
+}
+details[open] > summary::before { transform: rotate(90deg); }
+details > *:not(summary) { padding-left: 24px; padding-right: 24px; }
+details > *:last-child { padding-bottom: 18px; }
+
+/* Bad-prompt code block tinting (set by post.js below) */
+.bad-prompt {
+  border-color: var(--bad) !important;
+  background: rgba(255, 122, 122, 0.05) !important;
+}
+
+/* Predict callout */
+.predict-callout {
+  border-left-color: var(--warn) !important;
+  background: rgba(255, 184, 77, 0.08) !important;
+  font-size: 24px !important;
+}
+
+/* Card emphasis for scenarios — h2 with 🃏 */
+h2:first-of-type { margin-top: 32px; }
+
+/* Print */
+@media print {
+  body { background: #fff; color: #000; max-width: 100%; padding: 16pt; font-size: 11pt; }
+  details { border-color: #000; }
+  details > summary { color: #000; background: #f0f0f0; }
+  details:not([open]) > *:not(summary) { display: block !important; }
+  pre, code { background: #f4f4f4; color: #000; }
+  blockquote { color: #000; background: #f9f9f9; }
+}
