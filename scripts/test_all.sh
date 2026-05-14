@@ -126,11 +126,16 @@ echo "[6/6] Pre-built demo artifacts"
 [ -d module6_commands_skills/live_demo_without_skill ]      && pass "M6 live_demo_without_skill (12 files)"    || fail "M6 without-skill dir missing"
 [ -f module6_commands_skills/COMPARISON.md ]                && pass "M6 COMPARISON.md"                         || fail "M6 COMPARISON.md missing"
 
-# Show files
-[ -f WORKSHOP.html ]            && pass "WORKSHOP.html (trainer reference)"         || fail "WORKSHOP.html — run: bash scripts/render-show.sh"
-[ -f SCRIPT.html ]              && pass "SCRIPT.html (read-through script)"        || fail "SCRIPT.html — run: bash scripts/render-show.sh"
-[ -f EXERCISES.html ]           && pass "EXERCISES.html (project for participants)" || fail "EXERCISES.html — run: bash scripts/render-show.sh"
-[ -f DEMO_COOKBOOK.html ]       && pass "DEMO_COOKBOOK.html (conductor playbook)"  || fail "DEMO_COOKBOOK.html — run: bash scripts/render-show.sh"
+# Show files — trainer-only HTMLs are skipped if the matching .md isn't here.
+[ -f WORKSHOP.html ]    && pass "WORKSHOP.html (reference doc)"          || fail "WORKSHOP.html — run: bash scripts/render-show.sh"
+[ -f EXERCISES.html ]   && pass "EXERCISES.html (project for room)"      || fail "EXERCISES.html — run: bash scripts/render-show.sh"
+[ -f CAPSTONE.html ]    && pass "CAPSTONE.html (2-hour build session)"   || fail "CAPSTONE.html — run: bash scripts/render-show.sh"
+
+# Trainer-only show files (only check if you're in the trainer repo).
+if [ -f SCRIPT.md ];        then [ -f SCRIPT.html ]        && pass "SCRIPT.html"         || fail "SCRIPT.html"; fi
+if [ -f DEMO_COOKBOOK.md ]; then [ -f DEMO_COOKBOOK.html ] && pass "DEMO_COOKBOOK.html"  || fail "DEMO_COOKBOOK.html"; fi
+if [ -f RUNBOOK.md ];       then [ -f RUNBOOK.html ]       && pass "RUNBOOK.html"        || fail "RUNBOOK.html"; fi
+if [ -f START_HERE.md ];    then [ -f START_HERE.html ]    && pass "START_HERE.html"     || fail "START_HERE.html"; fi
 
 # ── Summary ───────────────────────────────────────────────────────────
 echo ""
