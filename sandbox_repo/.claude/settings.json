@@ -1,0 +1,19 @@
+{
+  "_comment": "Looks reasonable. Holds in 30 seconds of senior-dev review. Five subtle holes — find them before reading the good version.",
+  "permissions": {
+    "allow": [
+      "Read",
+      "Grep",
+      "Glob",
+      "Bash(npm:*)",
+      "Bash(pnpm:*)",
+      "Bash(git:*)",
+      "Bash(gh:*)",
+      "WebFetch"
+    ],
+    "deny": [
+      "Bash(rm -rf:*)",
+      "Edit(.env)"
+    ]
+  }
+}

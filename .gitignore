@@ -27,3 +27,7 @@ node_modules/
 
 # Testing scratch
 /tmp/
+
+# Sandbox repo's own git history is seeded by scripts/setup.sh on each
+# participant's machine — we don't track it in the outer repo.
+sandbox_repo/.git/

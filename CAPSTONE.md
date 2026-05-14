@@ -122,11 +122,13 @@ jobs:
 
 ---
 
-# Track B — Claude-augment a repo
+# Track B — Claude-augment the sandbox repo
 
 > **Take a repo and Claude-ify it end-to-end.** By 19:00 it has a load-bearing CLAUDE.md, two committed hooks, two slash commands you'll use, and one headless workflow. **Real PR-able commit.**
 
-> **The repo can be:** (a) one of your own you ship to weekly, OR (b) the sample Express app at `sample_repo/` (if you don't have one handy or your laptop doesn't have access), OR (c) the `workshop_demo` repo itself. **Pick one in the first 2 minutes; don't agonise.**
+> **The default target is `sandbox_repo/`** — the pre-staged Express/TypeScript project everyone has on disk. It's already a git repo with seeded history (via `scripts/setup.sh`). It has the bloated CLAUDE.md and holey settings.json you saw in M3 and M8. **You're going to fix all of it end-to-end.**
+>
+> **Upgrade path:** if you have a real repo on this laptop you'd rather work on, swap it in. The phases below are identical regardless of target.
 
 ## Phases
 
@@ -139,13 +141,16 @@ jobs:
 
 ## P1 — Bootstrap
 
-**Steps**
-1. `cd` into your chosen repo. Run `claude` then `/init` to seed a CLAUDE.md.
-2. Apply `module3_context/SURGERY.html`'s rules: cut bloat, keep load-bearing invariants. Aim for ≤40 lines.
-3. Create `.claude/settings.json` from `module8_permissions/good_settings.json`. Adapt the allow-list to YOUR stack (replace `pnpm` with your package manager; pick your real `gh` subcommands; cut what you don't use).
-4. Copy `module5_hooks/.claude/hooks/block-prod-writes.sh` and adapt the regex to match a file class in YOUR repo that should never be agent-edited (production config, generated code, etc.).
+```bash
+cd ~/workshop_demo/sandbox_repo
+```
 
-**Verify:** in claude, ask it to edit the protected file. Hook fires.
+**Steps**
+1. The bloated CLAUDE.md is already here. Apply `module3_context/SURGERY.html`'s rules — cut bloat, keep load-bearing invariants. Aim for ≤40 lines. (If you went through E3, start from your trimmed version.)
+2. The holey `.claude/settings.json` is already here too. Replace it with content adapted from `module8_permissions/good_settings.json` — keep `pnpm` (the sandbox uses pnpm), allowlist the real `pnpm test:*`, `pnpm lint:*`, `pnpm typecheck`, deny the destructive patterns.
+3. Add `.claude/hooks/block-migrations.sh` — a hook that blocks any `Edit` or `Write` whose `file_path` matches `src/db/migrations/*.sql`. Use `module5_hooks/.claude/hooks/block-prod-writes.sh` as the template.
+
+**Verify:** `cd sandbox_repo && claude`, ask it to edit `src/db/migrations/0042_add_soft_delete.sql`. Hook fires.
 
 ## P2 — Workflows
 

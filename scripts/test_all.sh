@@ -91,9 +91,34 @@ else
   info "skipped (set RUN_HEADLESS=1 to actually call claude -p)"
 fi
 
-# ── 5. Pre-built artifacts present ────────────────────────────────────
+# ── 5. Sandbox repo seeded ────────────────────────────────────────────
 echo ""
-echo "[5/5] Pre-built demo artifacts"
+echo "[5/6] sandbox_repo (the shared exercise playground)"
+
+[ -d sandbox_repo ] && pass "sandbox_repo present"                            || fail "sandbox_repo missing"
+[ -f sandbox_repo/CLAUDE.md ] && pass "sandbox_repo/CLAUDE.md (bloated; for E3)" || fail "sandbox_repo/CLAUDE.md missing"
+[ -f sandbox_repo/.claude/settings.json ] && pass "sandbox_repo/.claude/settings.json (holey; for E8)" || fail "settings.json missing"
+[ -f sandbox_repo/src/db/migrations/0042_add_soft_delete.sql ] && pass "sandbox_repo migration 0042 (for E1)" || fail "migration missing"
+
+if [ -d sandbox_repo/.git ]; then
+  commits=$(cd sandbox_repo && git log --oneline 2>/dev/null | wc -l | tr -d ' ')
+  if [ "$commits" -ge 6 ]; then
+    pass "sandbox_repo git history seeded ($commits commits)"
+  else
+    fail "sandbox_repo has only $commits commits — re-run scripts/setup.sh"
+  fi
+  if (cd sandbox_repo && git rev-parse main-stable >/dev/null 2>&1); then
+    pass "sandbox_repo main-stable branch present (for /standup)"
+  else
+    fail "main-stable branch missing — re-run scripts/setup.sh"
+  fi
+else
+  fail "sandbox_repo/.git not initialised — run: bash scripts/setup.sh"
+fi
+
+# ── 6. Pre-built artifacts present ────────────────────────────────────
+echo ""
+echo "[6/6] Pre-built demo artifacts"
 
 [ -f example2_parallel_review/OVERLAP.md ]                  && pass "M4 OVERLAP.md (3-reviewer table)"          || fail "M4 OVERLAP.md missing"
 [ -f example2_parallel_review/code_under_review/users_api.js ] && pass "M4 users_api.js (flawed file)"          || fail "M4 flawed file missing"

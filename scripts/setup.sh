@@ -81,6 +81,56 @@ echo ""
 echo "→ claude doctor:"
 claude doctor 2>&1 | sed 's/^/   /' | head -10 || echo "   ! claude not authenticated"
 
+# 7. Seed sandbox_repo git history (so M6's /standup has something to summarise).
+echo ""
+if [ -d sandbox_repo ]; then
+  if [ ! -d sandbox_repo/.git ]; then
+    echo "→ seeding sandbox_repo with fake git history"
+    (
+      cd sandbox_repo
+      git init -q -b main
+      git config user.email "you@example.com"
+      git config user.name "You"
+
+      # Build a tiny credible history. Backdate so /standup has 'since main'
+      # commits to summarise.
+      GIT_AUTHOR_DATE="2026-05-06T10:00:00" GIT_COMMITTER_DATE="2026-05-06T10:00:00" \
+        git add README.md package.json src/app.ts && \
+        git commit -q -m "initial scaffold: express + prisma + vitest"
+
+      GIT_AUTHOR_DATE="2026-05-07T11:30:00" GIT_COMMITTER_DATE="2026-05-07T11:30:00" \
+        git add src/middleware/auth.ts tests/routes/users.test.ts && \
+        git commit -q -m "auth: add TOKEN_CACHE middleware + first route test"
+
+      GIT_AUTHOR_DATE="2026-05-07T16:45:00" GIT_COMMITTER_DATE="2026-05-07T16:45:00" \
+        git add src/routes/users.ts && \
+        git commit -q -m "routes: add GET /users/:id and DELETE /users/:id"
+
+      # First branch divergence happens here — main is "stable".
+      git branch main-stable
+
+      GIT_AUTHOR_DATE="2026-05-08T09:15:00" GIT_COMMITTER_DATE="2026-05-08T09:15:00" \
+        git add src/db/migrations/0042_add_soft_delete.sql && \
+        git commit -q -m "WIP: migration 0042 soft-delete (TODO: rollback)"
+
+      GIT_AUTHOR_DATE="2026-05-08T14:20:00" GIT_COMMITTER_DATE="2026-05-08T14:20:00" \
+        git add tests/db/migration_0042.test.ts && \
+        git commit -q -m "test: add rollback assertion for migration 0042"
+
+      GIT_AUTHOR_DATE="2026-05-09T10:00:00" GIT_COMMITTER_DATE="2026-05-09T10:00:00" \
+        git add CLAUDE.md .claude/settings.json && \
+        git commit -q -m "docs: seed CLAUDE.md and .claude/settings.json (review pending)"
+
+      # Now leave .git in a state where:
+      #  - HEAD has the WIP migration + failing test commits since main-stable
+      #  - working tree has no uncommitted changes
+      #  - /standup will have 3 commits to summarise from the "since main-stable" diff
+    ) && echo "   ✓ sandbox_repo seeded with 6 commits across 4 days"
+  else
+    echo "→ sandbox_repo/.git already exists; skipping seed"
+  fi
+fi
+
 echo ""
 echo "▶ setup done."
 echo "  next: run 'bash scripts/test_all.sh' to verify every demo end-to-end."

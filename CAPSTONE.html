@@ -416,8 +416,8 @@ failing CI, posts triage as a PR comment. ~$0.07/run.</p>
 <span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a>            gh pr comment ${{ github.event.workflow_run.pull_requests[0].number }} -F -</span>
 <span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a><span class="at">        </span><span class="fu">env</span><span class="kw">:</span><span class="at"> </span><span class="kw">{</span><span class="at"> </span><span class="fu">GITHUB_TOKEN</span><span class="kw">:</span><span class="at"> ${{ secrets.GITHUB_TOKEN </span><span class="kw">}</span><span class="at">} }</span></span></code></pre></div>
 <hr />
-<h1 id="track-b-claude-augment-a-repo">Track B — Claude-augment a
-repo</h1>
+<h1 id="track-b-claude-augment-the-sandbox-repo">Track B —
+Claude-augment the sandbox repo</h1>
 <blockquote>
 <p><strong>Take a repo and Claude-ify it end-to-end.</strong> By 19:00
 it has a load-bearing CLAUDE.md, two committed hooks, two slash commands
@@ -425,11 +425,15 @@ you’ll use, and one headless workflow. <strong>Real PR-able
 commit.</strong></p>
 </blockquote>
 <blockquote>
-<p><strong>The repo can be:</strong> (a) one of your own you ship to
-weekly, OR (b) the sample Express app at <code>sample_repo/</code> (if
-you don’t have one handy or your laptop doesn’t have access), OR (c) the
-<code>workshop_demo</code> repo itself. <strong>Pick one in the first 2
-minutes; don’t agonise.</strong></p>
+<p><strong>The default target is <code>sandbox_repo/</code></strong> —
+the pre-staged Express/TypeScript project everyone has on disk. It’s
+already a git repo with seeded history (via
+<code>scripts/setup.sh</code>). It has the bloated CLAUDE.md and holey
+settings.json you saw in M3 and M8. <strong>You’re going to fix all of
+it end-to-end.</strong></p>
+<p><strong>Upgrade path:</strong> if you have a real repo on this laptop
+you’d rather work on, swap it in. The phases below are identical
+regardless of target.</p>
 </blockquote>
 <h2 id="phases-1">Phases</h2>
 <table>
@@ -473,20 +477,24 @@ actually run weekly</td>
 </tbody>
 </table>
 <h2 id="p1-bootstrap">P1 — Bootstrap</h2>
-<p><strong>Steps</strong> 1. <code>cd</code> into your chosen repo. Run
-<code>claude</code> then <code>/init</code> to seed a CLAUDE.md. 2.
-Apply <code>module3_context/SURGERY.html</code>’s rules: cut bloat, keep
-load-bearing invariants. Aim for ≤40 lines. 3. Create
-<code>.claude/settings.json</code> from
-<code>module8_permissions/good_settings.json</code>. Adapt the
-allow-list to YOUR stack (replace <code>pnpm</code> with your package
-manager; pick your real <code>gh</code> subcommands; cut what you don’t
-use). 4. Copy
-<code>module5_hooks/.claude/hooks/block-prod-writes.sh</code> and adapt
-the regex to match a file class in YOUR repo that should never be
-agent-edited (production config, generated code, etc.).</p>
-<p><strong>Verify:</strong> in claude, ask it to edit the protected
-file. Hook fires.</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> ~/workshop_demo/sandbox_repo</span></code></pre></div>
+<p><strong>Steps</strong> 1. The bloated CLAUDE.md is already here.
+Apply <code>module3_context/SURGERY.html</code>’s rules — cut bloat,
+keep load-bearing invariants. Aim for ≤40 lines. (If you went through
+E3, start from your trimmed version.) 2. The holey
+<code>.claude/settings.json</code> is already here too. Replace it with
+content adapted from <code>module8_permissions/good_settings.json</code>
+— keep <code>pnpm</code> (the sandbox uses pnpm), allowlist the real
+<code>pnpm test:*</code>, <code>pnpm lint:*</code>,
+<code>pnpm typecheck</code>, deny the destructive patterns. 3. Add
+<code>.claude/hooks/block-migrations.sh</code> — a hook that blocks any
+<code>Edit</code> or <code>Write</code> whose <code>file_path</code>
+matches <code>src/db/migrations/*.sql</code>. Use
+<code>module5_hooks/.claude/hooks/block-prod-writes.sh</code> as the
+template.</p>
+<p><strong>Verify:</strong>
+<code>cd sandbox_repo &amp;&amp; claude</code>, ask it to edit
+<code>src/db/migrations/0042_add_soft_delete.sql</code>. Hook fires.</p>
 <h2 id="p2-workflows">P2 — Workflows</h2>
 <p><strong>Goal:</strong> two slash commands you’ll actually use.</p>
 <p><strong>Pick two from this list, or invent your own (all work
@@ -613,26 +621,26 @@ reviewed each, was there pushback”</em></td>
 </tbody>
 </table>
 <h2 id="starter-1">Starter</h2>
-<div class="sourceCode" id="cb4"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cp</span> <span class="at">-r</span> module7_mcp ~/local-cli-mcp</span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> ~/local-cli-mcp</span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="co"># strip oncall, keep the FastMCP boilerplate</span></span></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cp</span> <span class="at">-r</span> module7_mcp ~/local-cli-mcp</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> ~/local-cli-mcp</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="co"># strip oncall, keep the FastMCP boilerplate</span></span></code></pre></div>
 <p>You start with the FastMCP scaffold. You build the tools.</p>
 <h2 id="p1-two-read-tools">P1 — Two read tools</h2>
 <p><strong>Goal:</strong> <code>get_log_for(path, limit=20)</code>
 returns:</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode json"><code class="sourceCode json"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;path&quot;</span><span class="fu">:</span> <span class="st">&quot;src/foo.ts&quot;</span><span class="fu">,</span></span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;commits&quot;</span><span class="fu">:</span> <span class="ot">[</span></span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">{</span><span class="dt">&quot;sha&quot;</span><span class="fu">:</span> <span class="st">&quot;abc1234&quot;</span><span class="fu">,</span> <span class="dt">&quot;author&quot;</span><span class="fu">:</span> <span class="st">&quot;Sumeet&quot;</span><span class="fu">,</span> <span class="dt">&quot;date&quot;</span><span class="fu">:</span> <span class="st">&quot;2026-05-08&quot;</span><span class="fu">,</span> <span class="dt">&quot;subject&quot;</span><span class="fu">:</span> <span class="st">&quot;fix typo&quot;</span><span class="fu">}</span></span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>  <span class="ot">]</span></span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code></pre></div>
-<p>And <code>git_blame(path, line)</code> returns:</p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode json"><code class="sourceCode json"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;sha&quot;</span><span class="fu">:</span> <span class="st">&quot;abc1234&quot;</span><span class="fu">,</span></span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;author&quot;</span><span class="fu">:</span> <span class="st">&quot;Sumeet&quot;</span><span class="fu">,</span></span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;date&quot;</span><span class="fu">:</span> <span class="st">&quot;2026-05-08&quot;</span><span class="fu">,</span></span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;line_content&quot;</span><span class="fu">:</span> <span class="st">&quot;const x = ...&quot;</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;path&quot;</span><span class="fu">:</span> <span class="st">&quot;src/foo.ts&quot;</span><span class="fu">,</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;commits&quot;</span><span class="fu">:</span> <span class="ot">[</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">{</span><span class="dt">&quot;sha&quot;</span><span class="fu">:</span> <span class="st">&quot;abc1234&quot;</span><span class="fu">,</span> <span class="dt">&quot;author&quot;</span><span class="fu">:</span> <span class="st">&quot;Sumeet&quot;</span><span class="fu">,</span> <span class="dt">&quot;date&quot;</span><span class="fu">:</span> <span class="st">&quot;2026-05-08&quot;</span><span class="fu">,</span> <span class="dt">&quot;subject&quot;</span><span class="fu">:</span> <span class="st">&quot;fix typo&quot;</span><span class="fu">}</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>  <span class="ot">]</span></span>
 <span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code></pre></div>
+<p>And <code>git_blame(path, line)</code> returns:</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode json"><code class="sourceCode json"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;sha&quot;</span><span class="fu">:</span> <span class="st">&quot;abc1234&quot;</span><span class="fu">,</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;author&quot;</span><span class="fu">:</span> <span class="st">&quot;Sumeet&quot;</span><span class="fu">,</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;date&quot;</span><span class="fu">:</span> <span class="st">&quot;2026-05-08&quot;</span><span class="fu">,</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;line_content&quot;</span><span class="fu">:</span> <span class="st">&quot;const x = ...&quot;</span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code></pre></div>
 <p><strong>Steps</strong> 1. Each tool is a <code>@mcp.tool()</code>
 function that shells out via <code>subprocess.run</code>. 2. Parse the
 output (use <code>--porcelain</code> flags where available — e.g.,
