@@ -24,6 +24,16 @@ Then update `.claude/settings.json` to use the venv's python:
 "command": "/Users/sdesai/work/workshop_demo/module7_mcp/.venv/bin/python"
 ```
 
+### Register the server with Claude Code
+
+```bash
+claude mcp add oncall \
+  /Users/sdesai/work/workshop_demo/module7_mcp/.venv/bin/python \
+  /Users/sdesai/work/workshop_demo/module7_mcp/oncall_server.py
+
+claude mcp list   # expect: oncall: ... - ✓ Connected
+```
+
 ## On the day — exactly what to type
 
 **Read this aloud first:** *"I have a tiny Python MCP server exposing our oncall rotation. Watch Claude pick it up."*
