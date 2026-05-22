@@ -229,62 +229,50 @@ blockquote { color: #000; background: #f9f9f9; }
 <header id="title-block-header">
 <h1 class="title">M9 — Headless run-book</h1>
 </header>
-<h1 id="module-9-headless-one-shot-demo-3-min">Module 9 — Headless
-one-shot demo (~3 min)</h1>
+<h1 id="module-9-headless-one-shot-demo">Module 9 — Headless one-shot
+demo</h1>
 <h2 id="what-this-demonstrates">What this demonstrates</h2>
 <p><code>claude -p</code> runs Claude Code as a non-interactive
 subprocess. Pipe a prompt in, get JSON out. Wire that into a GitHub
 Action and you have a self-triaging test suite — no human needed for the
 first pass.</p>
-<h2 id="setup-one-time">Setup (one-time)</h2>
-<div class="sourceCode" id="cb1"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">chmod</span> +x /Users/sdesai/work/workshop_demo/module9_sdk/quick_demo.sh</span></code></pre></div>
+<h2 id="setup">Setup</h2>
+<div class="sourceCode" id="cb1"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">chmod</span> +x ~/workshop_demo/module9_sdk/quick_demo.sh</span></code></pre></div>
 <p>That’s it. Uses your already-authenticated <code>claude</code> CLI,
 no extra installs.</p>
-<h2 id="on-the-day-exactly-what-to-type">On the day — exactly what to
-type</h2>
-<p><strong>Read this aloud first:</strong> <em>“This is the same Claude.
-But called from a shell script. No human in the loop. Watch.”</em></p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> /Users/sdesai/work/workshop_demo/module9_sdk</span>
+<h2 id="run-it">Run it</h2>
+<div class="sourceCode" id="cb2"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> ~/workshop_demo/module9_sdk</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> quick_demo.sh</span></code></pre></div>
-<p><strong>You should see:</strong> ~15–30s of waiting, then the raw
-JSON envelope, then the extracted result — a structured triage report
-with <code>failing_test</code>, <code>hypothesis</code>, and
-<code>files_to_inspect</code>.</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="ex">bat</span> quick_demo.sh         <span class="co"># 20 lines. that&#39;s the whole thing.</span></span>
+<p>~15–30s of waiting, then the raw JSON envelope, then the extracted
+result — a structured triage report with <code>failing_test</code>,
+<code>hypothesis</code>, and <code>files_to_inspect</code>.</p>
+<h2 id="inspect">Inspect</h2>
+<div class="sourceCode" id="cb3"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="ex">bat</span> quick_demo.sh         <span class="co"># ~20 lines, the whole thing</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="ex">bat</span> sample_test_failure.txt</span></code></pre></div>
-<p><strong>Punchline:</strong> <em>“Wire this into a nightly GitHub
-Action. Add a hook that posts the result to Slack. You now have a
-self-triaging test suite. The same pattern, with the Claude Agent SDK,
-lets you embed this into your own product — a ‘fix this bug’ button that
-actually does something.”</em></p>
-<h2 id="if-you-have-30-more-seconds-show-the-production-wrapper">If you
-have 30 more seconds, show the production wrapper</h2>
-<div class="sourceCode" id="cb4"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="bu">echo</span> <span class="st">&#39;This is what the same call looks like in CI:&#39;</span></span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span> <span class="op">&lt;&lt;&#39;CI&#39;</span></span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="st">claude -p &quot;&lt;prompt&gt;&quot; \</span></span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="st">  --permission-mode bypassPermissions \</span></span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="st">  --max-turns 8 \</span></span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="st">  --output-format json \</span></span>
-<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="st">  &gt; /tmp/result.json</span></span>
-<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a><span class="st">jq -e &#39;.failing_test // .error&#39; /tmp/result.json</span></span>
-<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a><span class="op">CI</span></span></code></pre></div>
-<p>Talking points: - <code>--permission-mode bypassPermissions</code> —
-only inside an isolated CI runner. - <code>--max-turns 8</code> — hard
-cap so a runaway loop costs at most 8 turns. - <code>jq -e</code> —
-validates the output before any downstream consumer trusts it. -
-<code>permission-mode plan</code> if the agent should be
+<h2 id="the-production-wrapper-pattern">The production wrapper
+pattern</h2>
+<div class="sourceCode" id="cb4"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="ex">claude</span> <span class="at">-p</span> <span class="st">&quot;&lt;prompt&gt;&quot;</span> <span class="dt">\</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">--permission-mode</span> bypassPermissions <span class="dt">\</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">--max-turns</span> 8 <span class="dt">\</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">--output-format</span> json <span class="dt">\</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>  <span class="op">&gt;</span> /tmp/result.json</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="ex">jq</span> <span class="at">-e</span> <span class="st">&#39;.failing_test // .error&#39;</span> /tmp/result.json</span></code></pre></div>
+<p>Notes: - <code>--permission-mode bypassPermissions</code> — only
+inside an isolated CI runner. - <code>--max-turns 8</code> — hard cap so
+a runaway loop costs at most 8 turns. - <code>jq -e</code> — validates
+the output before any downstream consumer trusts it. -
+<code>--permission-mode plan</code> if the agent should be
 <strong>strictly read-only</strong> (recon-only triage).</p>
-<h2 id="variants-the-room-will-ask-about">Variants the room will ask
-about</h2>
+<h2 id="common-questions">Common questions</h2>
 <ul>
-<li><strong>“Can it modify code?”</strong> Yes — drop
+<li><strong>Can it modify code?</strong> Yes — drop
 <code>--permission-mode plan</code> and add an allow-list. CI wrappers
 usually let it edit a fresh branch and open a PR rather than touching
 <code>main</code>.</li>
-<li><strong>“Cost?”</strong> Each <code>claude -p</code> run is a single
+<li><strong>Cost?</strong> Each <code>claude -p</code> run is a single
 session. Token usage shows in the JSON envelope.</li>
-<li><strong>“What if it gets stuck?”</strong> <code>--max-turns N</code>
-is the hard cap. Combine with a wallclock timeout in the shell
+<li><strong>What if it gets stuck?</strong> <code>--max-turns N</code>
+is the hard cap. Combine with a wallclock timeout
 (<code>timeout 300 bash quick_demo.sh</code>).</li>
 </ul>
 <script>
@@ -311,7 +299,8 @@ is the hard cap. Combine with a wallclock timeout in the shell
     if (/predict/i.test(q.textContent || '')) q.classList.add('predict-callout');
   });
 
-  // 3. Show-all-reveals toggle, fixed top-right
+  // 3. Show-all-reveals toggle, fixed top-right — only if the doc has reveals
+  if (document.querySelectorAll('details').length === 0) return;
   const btn = document.createElement('button');
   btn.textContent = 'Reveal all';
   Object.assign(btn.style, {

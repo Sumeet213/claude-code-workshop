@@ -229,50 +229,42 @@ blockquote { color: #000; background: #f9f9f9; }
 <header id="title-block-header">
 <h1 class="title">M7 — MCP server run-book</h1>
 </header>
-<h1 id="module-7-live-mcp-server-demo-5-min">Module 7 — Live MCP server
-demo (~5 min)</h1>
+<h1 id="module-7-mcp-server-demo">Module 7 — MCP server demo</h1>
 <h2 id="what-this-demonstrates">What this demonstrates</h2>
 <p>A 60-line Python MCP server exposing two tools
 (<code>get_oncall</code>, <code>page_oncall</code>) — Claude Code picks
-them up automatically and uses them like any built-in tool. Same pattern
-works for wrapping any internal system at your company.</p>
-<h2 id="setup-one-time-do-this-before-the-workshop">Setup (one-time, do
-this BEFORE the workshop)</h2>
-<div class="sourceCode" id="cb1"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> /Users/sdesai/work/workshop_demo/module7_mcp</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="ex">pip</span> install mcp                 <span class="co"># installs the official MCP SDK</span></span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="ex">python3</span> oncall_server.py        <span class="co"># sanity-check it starts; Ctrl-C to exit</span></span></code></pre></div>
-<p>If <code>pip install mcp</code> fails, try
-<code>pip install mcp[cli]</code> or use a venv:</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ex">python3</span> <span class="at">-m</span> venv .venv <span class="kw">&amp;&amp;</span> <span class="bu">source</span> .venv/bin/activate <span class="kw">&amp;&amp;</span> <span class="ex">pip</span> install mcp</span></code></pre></div>
-<p>Then update <code>.claude/settings.json</code> to use the venv’s
-python:</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode json"><code class="sourceCode json"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="st">&quot;command&quot;</span><span class="er">:</span> <span class="st">&quot;/Users/sdesai/work/workshop_demo/module7_mcp/.venv/bin/python&quot;</span></span></code></pre></div>
-<h2 id="on-the-day-exactly-what-to-type">On the day — exactly what to
-type</h2>
-<p><strong>Read this aloud first:</strong> <em>“I have a tiny Python MCP
-server exposing our oncall rotation. Watch Claude pick it up.”</em></p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> /Users/sdesai/work/workshop_demo/module7_mcp</span>
+them up and uses them like any built-in tool. Same pattern works for
+wrapping any internal system at your company.</p>
+<h2 id="setup">Setup</h2>
+<div class="sourceCode" id="cb1"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> ~/workshop_demo/module7_mcp</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="ex">python3</span> <span class="at">-m</span> venv .venv <span class="kw">&amp;&amp;</span> <span class="ex">.venv/bin/pip</span> install mcp</span></code></pre></div>
+<p>Sanity-check the import works:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ex">.venv/bin/python</span> <span class="at">-c</span> <span class="st">&quot;from mcp.server.fastmcp import FastMCP; print(&#39;ok&#39;)&quot;</span></span></code></pre></div>
+<h3 id="register-the-server-with-claude-code">Register the server with
+Claude Code</h3>
+<p>Use absolute paths — replace <code>$HOME</code> with the literal path
+if your shell doesn’t expand it inside <code>claude mcp add</code>:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="ex">claude</span> mcp add oncall <span class="dt">\</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;</span><span class="va">$HOME</span><span class="st">/workshop_demo/module7_mcp/.venv/bin/python&quot;</span> <span class="dt">\</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;</span><span class="va">$HOME</span><span class="st">/workshop_demo/module7_mcp/oncall_server.py&quot;</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="ex">claude</span> mcp list   <span class="co"># expect: oncall: ... - ✓ Connected</span></span></code></pre></div>
+<h2 id="run-it">Run it</h2>
+<div class="sourceCode" id="cb4"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> ~/workshop_demo/module7_mcp</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="ex">claude</span></span></code></pre></div>
 <p>In Claude:</p>
 <pre><code>&gt; /mcp</code></pre>
-<p><strong>You should see:</strong> the <code>oncall</code> server
-connected, with <code>get_oncall</code> and <code>page_oncall</code>
-listed.</p>
+<p>You should see the <code>oncall</code> server connected, with
+<code>get_oncall</code> and <code>page_oncall</code> listed.</p>
 <pre><code>&gt; Who is on call for the payments team? Page them about the failing migration on prod-db-3.</code></pre>
-<p><strong>You should see:</strong> Claude calls
-<code>mcp__oncall__get_oncall(team=&quot;payments&quot;)</code> first, sees Priya
-is on call, then calls
+<p>Claude calls <code>mcp__oncall__get_oncall(team=&quot;payments&quot;)</code>
+first, sees who is on call, then calls
 <code>mcp__oncall__page_oncall(team=&quot;payments&quot;, message=&quot;...&quot;)</code>.
 Both with approval prompts the first time.</p>
+<h2 id="inspect">Inspect</h2>
 <pre><code>&gt; /exit
 cat pages.log                   # the page you just sent
-bat oncall_server.py            # show the 60-line implementation
-bat .claude/settings.json       # show how it&#39;s wired</code></pre>
-<p><strong>Punchline:</strong> <em>“Stop writing one-off scripts and
-asking the model to call them via Bash. Wrap your internal systems with
-structured tools — names that are verbs, descriptions that tell the
-model the boundaries, structured returns. The model uses them like any
-other tool.”</em></p>
+bat oncall_server.py            # the 60-line implementation</code></pre>
 <h2 id="what-to-point-at-in-oncall_server.py">What to point at in
 <code>oncall_server.py</code></h2>
 <ul>
@@ -283,14 +275,17 @@ story.</li>
 <li>Error path returns <code>{&quot;error&quot;: &quot;...&quot;}</code> instead of raising
 — the model can read it and recover.</li>
 </ul>
-<h2 id="if-the-demo-dies">If the demo dies</h2>
+<h2 id="if-it-breaks">If it breaks</h2>
 <ul>
-<li><code>/mcp</code> shows nothing → check the path in
-<code>.claude/settings.json</code> is absolute and correct.</li>
-<li>Server crashes → check Python version
-(<code>python3 --version</code>, want ≥ 3.10) and
-<code>pip show mcp</code>.</li>
-<li>Hangs on first call → first-time MCP handshake can take 2-3 seconds;
+<li><code>/mcp</code> shows nothing → run <code>claude mcp list</code>.
+If <code>oncall</code> is missing, re-run the
+<code>claude mcp add oncall ...</code> command above.</li>
+<li><code>/mcp</code> shows <code>oncall</code> but
+<code>failed to connect</code> → check the venv python exists
+(<code>ls module7_mcp/.venv/bin/python</code>).</li>
+<li>Server crashes → check Python ≥ 3.10 and
+<code>module7_mcp/.venv/bin/python -c &quot;import mcp.server.fastmcp&quot;</code>.</li>
+<li>Hangs on first call → first-time handshake can take 2-3 seconds;
 just wait.</li>
 </ul>
 <script>
@@ -317,7 +312,8 @@ just wait.</li>
     if (/predict/i.test(q.textContent || '')) q.classList.add('predict-callout');
   });
 
-  // 3. Show-all-reveals toggle, fixed top-right
+  // 3. Show-all-reveals toggle, fixed top-right — only if the doc has reveals
+  if (document.querySelectorAll('details').length === 0) return;
   const btn = document.createElement('button');
   btn.textContent = 'Reveal all';
   Object.assign(btn.style, {

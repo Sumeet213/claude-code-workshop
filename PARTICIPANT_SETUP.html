@@ -232,7 +232,7 @@ blockquote { color: #000; background: #f9f9f9; }
 <h1 id="workshop-pre-flight-read-this-the-night-before">Workshop
 pre-flight — read this the night before</h1>
 <p><strong>Estimated time: 10 minutes.</strong> If you can’t get past
-step 4, ping the workshop organiser before 9 a.m. on the day.</p>
+step 4, ping the workshop organiser ahead of time.</p>
 <hr />
 <h2 id="install-claude-code">1. Install Claude Code</h2>
 <div class="sourceCode" id="cb1"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">npm</span> install <span class="at">-g</span> @anthropic-ai/claude-code</span>
@@ -242,8 +242,7 @@ step 4, ping the workshop organiser before 9 a.m. on the day.</p>
 will hand out throwaway keys at 09:00 — but <strong>you must have the
 CLI installed</strong>.</p>
 <h2 id="get-the-workshop-repo">2. Get the workshop repo</h2>
-<p>You’ll receive a link / USB drive / AirDrop on the day. Extract
-to:</p>
+<p>Clone or download to:</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ex">~/workshop_demo</span></span></code></pre></div>
 <p>(Or anywhere — the absolute paths in
 <code>module7_mcp/.claude/settings.json</code> need updating to wherever
@@ -257,7 +256,7 @@ path in <code>module7_mcp/.claude/settings.json</code> to your machine.
 - Sanity-check that <code>claude</code>, <code>python3</code>,
 <code>pip</code>, <code>git</code>, <code>jq</code>, and
 <code>bat</code> (or <code>cat</code>) are present. - Open
-<code>WORKSHOP.html</code> in your browser.</p>
+<code>EXERCISES.html</code> in your browser.</p>
 <p>If <code>bat</code> is missing, install it for syntax-highlighted
 file viewing during exercises:</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="ex">brew</span> install bat       <span class="co"># macOS</span></span></code></pre></div>
@@ -288,8 +287,8 @@ runnable demo</h2>
 <li><strong>Most modules end with a 5–15 minute “Your turn”</strong>
 where you run the same exercise in your own Claude, then compare with
 your neighbour.</li>
-<li>Two big moments are pre-built artifacts the trainer walks through
-(parallel reviewers in Module 4, skill comparison in Module 6).</li>
+<li>Two big moments use pre-built artifacts (parallel reviewers in
+Module 4, skill comparison in Module 6).</li>
 <li>Bring a sandbox repo of your own — by lunch you’ll want to try
 things on real code.</li>
 </ul>
@@ -365,7 +364,8 @@ and update the python path in
     if (/predict/i.test(q.textContent || '')) q.classList.add('predict-callout');
   });
 
-  // 3. Show-all-reveals toggle, fixed top-right
+  // 3. Show-all-reveals toggle, fixed top-right — only if the doc has reveals
+  if (document.querySelectorAll('details').length === 0) return;
   const btn = document.createElement('button');
   btn.textContent = 'Reveal all';
   Object.assign(btn.style, {

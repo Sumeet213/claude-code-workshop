@@ -1,6 +1,6 @@
 # Workshop pre-flight — read this the night before
 
-**Estimated time: 10 minutes.** If you can't get past step 4, ping the workshop organiser before 9 a.m. on the day.
+**Estimated time: 10 minutes.** If you can't get past step 4, ping the workshop organiser ahead of time.
 
 ---
 
@@ -16,7 +16,7 @@ If you don't have an Anthropic account / API access, the organiser will hand out
 
 ## 2. Get the workshop repo
 
-You'll receive a link / USB drive / AirDrop on the day. Extract to:
+Clone or download to:
 
 ```bash
 ~/workshop_demo
@@ -74,7 +74,7 @@ If all three pass, you're ready.
 
 - 9 modules over 8 hours.
 - **Most modules end with a 5–15 minute "Your turn"** where you run the same exercise in your own Claude, then compare with your neighbour.
-- Two big moments are pre-built artifacts the trainer walks through (parallel reviewers in Module 4, skill comparison in Module 6).
+- Two big moments use pre-built artifacts (parallel reviewers in Module 4, skill comparison in Module 6).
 - Bring a sandbox repo of your own — by lunch you'll want to try things on real code.
 
 ## 6. What to bring

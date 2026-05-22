@@ -166,8 +166,8 @@ blockquote { color: #000; background: #f9f9f9; }
 <p>Five real-ish Claude Code transcripts that ended badly. <strong>For
 each one, name the lever that failed: context, tools, permissions, or
 loop control.</strong></p>
-<p>Project one card at a time. Pause 60 seconds. Take a vote (hand-raise
-per lever). Then click the green box.</p>
+<p>One card at a time. Pause and commit to an answer. Then click the
+green box to reveal.</p>
 <hr />
 <h2 id="card-1">🃏 Card 1</h2>
 <pre><code>&gt; add user-deletion to the API
@@ -290,7 +290,7 @@ the test-writing in a fresh session. - Trust auto-compaction;
 that breaks the prompt cache.
 </details>
 <hr />
-<h2 id="score-on-the-whiteboard">Score on the whiteboard</h2>
+<h2 id="answer-key">Answer key</h2>
 <table>
 <thead>
 <tr>
@@ -347,7 +347,8 @@ diagnose any failed Claude session.</p>
     if (/predict/i.test(q.textContent || '')) q.classList.add('predict-callout');
   });
 
-  // 3. Show-all-reveals toggle, fixed top-right
+  // 3. Show-all-reveals toggle, fixed top-right — only if the doc has reveals
+  if (document.querySelectorAll('details').length === 0) return;
   const btn = document.createElement('button');
   btn.textContent = 'Reveal all';
   Object.assign(btn.style, {

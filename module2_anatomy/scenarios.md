@@ -2,7 +2,7 @@
 
 Five real-ish Claude Code transcripts that ended badly. **For each one, name the lever that failed: context, tools, permissions, or loop control.**
 
-Project one card at a time. Pause 60 seconds. Take a vote (hand-raise per lever). Then click the green box.
+One card at a time. Pause and commit to an answer. Then click the green box to reveal.
 
 ---
 
@@ -124,7 +124,7 @@ Done. New subscribers will receive the last 50 events on connect.
 
 ---
 
-## Score on the whiteboard
+## Answer key
 
 | Card | Lever |
 |---|---|

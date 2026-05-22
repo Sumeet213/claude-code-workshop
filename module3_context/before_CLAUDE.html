@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="generator" content="pandoc" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
-  <title>M3 — Bloated CLAUDE.md (before surgery)</title>
+  <title>M3 — Bloated CLAUDE.md (your turn to trim)</title>
   <style>
 
 span.smallcaps{font-variant: small-caps;}
@@ -227,7 +227,7 @@ blockquote { color: #000; background: #f9f9f9; }
 </head>
 <body>
 <header id="title-block-header">
-<h1 class="title">M3 — Bloated CLAUDE.md (before surgery)</h1>
+<h1 class="title">M3 — Bloated CLAUDE.md (your turn to trim)</h1>
 </header>
 <h1 id="stride-backend-engineering-context">Stride Backend — Engineering
 Context</h1>
@@ -402,7 +402,8 @@ DATABASE_URL is in AWS Secrets Manager under
     if (/predict/i.test(q.textContent || '')) q.classList.add('predict-callout');
   });
 
-  // 3. Show-all-reveals toggle, fixed top-right
+  // 3. Show-all-reveals toggle, fixed top-right — only if the doc has reveals
+  if (document.querySelectorAll('details').length === 0) return;
   const btn = document.createElement('button');
   btn.textContent = 'Reveal all';
   Object.assign(btn.style, {
