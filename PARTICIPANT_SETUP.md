@@ -36,7 +36,7 @@ This will:
 - Install the `mcp` Python package (for Module 7).
 - Patch the MCP server path in `module7_mcp/.claude/settings.json` to your machine.
 - Sanity-check that `claude`, `python3`, `pip`, `git`, `jq`, and `bat` (or `cat`) are present.
-- Open `WORKSHOP.html` in your browser.
+- Open `EXERCISES.html` in your browser.
 
 If `bat` is missing, install it for syntax-highlighted file viewing during exercises:
 

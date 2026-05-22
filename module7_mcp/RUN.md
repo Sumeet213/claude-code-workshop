@@ -1,45 +1,38 @@
-# Module 7 — Live MCP server demo (~5 min)
+# Module 7 — MCP server demo
 
 ## What this demonstrates
 
-A 60-line Python MCP server exposing two tools (`get_oncall`, `page_oncall`) — Claude Code picks them up automatically and uses them like any built-in tool. Same pattern works for wrapping any internal system at your company.
+A 60-line Python MCP server exposing two tools (`get_oncall`, `page_oncall`) — Claude Code picks them up and uses them like any built-in tool. Same pattern works for wrapping any internal system at your company.
 
-## Setup (one-time, do this BEFORE the workshop)
-
-```bash
-cd /Users/sdesai/work/workshop_demo/module7_mcp
-pip install mcp                 # installs the official MCP SDK
-python3 oncall_server.py        # sanity-check it starts; Ctrl-C to exit
-```
-
-If `pip install mcp` fails, try `pip install mcp[cli]` or use a venv:
+## Setup
 
 ```bash
-python3 -m venv .venv && source .venv/bin/activate && pip install mcp
+cd ~/workshop_demo/module7_mcp
+python3 -m venv .venv && .venv/bin/pip install mcp
 ```
 
-Then update `.claude/settings.json` to use the venv's python:
+Sanity-check the import works:
 
-```json
-"command": "/Users/sdesai/work/workshop_demo/module7_mcp/.venv/bin/python"
+```bash
+.venv/bin/python -c "from mcp.server.fastmcp import FastMCP; print('ok')"
 ```
 
 ### Register the server with Claude Code
 
+Use absolute paths — replace `$HOME` with the literal path if your shell doesn't expand it inside `claude mcp add`:
+
 ```bash
 claude mcp add oncall \
-  /Users/sdesai/work/workshop_demo/module7_mcp/.venv/bin/python \
-  /Users/sdesai/work/workshop_demo/module7_mcp/oncall_server.py
+  "$HOME/workshop_demo/module7_mcp/.venv/bin/python" \
+  "$HOME/workshop_demo/module7_mcp/oncall_server.py"
 
 claude mcp list   # expect: oncall: ... - ✓ Connected
 ```
 
-## On the day — exactly what to type
-
-**Read this aloud first:** *"I have a tiny Python MCP server exposing our oncall rotation. Watch Claude pick it up."*
+## Run it
 
 ```bash
-cd /Users/sdesai/work/workshop_demo/module7_mcp
+cd ~/workshop_demo/module7_mcp
 claude
 ```
 
@@ -49,22 +42,21 @@ In Claude:
 > /mcp
 ```
 
-**You should see:** the `oncall` server connected, with `get_oncall` and `page_oncall` listed.
+You should see the `oncall` server connected, with `get_oncall` and `page_oncall` listed.
 
 ```
 > Who is on call for the payments team? Page them about the failing migration on prod-db-3.
 ```
 
-**You should see:** Claude calls `mcp__oncall__get_oncall(team="payments")` first, sees Priya is on call, then calls `mcp__oncall__page_oncall(team="payments", message="...")`. Both with approval prompts the first time.
+Claude calls `mcp__oncall__get_oncall(team="payments")` first, sees who is on call, then calls `mcp__oncall__page_oncall(team="payments", message="...")`. Both with approval prompts the first time.
+
+## Inspect
 
 ```
 > /exit
 cat pages.log                   # the page you just sent
-bat oncall_server.py            # show the 60-line implementation
-bat .claude/settings.json       # show how it's wired
+bat oncall_server.py            # the 60-line implementation
 ```
-
-**Punchline:** *"Stop writing one-off scripts and asking the model to call them via Bash. Wrap your internal systems with structured tools — names that are verbs, descriptions that tell the model the boundaries, structured returns. The model uses them like any other tool."*
 
 ## What to point at in `oncall_server.py`
 
@@ -73,8 +65,9 @@ bat .claude/settings.json       # show how it's wired
 - Return value is JSON-serialised automatically.
 - Error path returns `{"error": "..."}` instead of raising — the model can read it and recover.
 
-## If the demo dies
+## If it breaks
 
-- `/mcp` shows nothing → check the path in `.claude/settings.json` is absolute and correct.
-- Server crashes → check Python version (`python3 --version`, want ≥ 3.10) and `pip show mcp`.
-- Hangs on first call → first-time MCP handshake can take 2-3 seconds; just wait.
+- `/mcp` shows nothing → run `claude mcp list`. If `oncall` is missing, re-run the `claude mcp add oncall ...` command above.
+- `/mcp` shows `oncall` but `failed to connect` → check the venv python exists (`ls module7_mcp/.venv/bin/python`).
+- Server crashes → check Python ≥ 3.10 and `module7_mcp/.venv/bin/python -c "import mcp.server.fastmcp"`.
+- Hangs on first call → first-time handshake can take 2-3 seconds; just wait.

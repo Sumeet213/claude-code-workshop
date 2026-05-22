@@ -120,14 +120,9 @@ fi
 echo ""
 echo "[6/6] Pre-built demo artifacts"
 
-[ -f example2_parallel_review/OVERLAP.md ]                  && pass "M4 OVERLAP.md (3-reviewer table)"          || fail "M4 OVERLAP.md missing"
 [ -f example2_parallel_review/code_under_review/users_api.js ] && pass "M4 users_api.js (flawed file)"          || fail "M4 flawed file missing"
-[ -d module6_commands_skills/live_demo_with_skill ]         && pass "M6 live_demo_with_skill (32 files)"       || fail "M6 with-skill dir missing"
-[ -d module6_commands_skills/live_demo_without_skill ]      && pass "M6 live_demo_without_skill (12 files)"    || fail "M6 without-skill dir missing"
-[ -f module6_commands_skills/COMPARISON.md ]                && pass "M6 COMPARISON.md"                         || fail "M6 COMPARISON.md missing"
 
 # Show files — trainer-only HTMLs are skipped if the matching .md isn't here.
-[ -f WORKSHOP.html ]    && pass "WORKSHOP.html (reference doc)"          || fail "WORKSHOP.html — run: bash scripts/render-show.sh"
 [ -f EXERCISES.html ]   && pass "EXERCISES.html (project for room)"      || fail "EXERCISES.html — run: bash scripts/render-show.sh"
 [ -f CAPSTONE.html ]    && pass "CAPSTONE.html (2-hour build session)"   || fail "CAPSTONE.html — run: bash scripts/render-show.sh"
 

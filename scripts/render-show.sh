@@ -43,36 +43,17 @@ render_txt_as_pre() {
 
 echo "rendering show files ..."
 render_md "module2_anatomy/scenarios.md"                "M2 — Spot the lever"
-render_md "module3_context/before_CLAUDE.md"            "M3 — Bloated CLAUDE.md (before surgery)"
-render_md "module3_context/after_CLAUDE.md"             "M3 — Trimmed CLAUDE.md (after surgery)"
-render_md "module3_context/SURGERY.md"                  "M3 — Surgery debrief"
-render_md "example2_parallel_review/OVERLAP.md"         "M4 — Three reviewers, same file"
-render_md "module6_commands_skills/COMPARISON.md"       "M6 — Skill comparison"
+render_md "module3_context/before_CLAUDE.md"            "M3 — Bloated CLAUDE.md (your turn to trim)"
 render_md "module5_hooks/RUN.md"                        "M5 — Hook demo run-book"
 render_md "module7_mcp/RUN.md"                          "M7 — MCP server run-book"
 render_md "module9_sdk/RUN.md"                          "M9 — Headless run-book"
 render_md "EXERCISES.md"                                "Workshop Exercises (your turn)"
 render_md "PARTICIPANT_SETUP.md"                        "Pre-flight setup for participants"
-render_md "DEMO_COOKBOOK.md"                            "Conductor Cookbook (trainer)"
-render_md "CAPSTONE.md"                                 "Capstone — ship a CI triage bot"
-render_md "START_HERE.md"                               "Start Here"
-render_md "RUNBOOK.md"                                  "Workshop Runbook"
-
-# SCRIPT.md gets its own larger-font teleprompter CSS.
-echo "  rendering SCRIPT.html (teleprompter style)"
-pandoc SCRIPT.md \
-  --standalone \
-  --metadata title="Trainer Script" \
-  --highlight-style=breezedark \
-  --css=scripts/script.css --self-contained \
-  --include-after-body=<(printf '<script>\n%s\n</script>\n' "$JS_SNIPPET") \
-  -o SCRIPT.html
-echo "  rendered SCRIPT.html"
+render_md "CAPSTONE.md"                                 "Capstone — Claude-augment a repo"
 
 echo "rendering transcripts ..."
 render_txt_as_pre "module1_mental_model/transcripts/bad_prompt.txt"  "M1 — Bad prompt transcript"
-render_txt_as_pre "module1_mental_model/transcripts/good_prompt.txt" "M1 — Good prompt transcript"
 
 echo ""
 echo "done. show files:"
-find . -name "*.html" -not -name "WORKSHOP.html" -not -path "*/live_demo_*" | sort
+find . -name "*.html" | sort

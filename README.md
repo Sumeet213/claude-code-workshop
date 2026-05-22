@@ -2,16 +2,13 @@
 
 Hands-on workshop kit for senior engineers learning Claude Code. End-to-end runnable demos, vote-and-reveal exercises, deep-dive modules, and a 2-hour capstone project.
 
-> **If you're a workshop attendee:** read `PARTICIPANT_SETUP.md`, run `bash scripts/setup.sh`, verify with `bash scripts/test_all.sh`, and bring your laptop on the day.
-
-> **If you're studying this on your own:** open `WORKSHOP.html` in a browser and click "Reveal all" — it's the full reference doc with every example, prompt, and explanation visible.
+> **Workshop attendee?** Read `PARTICIPANT_SETUP.md`, run `bash scripts/setup.sh`, verify with `bash scripts/test_all.sh`, and bring your laptop on the day.
 
 ## What's inside
 
 ```
 .
 ├── PARTICIPANT_SETUP.md       ← READ FIRST. 10-min install + verify guide.
-├── WORKSHOP.html              ← Full reference doc. Click "Reveal all" to see answers.
 ├── EXERCISES.html             ← The 9 hands-on exercises projected during the workshop.
 ├── CAPSTONE.html              ← 2-hour end-to-end build session.
 │
@@ -21,16 +18,16 @@ Hands-on workshop kit for senior engineers learning Claude Code. End-to-end runn
 │                                 migration test, seeded git history. Same on
 │                                 every laptop. Same starting point.
 │
-├── module1_mental_model/      ← Bad/good prompt transcripts (read aloud).
+├── module1_mental_model/      ← Bad prompt transcript (reference).
 ├── module2_anatomy/           ← The four levers: 5 voting cards.
-├── module3_context/           ← CLAUDE.md surgery: bloated → trimmed + reasoning.
+├── module3_context/           ← CLAUDE.md surgery: a bloated example to trim.
 ├── module5_hooks/             ← Runnable hook demo: blocks prod_*.yaml writes.
-├── module6_commands_skills/   ← Skill comparison: 32 files vs 12 files for same screen.
+├── module6_commands_skills/   ← Skill exercise: build the same screen with/without a skill.
 ├── module7_mcp/               ← Runnable MCP server: oncall rotation in 60 lines of Python.
-├── module8_permissions/       ← Settings.json: 7 subtle holes in a "reasonable" config.
+├── module8_permissions/       ← Settings.json: holey example to audit.
 ├── module9_sdk/               ← Headless one-shot: claude -p in 30s, real JSON.
 │
-├── example2_parallel_review/  ← Pre-built demo: 3 sub-agents review the same flawed file.
+├── example2_parallel_review/  ← Code under review by 3 parallel sub-agents.
 ├── scripts/                   ← setup.sh, test_all.sh, render-show.sh.
 └── styles.css, *.css          ← CSS for the rendered HTML files.
 ```
@@ -41,8 +38,8 @@ Hands-on workshop kit for senior engineers learning Claude Code. End-to-end runn
 git clone https://github.com/Sumeet213/claude-code-workshop.git ~/workshop_demo
 cd ~/workshop_demo
 bash scripts/setup.sh        # one-time: venv + mcp, seeds sandbox_repo git history, etc.
-bash scripts/test_all.sh     # 23 automated checks; expect "all 23 checks passed"
-open WORKSHOP.html
+bash scripts/test_all.sh     # automated checks; expect "all checks passed"
+open EXERCISES.html
 ```
 
 For the live headless test (uses real `claude -p`, ~$0.07):
@@ -55,10 +52,10 @@ RUN_HEADLESS=1 bash scripts/test_all.sh
 
 Every exercise that involves running Claude *against a codebase* runs inside `sandbox_repo/`. It's a pre-staged Express/TypeScript project with:
 
-- A **bloated CLAUDE.md** (130 lines) for the M3 surgery exercise.
-- A **holey `.claude/settings.json`** (7 subtle holes) for the M8 audit.
+- A **bloated CLAUDE.md** for the M3 surgery exercise.
+- A **holey `.claude/settings.json`** for the M8 audit.
 - A **failing migration test** (the Down block is just `-- TODO`) for the M1 bad/good prompt exercise.
-- **Seeded git history** (6 commits across 4 days, with a `main-stable` divergence branch) so the M6 `/standup` exercise has real material.
+- **Seeded git history** so the M6 `/standup` exercise has real material.
 
 **Same playground on every laptop.** No "I don't have a repo on this machine." No "I can't run Claude against my work code." No uneven exercises because Alice has a 500-file repo and Bob has a 5-file scratch project. **Reproducible failures, reproducible bloat, reproducible holes.**
 
@@ -92,20 +89,9 @@ Nine modules:
 | M7 | `cd module7_mcp && claude` then `/mcp` | Python MCP server connects; Claude calls `get_oncall` then `page_oncall` |
 | M9 | `bash module9_sdk/quick_demo.sh` | Real JSON triage report in ~5s for ~$0.07 |
 
-## Two pre-built showstoppers
-
-| Module | Open this | What it shows |
-|---|---|---|
-| M4 | `example2_parallel_review/OVERLAP.html` | Three sub-agents reviewed the same flawed file in parallel. Specialists found 17/19 issues with depth. Generalist found 16/19 broader. The route-ordering bug only the generalist caught. |
-| M6 | `module6_commands_skills/COMPARISON.html` | Two agents built the same React Native profile screen. With the team's `frontend-design` skill: 32 files, theme tokens, async-state hook. Without: 12 files, happy-path only. |
-
 ## After the workshop — the capstone
 
-`CAPSTONE.html` is a 2-hour build challenge with three tracks, all universally applicable (no internal-system access required):
-
-- **Track A** — ship a CI triage bot end-to-end with parallel sub-agents.
-- **Track B** — augment `sandbox_repo` (or your own repo if you have one) with full Claude infrastructure.
-- **Track C** — wrap local CLIs (`git`, `gh`, `rg`) as an MCP server.
+`CAPSTONE.html` is a 2-hour build challenge: augment `sandbox_repo` (or your own repo if you have one) with full Claude infrastructure — CLAUDE.md, hooks, slash commands, MCP, headless script. Universally applicable, no internal-system access required.
 
 ## Re-rendering after edits
 
