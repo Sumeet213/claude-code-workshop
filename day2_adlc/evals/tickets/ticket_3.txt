@@ -1,0 +1,5 @@
+Ticket #4823 — from: alex.t@example.com
+
+Question: does the API support webhooks for order status changes? I checked
+the docs but only found polling endpoints. Not urgent — evaluating for a
+side project.

@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="generator" content="pandoc" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
-  <title>Hook demo run-book</title>
+  <title>Production monitoring for AI</title>
   <style>
 
 span.smallcaps{font-variant: small-caps;}
@@ -227,39 +227,89 @@ blockquote { color: #000; background: #f9f9f9; }
 </head>
 <body>
 <header id="title-block-header">
-<h1 class="title">Hook demo run-book</h1>
+<h1 class="title">Production monitoring for AI</h1>
 </header>
-<h1 id="module-5-hook-demo">Module 5 — Hook demo</h1>
-<h2 id="what-this-demonstrates">What this demonstrates</h2>
-<p>A <code>PreToolUse</code> hook that blocks any <code>Write</code> or
-<code>Edit</code> whose <code>file_path</code> matches
-<code>prod_*.yaml</code>. Useful pattern for protecting production
-config from agent edits while leaving dev/staging files alone.</p>
-<h2 id="setup-one-time">Setup (one-time)</h2>
-<div class="sourceCode" id="cb1"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">chmod</span> +x ~/workshop_demo/module5_hooks/.claude/hooks/block-prod-writes.sh</span></code></pre></div>
-<p>That’s it. No installs.</p>
-<h2 id="run-it">Run it</h2>
-<div class="sourceCode" id="cb2"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> ~/workshop_demo/module5_hooks</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="ex">claude</span></span></code></pre></div>
-<p>In the Claude prompt:</p>
-<pre><code>&gt; Update sample_files/prod_config.yaml — change the database host to &quot;new-host.internal&quot;</code></pre>
-<p>Claude tries to call <code>Edit</code>, the hook fires, a big red
-boxed message appears explaining what was blocked and how to override.
-Claude reports back that it couldn’t make the change.</p>
-<h2 id="inspect">Inspect</h2>
-<pre><code>&gt; /exit
-bat .claude/hooks/block-prod-writes.sh
-bat .claude/settings.json
-cat .claude/hook-debug.log     # audit trail of every check</code></pre>
-<h2 id="debug">Debug</h2>
-<div class="sourceCode" id="cb5"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tail</span> <span class="at">-f</span> .claude/hook-debug.log</span></code></pre></div>
-<p>Every invocation is logged with the full input JSON. If you ever
-wonder “did the hook even run?” — that’s the answer.</p>
-<h2 id="override-escape-hatch">Override (escape hatch)</h2>
-<div class="sourceCode" id="cb6"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="va">PROD_OVERRIDE</span><span class="op">=</span>1 <span class="ex">claude</span></span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="op">&gt;</span> Update <span class="ex">sample_files/prod_config.yaml</span> — change the database host to <span class="st">&quot;new-host.internal&quot;</span></span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="co"># now it succeeds, but is logged</span></span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span> .claude/hook-debug.log <span class="kw">|</span> <span class="fu">grep</span> PROD_OVERRIDE</span></code></pre></div>
+<h1 id="production-monitoring-for-ai-usage">Production monitoring for AI
+usage</h1>
+<p>You shipped an agent. Now: what do you put on the dashboard? Two
+distinct things to monitor — don’t conflate them.</p>
+<h2 id="a.-monitoring-claude-code-usage-itself-the-teams-tool">A.
+Monitoring Claude Code usage itself (the team’s tool)</h2>
+<p>Claude Code emits OpenTelemetry natively. Point it at any OTLP
+collector and you get team-level dashboards in
+Grafana/Datadog/CloudWatch:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="bu">export</span> <span class="va">CLAUDE_CODE_ENABLE_TELEMETRY</span><span class="op">=</span>1</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="bu">export</span> <span class="va">OTEL_METRICS_EXPORTER</span><span class="op">=</span>otlp</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="bu">export</span> <span class="va">OTEL_EXPORTER_OTLP_ENDPOINT</span><span class="op">=</span>http://your-collector:4317</span></code></pre></div>
+<p>What you get: token usage + cost per user/model, session counts,
+lines of code changed, tool acceptance/rejection rates. What managers
+actually ask for: <strong>cost per engineer per week</strong> and
+<strong>% of suggestions accepted</strong>.</p>
+<h2 id="b.-monitoring-the-ai-features-you-ship-your-product">B.
+Monitoring the AI features you ship (your product)</h2>
+<p>Four signal groups, in priority order:</p>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>Signal</th>
+<th>Examples</th>
+<th>Why first</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Cost &amp; tokens</td>
+<td>tokens/request, cost/tenant/day, cache hit rate</td>
+<td>the bill surprises you before the quality does</td>
+</tr>
+<tr>
+<td>Reliability</td>
+<td>latency p95, timeout rate, tool-error rate, retry storms</td>
+<td>agents fail weirder than services — a 40-turn loop <em>is</em> an
+outage</td>
+</tr>
+<tr>
+<td>Quality</td>
+<td>eval scores on sampled prod traffic (reuse
+<code>../evals/judge.sh</code> logic), thumbs-up rate, human-override
+rate</td>
+<td>this is your Layer-2 eval, promoted to prod</td>
+</tr>
+<tr>
+<td>Safety</td>
+<td>prompt-injection detections, blocked-tool-call count, PII flags</td>
+<td>rare, but the ones that page you</td>
+</tr>
+</tbody>
+</table>
+<p>Tracing tools built for LLM apps — <strong>Arize Phoenix</strong>
+(open source, self-host) or <strong>Langfuse</strong> (open source,
+self-host) — capture the full prompt → tool-calls → response tree per
+request, which is what you’ll actually stare at during an incident.
+Grafana stays for the aggregate metrics + alerting.</p>
+<h2 id="alerts-worth-writing-on-day-one">Alerts worth writing on day
+one</h2>
+<ol type="1">
+<li>Daily model spend &gt; N× trailing 7-day average (catches loops and
+abuse).</li>
+<li>Judge-eval score on sampled traffic drops below threshold (catches
+silent quality regressions — model updates, prompt drift, upstream data
+changes).</li>
+<li>Tool-error rate spike (catches broken integrations the model then
+hallucinates around — the scariest failure mode, because output stays
+fluent).</li>
+</ol>
+<h2 id="hands-on-10-min-design-your-dashboard">Hands-on (10 min): design
+your dashboard</h2>
+<p>Sketch (paper is fine) the 6 tiles of the dashboard for the AI
+feature your capstone team will build this afternoon. For each tile:
+metric, threshold, who gets paged. Teams present one tile each — fastest
+round wins.</p>
 <script>
 // Tiny enhancement script for WORKSHOP.html.
 // 1. Tints code blocks that follow a "❌ Bad" heading red.

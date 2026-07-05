@@ -1,0 +1,6 @@
+Ticket #4822 — from: priya.k@example.com
+
+Your latest app update BROKE offline mode completely. I'm a field engineer,
+I specifically bought this for offline sync. It crashes on launch when there
+is no network. This is the third release in a row with a regression. Fix it
+or I'm cancelling the team plan (14 seats).

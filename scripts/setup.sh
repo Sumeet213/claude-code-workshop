@@ -78,8 +78,12 @@ fi
 
 # 6. Smoke-test claude.
 echo ""
-echo "→ claude doctor:"
-claude doctor 2>&1 | sed 's/^/   /' | head -10 || echo "   ! claude not authenticated"
+if [ -t 0 ]; then
+  echo "→ claude doctor:"
+  claude doctor 2>&1 | sed 's/^/   /' | head -10 || echo "   ! claude not authenticated"
+else
+  echo "→ skipping claude doctor (non-interactive shell) — run it yourself once"
+fi
 
 # 7. Seed sandbox_repo git history (so M6's /standup has something to summarise).
 echo ""

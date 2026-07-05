@@ -20,15 +20,16 @@ echo "════════════════════════�
 echo ""
 
 # ── 1. Tools ─────────────────────────────────────────────────────────
-echo "[1/5] Required tools"
+echo "[1/7] Required tools"
 command -v claude >/dev/null  && pass "claude ($(claude --version 2>&1 | head -1))" || fail "claude — install with: npm i -g @anthropic-ai/claude-code"
 command -v jq     >/dev/null  && pass "jq ($(jq --version))"                       || fail "jq — install with: brew install jq"
 command -v git    >/dev/null  && pass "git"                                         || fail "git"
+command -v node   >/dev/null  && pass "node ($(node --version))"                    || fail "node — needed for day2_adlc (kata + evals)"
 command -v bat    >/dev/null  && pass "bat"                                         || info "bat not installed (cat fallback works)"
 
 # ── 2. Module 5 — hook script ─────────────────────────────────────────
 echo ""
-echo "[2/5] Module 5 — hook fires on prod_*.yaml"
+echo "[2/7] Module 5 — hook fires on prod_*.yaml"
 
 # Block path
 out=$(echo '{"tool_input":{"file_path":"/x/prod_config.yaml"}}' | \
@@ -55,7 +56,7 @@ ec=$?
 
 # ── 3. Module 7 — MCP server loads ────────────────────────────────────
 echo ""
-echo "[3/5] Module 7 — MCP server module loads"
+echo "[3/7] Module 7 — MCP server module loads"
 
 if [ -x module7_mcp/.venv/bin/python ]; then
   if module7_mcp/.venv/bin/python -c "import sys; sys.path.insert(0, 'module7_mcp'); import oncall_server" 2>/dev/null; then
@@ -76,7 +77,7 @@ fi
 
 # ── 4. Module 9 — headless demo (OPT-IN, costs money) ──────────────────
 echo ""
-echo "[4/5] Module 9 — headless quick_demo.sh"
+echo "[4/7] Module 9 — headless quick_demo.sh"
 
 if [ "${RUN_HEADLESS:-0}" = "1" ]; then
   info "running quick_demo.sh (this calls claude -p, ~5-30s, ~\$0.07)"
@@ -93,7 +94,7 @@ fi
 
 # ── 5. Sandbox repo seeded ────────────────────────────────────────────
 echo ""
-echo "[5/6] sandbox_repo (the shared exercise playground)"
+echo "[5/7] sandbox_repo (the shared exercise playground)"
 
 [ -d sandbox_repo ] && pass "sandbox_repo present"                            || fail "sandbox_repo missing"
 [ -f sandbox_repo/CLAUDE.md ] && pass "sandbox_repo/CLAUDE.md (bloated; for E3)" || fail "sandbox_repo/CLAUDE.md missing"
@@ -116,21 +117,71 @@ else
   fail "sandbox_repo/.git not initialised — run: bash scripts/setup.sh"
 fi
 
-# ── 6. Pre-built artifacts present ────────────────────────────────────
+# ── 6. Day 2 ADLC assets ─────────────────────────────────────────────
 echo ""
-echo "[6/6] Pre-built demo artifacts"
+echo "[6/7] day2_adlc (specs, kata, evals, cicd, cloud, monitoring)"
 
-[ -f example2_parallel_review/code_under_review/users_api.js ] && pass "M4 users_api.js (flawed file)"          || fail "M4 flawed file missing"
+[ -f day2_adlc/specs/SPEC_TEMPLATE.md ] && [ -f day2_adlc/specs/example_spec_export_endpoint.md ] \
+  && pass "specs (template + example)" || fail "day2_adlc/specs files missing"
+
+if command -v node >/dev/null && [ -f day2_adlc/tdd_kata/ratelimiter.test.js ]; then
+  kata_out=$( (cd day2_adlc/tdd_kata && node --test 2>&1) )
+  if echo "$kata_out" | grep -q "not implemented"; then
+    pass "tdd_kata runs and starts red (stub not implemented — by design)"
+  else
+    fail "tdd_kata: expected red run mentioning 'not implemented' (was the stub solved and committed?)"
+  fi
+else
+  fail "tdd_kata missing or node unavailable"
+fi
+
+if command -v node >/dev/null && [ -f day2_adlc/evals/check.js ]; then
+  evals_out=$(node day2_adlc/evals/check.js 2>&1)
+  ec=$?
+  if [ "$ec" = "1" ] && echo "$evals_out" | grep -q "3/5 outputs pass"; then
+    pass "evals check.js catches exactly the 2 seeded structural flaws"
+  else
+    fail "evals check.js: expected exit 1 with '3/5 outputs pass'; got exit $ec"
+  fi
+else
+  fail "evals/check.js missing or node unavailable"
+fi
+
+[ -x day2_adlc/evals/judge.sh ] || [ -f day2_adlc/evals/judge.sh ] && pass "evals judge.sh present (live-run it once before Day 2)" || fail "evals/judge.sh missing"
+[ -f day2_adlc/cicd/claude-pr-review.yml ] && [ -f day2_adlc/cicd/deploy-pipeline.yml ] \
+  && pass "cicd workflow samples" || fail "day2_adlc/cicd YAMLs missing"
+[ -f day2_adlc/cloud_aws/README.md ] && [ -f day2_adlc/monitoring/README.md ] \
+  && pass "cloud_aws + monitoring notes" || fail "cloud_aws/monitoring README missing"
+
+# Trainer-only kickoff material (skipped in the public repo).
+if [ -d day1_kickoff ]; then
+  [ -f day1_kickoff/ICEBREAKER.md ] && [ -f day1_kickoff/wow_demo.md ] \
+    && pass "day1_kickoff (icebreaker + wow demo)" || fail "day1_kickoff files missing"
+fi
+
+# ── 7. Pre-built artifacts present ────────────────────────────────────
+echo ""
+echo "[7/7] Pre-built demo artifacts"
+
+[ -f example2_parallel_review/code_under_review/users_api.js ] && pass "E5 users_api.js (flawed file)"          || fail "E5 flawed file missing"
+
+# Trainer-only pre-built reveals (absent in the public participant repo).
+if [ -f SCRIPT.md ]; then
+  [ -f example2_parallel_review/OVERLAP.md ]              && pass "E5 OVERLAP.md (3-reviewer answer key)"    || fail "E5 OVERLAP.md missing"
+  [ -d module6_commands_skills/live_demo_with_skill ]     && pass "skills live_demo_with_skill (32 files)"   || fail "with-skill dir missing"
+  [ -d module6_commands_skills/live_demo_without_skill ]  && pass "skills live_demo_without_skill (12 files)" || fail "without-skill dir missing"
+  [ -f module6_commands_skills/COMPARISON.md ]            && pass "skills COMPARISON.md"                     || fail "COMPARISON.md missing"
+fi
 
 # Show files — trainer-only HTMLs are skipped if the matching .md isn't here.
+[ -f DECK.html ]        && pass "DECK.html (slide deck)"                 || fail "DECK.html missing"
 [ -f EXERCISES.html ]   && pass "EXERCISES.html (project for room)"      || fail "EXERCISES.html — run: bash scripts/render-show.sh"
-[ -f CAPSTONE.html ]    && pass "CAPSTONE.html (2-hour build session)"   || fail "CAPSTONE.html — run: bash scripts/render-show.sh"
+[ -f CAPSTONE.html ]    && pass "CAPSTONE.html (team capstone)"          || fail "CAPSTONE.html — run: bash scripts/render-show.sh"
 
 # Trainer-only show files (only check if you're in the trainer repo).
+if [ -f WORKSHOP.md ];      then [ -f WORKSHOP.html ]      && pass "WORKSHOP.html (deep-dive reference)" || fail "WORKSHOP.html — run: bash scripts/render-show.sh"; fi
 if [ -f SCRIPT.md ];        then [ -f SCRIPT.html ]        && pass "SCRIPT.html"         || fail "SCRIPT.html"; fi
-if [ -f DEMO_COOKBOOK.md ]; then [ -f DEMO_COOKBOOK.html ] && pass "DEMO_COOKBOOK.html"  || fail "DEMO_COOKBOOK.html"; fi
 if [ -f RUNBOOK.md ];       then [ -f RUNBOOK.html ]       && pass "RUNBOOK.html"        || fail "RUNBOOK.html"; fi
-if [ -f START_HERE.md ];    then [ -f START_HERE.html ]    && pass "START_HERE.html"     || fail "START_HERE.html"; fi
 
 # ── Summary ───────────────────────────────────────────────────────────
 echo ""

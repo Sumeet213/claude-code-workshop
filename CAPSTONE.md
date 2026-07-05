@@ -1,75 +1,78 @@
-**A real artifact at the end.** Three phases.
+# Capstone — 3 hours, teams of 4, one shipped thing
 
-Take a repo and Claude-ify it end-to-end. By the end it has a load-bearing CLAUDE.md, a committed hook, two slash commands you'll actually use, and a connected MCP server. **A real PR-able commit.**
+> Day 2 afternoon. Your team (formed Day 1 morning) builds a working
+> AI-augmented tool end-to-end, using everything from the last two days:
+> spec first, agents + skills + hooks + MCP in the build, tests + evals as
+> proof, and a 5-minute demo at 16:00 sharp.
 
-**Default target:** `sandbox_repo/` — the pre-staged Express/TypeScript project everyone has on disk. Already a git repo with seeded history (via `scripts/setup.sh`), a bloated CLAUDE.md, and a holey settings.json.
+## Team roles (rotate if you like, but fill all four)
 
-**Or:** swap in a real repo on this laptop. The phases below are identical regardless of target.
-
-## Phases
-
-| Phase | What you ship |
+| Role | Owns |
 |---|---|
-| **P1 — Bootstrap** | `CLAUDE.md` + `.claude/settings.json` + first hook in your chosen repo |
-| **P2 — Workflows** | Two slash commands (`/standup`, plus one of your choice) |
-| **P3 — Tools** | One MCP server connection (oncall sample, OR a small local-CLI wrap) |
+| **Product** | the spec, the non-goals, the demo story |
+| **Builder** | the main Claude session doing the implementation |
+| **Toolsmith** | CLAUDE.md, settings.json, hooks, slash commands, MCP wiring |
+| **Verifier** | tests, evals, the "prove it" pass before demo |
 
-## P1 — Bootstrap
+Four laptops, four parallel work streams — orchestrate yourselves the way
+you orchestrated sub-agents yesterday.
 
-```bash
-cd ~/workshop_demo/sandbox_repo
-```
+## Pick a project (or bring your own)
 
-**Steps**
-1. The bloated CLAUDE.md is already here. Cut bloat, keep load-bearing invariants. Aim for ≤40 lines.
-2. The holey `.claude/settings.json` is already here too. Replace it with a tight allow-list (`pnpm test:*`, `pnpm lint:*`, `pnpm typecheck`, `git:*`, `gh:*`) and a paranoid deny-list (destructive shell, force-push, secret-file reads, the wrong package manager, curl-to-shell).
-3. Add `.claude/hooks/block-migrations.sh` — a hook that blocks any `Edit` or `Write` whose `file_path` matches `src/db/migrations/*.sql`. Use `module5_hooks/.claude/hooks/block-prod-writes.sh` as the template.
+Anything is allowed if it's demoable in 3 hours and uses ≥ 3 workshop
+techniques. The menu, if you want one:
 
-**Verify:** `cd sandbox_repo && claude`, ask it to edit `src/db/migrations/0042_add_soft_delete.sql`. Hook fires.
+1. **PR concierge** — CLI or CI job: takes a diff/PR, runs parallel review
+   agents (security / quality / tests), merges findings, posts one verdict.
+   Test it on `example2_parallel_review/code_under_review/users_api.js`.
+2. **Ticket-to-triage pipeline** — extend `day2_adlc/evals/`: ingest raw
+   tickets, produce structured JSON, run code checks + LLM-judge, route
+   low-confidence items to a human review queue.
+3. **Oncall copilot** — extend `module7_mcp/oncall_server.py` with real tools
+   (schedules, escalation, incident notes), then build the slash-command
+   workflow an on-call engineer would actually run at 3 a.m.
+4. **Repo doctor** — point it at any repo: generates a load-bearing CLAUDE.md,
+   audits settings.json, installs a guard hook and two useful slash commands.
+   A productized version of Day 1, runnable on your company repo Monday.
+5. **Spec-to-feature factory** — take the `sandbox_repo` export-endpoint spec
+   (or your own spec from E9) all the way: plan → tests → implementation →
+   eval → a CI workflow file that would gate it.
 
-## P2 — Workflows
+## The three milestones (a trainer checks each)
 
-Two slash commands you'll actually use.
+**M1 — 13:30: Spec frozen.** One page, template in `day2_adlc/specs/`.
+Includes non-goals, edge cases, acceptance criteria, and *which workshop
+techniques you'll use where*. No code before the spec is stamped.
 
-**Pick two from this list, or invent your own:**
+**M2 — 15:00: Vertical slice.** One path works end-to-end, ugly is fine.
+If you're not vertical by 15:00, cut scope — that's Product's job, do it
+ruthlessly.
 
-- `/standup` — summarises commits since `main`, uncommitted changes, open TODOs in the diff.
-- `/pr-body` — generates a PR description from your branch's diff.
-- `/explain-this` — given a file, explains what it does, where it's called, what it depends on.
-- `/find-similar` — given a function, finds others in the repo with similar shape.
-- `/review-staged` — reviews `git diff --cached` for issues before you commit.
-- `/spike <topic>` — research mode: model lists 3-5 implementation options for a feature, no code.
-- `/why-flaky <test>` — analyses a test history (via `git log -p`) for flakiness patterns.
+**M3 — 15:45: Proof pass.** Verifier drives: run the tests, run the eval,
+try to break it live. Fix or fence what breaks. Freeze for demo.
 
-Each lives in `.claude/commands/<name>.md`. Use the patterns from M6 — `allowed-tools` frontmatter, explicit step list, output contract.
+## Demos — 16:00, 5 minutes per team, hard cut
 
-**Verify:** run `/standup` (or whatever you picked). Iterate the prompt until the output is genuinely useful.
+1. The problem, in one sentence.
+2. **Live run** — no slides, no screenshots. It works or it doesn't; both are
+   interesting.
+3. The receipt: show your test/eval output proving it works.
+4. One thing an agent did that surprised you.
 
-## P3 — Tools
+## Scoring (peer-voted, one vote per team, can't vote for yourself)
 
-**Two paths — pick one:**
+- **Works live** — did the demo run?
+- **Technique depth** — spec + how many of: plan mode, sub-agents, skills/commands, hooks, MCP, evals, CI?
+- **Would steal it** — would another team actually use this at work?
 
-**Path A: wire the workshop's oncall server.** Already configured in `module7_mcp/`. Adapt your `.claude/settings.json` to point at it. Verify with `/mcp`.
+Winning team gets bragging rights and their repo linked in the workshop
+follow-up email.
 
-**Path B: wrap a local CLI as MCP.** Build a small MCP server wrapping one local CLI tool — `git`, `gh`, or `rg`. Two tools, structured returns. Use `module7_mcp/oncall_server.py` as the template.
+## Rules
 
-**Stretch:** add a `PreToolUse` hook that requires confirmation for any *write-shaped* MCP tool.
-
-## Take-home
-
-Open a PR to your repo with all of the above. Title it "Add Claude Code workflow". Your team has a working starting point Monday morning.
-
----
-
-## The hard one
-
-Build a slash command that is genuinely hard to do well:
-
-**`/safe-bump <package>`** — bump a dependency to the latest version. The command must:
-
-1. Read the changelog between the currently-installed version and the latest.
-2. Classify each changelog entry as **breaking**, **behavioural**, or **patch**.
-3. Find every callsite in your repo that touches the affected APIs.
-4. Output a verdict: is this bump safe? If not, what specifically needs to change first?
-
-The obvious one-pass implementation is wrong. You'll find out whether you can prompt-engineer your way through, whether you need sub-agents, or whether the task actually wants a skill.
+- Default target repos are in this kit; your own repo is allowed if the whole
+  team can see it.
+- Trainers unblock, they don't build. Ask early — the 15-minute silent
+  struggle is the most expensive thing in the room.
+- Commit as you go. A capstone that only exists in a terminal scrollback
+  didn't happen.

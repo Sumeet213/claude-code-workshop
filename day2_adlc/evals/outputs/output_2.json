@@ -1,0 +1,5 @@
+{
+  "ticket": "ticket_2.txt",
+  "sentiment": "negative",
+  "category": "bug",
+  "summary": "Offline mode crashes on launch after latest update; field engineer threatens to cancel 14-seat team plan",

@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="generator" content="pandoc" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
-  <title>Capstone — Claude-augment a repo</title>
+  <title>Capstone — teams of 4, one shipped thing</title>
   <style>
 
 span.smallcaps{font-variant: small-caps;}
@@ -20,74 +20,6 @@ margin: 0 0.8em 0.2em -1.6em;
 vertical-align: middle;
 }
 .display.math{display: block; text-align: center; margin: 0.5rem auto;}
-
-html { -webkit-text-size-adjust: 100%; }
-pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
-pre > code.sourceCode > span:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
-div.sourceCode { margin: 1em 0; }
-pre.sourceCode { margin: 0; }
-@media screen {
-div.sourceCode { overflow: auto; }
-}
-@media print {
-pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
-}
-pre.numberSource code
-{ counter-reset: source-line 0; }
-pre.numberSource code > span
-{ position: relative; left: -4em; counter-increment: source-line; }
-pre.numberSource code > span > a:first-child::before
-{ content: counter(source-line);
-position: relative; left: -1em; text-align: right; vertical-align: baseline;
-border: none; display: inline-block;
--webkit-touch-callout: none; -webkit-user-select: none;
--khtml-user-select: none; -moz-user-select: none;
--ms-user-select: none; user-select: none;
-padding: 0 4px; width: 4em;
-background-color: #232629;
-color: #7a7c7d;
-}
-pre.numberSource { margin-left: 3em; border-left: 1px solid #7a7c7d; padding-left: 4px; }
-div.sourceCode
-{ color: #cfcfc2; background-color: #232629; }
-@media screen {
-pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
-}
-code span { color: #cfcfc2; } 
-code span.al { color: #95da4c; background-color: #4d1f24; font-weight: bold; } 
-code span.an { color: #3f8058; } 
-code span.at { color: #2980b9; } 
-code span.bn { color: #f67400; } 
-code span.bu { color: #7f8c8d; } 
-code span.cf { color: #fdbc4b; font-weight: bold; } 
-code span.ch { color: #3daee9; } 
-code span.cn { color: #27aeae; font-weight: bold; } 
-code span.co { color: #7a7c7d; } 
-code span.cv { color: #7f8c8d; } 
-code span.do { color: #a43340; } 
-code span.dt { color: #2980b9; } 
-code span.dv { color: #f67400; } 
-code span.er { color: #da4453; text-decoration: underline; } 
-code span.ex { color: #0099ff; font-weight: bold; } 
-code span.fl { color: #f67400; } 
-code span.fu { color: #8e44ad; } 
-code span.im { color: #27ae60; } 
-code span.in { color: #c45b00; } 
-code span.kw { color: #cfcfc2; font-weight: bold; } 
-code span.op { color: #cfcfc2; } 
-code span.ot { color: #27ae60; } 
-code span.pp { color: #27ae60; } 
-code span.re { color: #2980b9; background-color: #153042; } 
-code span.sc { color: #3daee9; } 
-code span.ss { color: #da4453; } 
-code span.st { color: #f44f4f; } 
-code span.va { color: #27aeae; } 
-code span.vs { color: #da4453; } 
-code span.wa { color: #da4453; } 
 </style>
   <style type="text/css">
 :root {
@@ -227,20 +159,18 @@ blockquote { color: #000; background: #f9f9f9; }
 </head>
 <body>
 <header id="title-block-header">
-<h1 class="title">Capstone — Claude-augment a repo</h1>
+<h1 class="title">Capstone — teams of 4, one shipped thing</h1>
 </header>
-<p><strong>A real artifact at the end.</strong> Three phases.</p>
-<p>Take a repo and Claude-ify it end-to-end. By the end it has a
-load-bearing CLAUDE.md, a committed hook, two slash commands you’ll
-actually use, and a connected MCP server. <strong>A real PR-able
-commit.</strong></p>
-<p><strong>Default target:</strong> <code>sandbox_repo/</code> — the
-pre-staged Express/TypeScript project everyone has on disk. Already a
-git repo with seeded history (via <code>scripts/setup.sh</code>), a
-bloated CLAUDE.md, and a holey settings.json.</p>
-<p><strong>Or:</strong> swap in a real repo on this laptop. The phases
-below are identical regardless of target.</p>
-<h2 id="phases">Phases</h2>
+<h1 id="capstone-3-hours-teams-of-4-one-shipped-thing">Capstone — 3
+hours, teams of 4, one shipped thing</h1>
+<blockquote>
+<p>Day 2 afternoon. Your team (formed Day 1 morning) builds a working
+AI-augmented tool end-to-end, using everything from the last two days:
+spec first, agents + skills + hooks + MCP in the build, tests + evals as
+proof, and a 5-minute demo at 16:00 sharp.</p>
+</blockquote>
+<h2 id="team-roles-rotate-if-you-like-but-fill-all-four">Team roles
+(rotate if you like, but fill all four)</h2>
 <table>
 <colgroup>
 <col style="width: 50%" />
@@ -248,103 +178,98 @@ below are identical regardless of target.</p>
 </colgroup>
 <thead>
 <tr>
-<th>Phase</th>
-<th>What you ship</th>
+<th>Role</th>
+<th>Owns</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td><strong>P1 — Bootstrap</strong></td>
-<td><code>CLAUDE.md</code> + <code>.claude/settings.json</code> + first
-hook in your chosen repo</td>
+<td><strong>Product</strong></td>
+<td>the spec, the non-goals, the demo story</td>
 </tr>
 <tr>
-<td><strong>P2 — Workflows</strong></td>
-<td>Two slash commands (<code>/standup</code>, plus one of your
-choice)</td>
+<td><strong>Builder</strong></td>
+<td>the main Claude session doing the implementation</td>
 </tr>
 <tr>
-<td><strong>P3 — Tools</strong></td>
-<td>One MCP server connection (oncall sample, OR a small local-CLI
-wrap)</td>
+<td><strong>Toolsmith</strong></td>
+<td>CLAUDE.md, settings.json, hooks, slash commands, MCP wiring</td>
+</tr>
+<tr>
+<td><strong>Verifier</strong></td>
+<td>tests, evals, the “prove it” pass before demo</td>
 </tr>
 </tbody>
 </table>
-<h2 id="p1-bootstrap">P1 — Bootstrap</h2>
-<div class="sourceCode" id="cb1"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> ~/workshop_demo/sandbox_repo</span></code></pre></div>
-<p><strong>Steps</strong> 1. The bloated CLAUDE.md is already here. Cut
-bloat, keep load-bearing invariants. Aim for ≤40 lines. 2. The holey
-<code>.claude/settings.json</code> is already here too. Replace it with
-a tight allow-list (<code>pnpm test:*</code>, <code>pnpm lint:*</code>,
-<code>pnpm typecheck</code>, <code>git:*</code>, <code>gh:*</code>) and
-a paranoid deny-list (destructive shell, force-push, secret-file reads,
-the wrong package manager, curl-to-shell). 3. Add
-<code>.claude/hooks/block-migrations.sh</code> — a hook that blocks any
-<code>Edit</code> or <code>Write</code> whose <code>file_path</code>
-matches <code>src/db/migrations/*.sql</code>. Use
-<code>module5_hooks/.claude/hooks/block-prod-writes.sh</code> as the
-template.</p>
-<p><strong>Verify:</strong>
-<code>cd sandbox_repo &amp;&amp; claude</code>, ask it to edit
-<code>src/db/migrations/0042_add_soft_delete.sql</code>. Hook fires.</p>
-<h2 id="p2-workflows">P2 — Workflows</h2>
-<p>Two slash commands you’ll actually use.</p>
-<p><strong>Pick two from this list, or invent your own:</strong></p>
-<ul>
-<li><code>/standup</code> — summarises commits since <code>main</code>,
-uncommitted changes, open TODOs in the diff.</li>
-<li><code>/pr-body</code> — generates a PR description from your
-branch’s diff.</li>
-<li><code>/explain-this</code> — given a file, explains what it does,
-where it’s called, what it depends on.</li>
-<li><code>/find-similar</code> — given a function, finds others in the
-repo with similar shape.</li>
-<li><code>/review-staged</code> — reviews <code>git diff --cached</code>
-for issues before you commit.</li>
-<li><code>/spike &lt;topic&gt;</code> — research mode: model lists 3-5
-implementation options for a feature, no code.</li>
-<li><code>/why-flaky &lt;test&gt;</code> — analyses a test history (via
-<code>git log -p</code>) for flakiness patterns.</li>
-</ul>
-<p>Each lives in <code>.claude/commands/&lt;name&gt;.md</code>. Use the
-patterns from M6 — <code>allowed-tools</code> frontmatter, explicit step
-list, output contract.</p>
-<p><strong>Verify:</strong> run <code>/standup</code> (or whatever you
-picked). Iterate the prompt until the output is genuinely useful.</p>
-<h2 id="p3-tools">P3 — Tools</h2>
-<p><strong>Two paths — pick one:</strong></p>
-<p><strong>Path A: wire the workshop’s oncall server.</strong> Already
-configured in <code>module7_mcp/</code>. Adapt your
-<code>.claude/settings.json</code> to point at it. Verify with
-<code>/mcp</code>.</p>
-<p><strong>Path B: wrap a local CLI as MCP.</strong> Build a small MCP
-server wrapping one local CLI tool — <code>git</code>, <code>gh</code>,
-or <code>rg</code>. Two tools, structured returns. Use
-<code>module7_mcp/oncall_server.py</code> as the template.</p>
-<p><strong>Stretch:</strong> add a <code>PreToolUse</code> hook that
-requires confirmation for any <em>write-shaped</em> MCP tool.</p>
-<h2 id="take-home">Take-home</h2>
-<p>Open a PR to your repo with all of the above. Title it “Add Claude
-Code workflow”. Your team has a working starting point Monday
-morning.</p>
-<hr />
-<h2 id="the-hard-one">The hard one</h2>
-<p>Build a slash command that is genuinely hard to do well:</p>
-<p><strong><code>/safe-bump &lt;package&gt;</code></strong> — bump a
-dependency to the latest version. The command must:</p>
+<p>Four laptops, four parallel work streams — orchestrate yourselves the
+way you orchestrated sub-agents yesterday.</p>
+<h2 id="pick-a-project-or-bring-your-own">Pick a project (or bring your
+own)</h2>
+<p>Anything is allowed if it’s demoable in 3 hours and uses ≥ 3 workshop
+techniques. The menu, if you want one:</p>
 <ol type="1">
-<li>Read the changelog between the currently-installed version and the
-latest.</li>
-<li>Classify each changelog entry as <strong>breaking</strong>,
-<strong>behavioural</strong>, or <strong>patch</strong>.</li>
-<li>Find every callsite in your repo that touches the affected
-APIs.</li>
-<li>Output a verdict: is this bump safe? If not, what specifically needs
-to change first?</li>
+<li><strong>PR concierge</strong> — CLI or CI job: takes a diff/PR, runs
+parallel review agents (security / quality / tests), merges findings,
+posts one verdict. Test it on
+<code>example2_parallel_review/code_under_review/users_api.js</code>.</li>
+<li><strong>Ticket-to-triage pipeline</strong> — extend
+<code>day2_adlc/evals/</code>: ingest raw tickets, produce structured
+JSON, run code checks + LLM-judge, route low-confidence items to a human
+review queue.</li>
+<li><strong>Oncall copilot</strong> — extend
+<code>module7_mcp/oncall_server.py</code> with real tools (schedules,
+escalation, incident notes), then build the slash-command workflow an
+on-call engineer would actually run at 3 a.m.</li>
+<li><strong>Repo doctor</strong> — point it at any repo: generates a
+load-bearing CLAUDE.md, audits settings.json, installs a guard hook and
+two useful slash commands. A productized version of Day 1, runnable on
+your company repo Monday.</li>
+<li><strong>Spec-to-feature factory</strong> — take the
+<code>sandbox_repo</code> export-endpoint spec (or your own spec from
+E9) all the way: plan → tests → implementation → eval → a CI workflow
+file that would gate it.</li>
 </ol>
-<p>The obvious one-pass implementation is wrong. You’ll find out whether
-you can prompt-engineer your way through, whether you need sub-agents,
-or whether the task actually wants a skill.</p>
+<h2 id="the-three-milestones-a-trainer-checks-each">The three milestones
+(a trainer checks each)</h2>
+<p><strong>M1 — 13:30: Spec frozen.</strong> One page, template in
+<code>day2_adlc/specs/</code>. Includes non-goals, edge cases,
+acceptance criteria, and <em>which workshop techniques you’ll use
+where</em>. No code before the spec is stamped.</p>
+<p><strong>M2 — 15:00: Vertical slice.</strong> One path works
+end-to-end, ugly is fine. If you’re not vertical by 15:00, cut scope —
+that’s Product’s job, do it ruthlessly.</p>
+<p><strong>M3 — 15:45: Proof pass.</strong> Verifier drives: run the
+tests, run the eval, try to break it live. Fix or fence what breaks.
+Freeze for demo.</p>
+<h2 id="demos-1600-5-minutes-per-team-hard-cut">Demos — 16:00, 5 minutes
+per team, hard cut</h2>
+<ol type="1">
+<li>The problem, in one sentence.</li>
+<li><strong>Live run</strong> — no slides, no screenshots. It works or
+it doesn’t; both are interesting.</li>
+<li>The receipt: show your test/eval output proving it works.</li>
+<li>One thing an agent did that surprised you.</li>
+</ol>
+<h2 id="scoring-peer-voted-one-vote-per-team-cant-vote-for-yourself">Scoring
+(peer-voted, one vote per team, can’t vote for yourself)</h2>
+<ul>
+<li><strong>Works live</strong> — did the demo run?</li>
+<li><strong>Technique depth</strong> — spec + how many of: plan mode,
+sub-agents, skills/commands, hooks, MCP, evals, CI?</li>
+<li><strong>Would steal it</strong> — would another team actually use
+this at work?</li>
+</ul>
+<p>Winning team gets bragging rights and their repo linked in the
+workshop follow-up email.</p>
+<h2 id="rules">Rules</h2>
+<ul>
+<li>Default target repos are in this kit; your own repo is allowed if
+the whole team can see it.</li>
+<li>Trainers unblock, they don’t build. Ask early — the 15-minute silent
+struggle is the most expensive thing in the room.</li>
+<li>Commit as you go. A capstone that only exists in a terminal
+scrollback didn’t happen.</li>
+</ul>
 <script>
 // Tiny enhancement script for WORKSHOP.html.
 // 1. Tints code blocks that follow a "❌ Bad" heading red.

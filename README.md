@@ -1,35 +1,39 @@
-# Claude Code — Full-Day Workshop Kit
+# Claude Code — Agentic Coding Workshop (2 days)
 
-Hands-on workshop kit for senior engineers learning Claude Code. End-to-end runnable demos, vote-and-reveal exercises, deep-dive modules, and a 2-hour capstone project.
+Hands-on workshop kit: 13 exercises, runnable demos, and a 3-hour team
+capstone. Almost nothing is slides — your laptop is the workshop.
 
-> **Workshop attendee?** Read `PARTICIPANT_SETUP.md`, run `bash scripts/setup.sh`, verify with `bash scripts/test_all.sh`, and bring your laptop on the day.
+> **Attendee? Do this the night before Day 1:** read `PARTICIPANT_SETUP.md`,
+> run `bash scripts/setup.sh`, verify with `bash scripts/test_all.sh`, and
+> bring (1) a real failing log from your work and (2) one feature you wish
+> existed in a repo you own.
+
+## The two days
+
+| | Day 1 — learn the instrument | Day 2 — play the gig |
+|---|---|---|
+| Morning | Kickoff + teams · **Fundamentals**: the agent loop, plan mode, context engineering, memory, skills, permissions | **The ADLC**: spec-driven dev, TDD with an agent, AI evals, CI/CD, cloud (AWS), production monitoring |
+| Afternoon | **Advanced**: sub-agents & parallel orchestration, slash commands & skills, hooks, MCP | **Capstone**: teams of 4, spec → build → prove → live demo · out by 4:30 PM |
+
+The exercises (E1–E13) live in `EXERCISES.md`. The capstone brief is
+`CAPSTONE.md`. Every exercise ends with something you can use at work Monday.
 
 ## What's inside
 
 ```
-.
-├── PARTICIPANT_SETUP.md       ← READ FIRST. 10-min install + verify guide.
-├── EXERCISES.html             ← The 9 hands-on exercises projected during the workshop.
-├── CAPSTONE.html              ← 2-hour end-to-end build session.
-│
-├── sandbox_repo/              ← SHARED PLAYGROUND. Every exercise that says
-│                                 "your repo" actually runs in here.
-│                                 Bloated CLAUDE.md, holey settings.json, failing
-│                                 migration test, seeded git history. Same on
-│                                 every laptop. Same starting point.
-│
-├── module1_mental_model/      ← Bad prompt transcript (reference).
-├── module2_anatomy/           ← The four levers: 5 voting cards.
-├── module3_context/           ← CLAUDE.md surgery: a bloated example to trim.
-├── module5_hooks/             ← Runnable hook demo: blocks prod_*.yaml writes.
-├── module6_commands_skills/   ← Skill exercise: build the same screen with/without a skill.
-├── module7_mcp/               ← Runnable MCP server: oncall rotation in 60 lines of Python.
-├── module8_permissions/       ← Settings.json: holey example to audit.
-├── module9_sdk/               ← Headless one-shot: claude -p in 30s, real JSON.
-│
-├── example2_parallel_review/  ← Code under review by 3 parallel sub-agents.
-├── scripts/                   ← setup.sh, test_all.sh, render-show.sh.
-└── styles.css, *.css          ← CSS for the rendered HTML files.
+sandbox_repo/        your playground: a fake Express/TS backend with seeded
+                     problems — bloated CLAUDE.md, holey settings.json,
+                     failing test, a week of git history. Break it freely.
+example2_parallel_review/   a 70-line file with many problems (E5)
+module5_hooks/       a working PreToolUse hook that blocks prod writes (E7)
+module7_mcp/         a live Python MCP oncall server (E8)
+module9_sdk/         the 5-second headless demo (E12)
+day2_adlc/           Day 2 kit: specs/ · tdd_kata/ · evals/ · cicd/ ·
+                     cloud_aws/ · monitoring/
+module1-3, module8   reference material used during Day 1 sections
+.claude/commands/    example slash commands to study and steal
+DECK.html            the slides (arrow keys advance)
+scripts/             setup.sh (run once) · test_all.sh (verify)
 ```
 
 ## Quickstart
@@ -37,68 +41,18 @@ Hands-on workshop kit for senior engineers learning Claude Code. End-to-end runn
 ```bash
 git clone https://github.com/Sumeet213/claude-code-workshop.git ~/workshop_demo
 cd ~/workshop_demo
-bash scripts/setup.sh        # one-time: venv + mcp, seeds sandbox_repo git history, etc.
-bash scripts/test_all.sh     # automated checks; expect "all checks passed"
-open EXERCISES.html
+bash scripts/setup.sh       # idempotent — creates the MCP venv, seeds git history
+bash scripts/test_all.sh    # every check should pass
 ```
 
-For the live headless test (uses real `claude -p`, ~$0.07):
+## Why a sandbox repo?
 
-```bash
-RUN_HEADLESS=1 bash scripts/test_all.sh
-```
+Everyone runs every exercise against the same code, so the room can compare
+results — and you can't leak your employer's source. It's not meant to run;
+Claude reads and reasons over it. Reset anytime: `cd sandbox_repo && git checkout . && git clean -fd`.
 
-## Why `sandbox_repo` exists
+## The three ideas the workshop argues
 
-Every exercise that involves running Claude *against a codebase* runs inside `sandbox_repo/`. It's a pre-staged Express/TypeScript project with:
-
-- A **bloated CLAUDE.md** for the M3 surgery exercise.
-- A **holey `.claude/settings.json`** for the M8 audit.
-- A **failing migration test** (the Down block is just `-- TODO`) for the M1 bad/good prompt exercise.
-- **Seeded git history** so the M6 `/standup` exercise has real material.
-
-**Same playground on every laptop.** No "I don't have a repo on this machine." No "I can't run Claude against my work code." No uneven exercises because Alice has a 500-file repo and Bob has a 5-file scratch project. **Reproducible failures, reproducible bloat, reproducible holes.**
-
-## What you'll learn
-
-Three claims drive the entire day:
-
-1. **Claude Code is an agent loop, not autocomplete.** Almost every confused user is reasoning about it as if it were.
-2. **The leverage is in four levers around the loop:** context, tools, permissions, loop control. Every problem maps to one.
-3. **Production usage is a software-engineering problem, not a prompting problem.** You'll build CLAUDE.md, hooks, skills, MCP servers, and CI integrations the same way you build linters and pre-commit hooks.
-
-Nine modules:
-
-| # | Module | The big idea |
-|---|---|---|
-| 1 | Mental model | Agent loop. Plan mode. The 4 levers. |
-| 2 | Anatomy of a turn | Diagnosing failed sessions. Cache, compaction, thinking budgets. |
-| 3 | Context engineering | CLAUDE.md is read every turn — make every byte earn its place. |
-| 4 | Sub-agents | Context isolation, not brain-power. Parallel specialists. |
-| 5 | Hooks | Deterministic guardrails around a non-deterministic agent. |
-| 6 | Slash commands & Skills | Forcing functions for what experienced devs skip. |
-| 7 | MCP servers | Wrap your internal systems with structured tools. |
-| 8 | Permissions | Blast radius, deny-list completeness, governance. |
-| 9 | Headless / SDK | Compounding gains live in CI, not interactive sessions. |
-
-## Three live demos verified
-
-| Module | Command | What it proves |
-|---|---|---|
-| M5 | `cd module5_hooks && claude` | Hook fires with red BLOCKED box on `prod_*.yaml` writes |
-| M7 | `cd module7_mcp && claude` then `/mcp` | Python MCP server connects; Claude calls `get_oncall` then `page_oncall` |
-| M9 | `bash module9_sdk/quick_demo.sh` | Real JSON triage report in ~5s for ~$0.07 |
-
-## After the workshop — the capstone
-
-`CAPSTONE.html` is a 2-hour build challenge: augment `sandbox_repo` (or your own repo if you have one) with full Claude infrastructure — CLAUDE.md, hooks, slash commands, MCP, headless script. Universally applicable, no internal-system access required.
-
-## Re-rendering after edits
-
-```bash
-bash scripts/render-show.sh    # rebuilds all .html from .md
-```
-
-## License & attribution
-
-Workshop kit by Sumeet Desai. Use it, fork it, run it with your team. If you do, open an issue — I'd love to know how it went.
+1. Claude Code is an **agent loop** — gather context → act → verify → repeat — not autocomplete.
+2. Your leverage is **four levers**: context, tools, permissions, loop control.
+3. Production value is a **software-engineering problem, not a prompting problem** — specs, tests, evals, CI, monitoring. Day 2 exists because of this.

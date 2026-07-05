@@ -1,95 +1,82 @@
-# Workshop pre-flight — read this the night before
+# Pre-workshop setup — do this the night before Day 1
 
-**Estimated time: 10 minutes.** If you can't get past step 4, ping the workshop organiser ahead of time.
+**Ten minutes. If you get stuck past step 4, message the organiser tonight —
+not at 8:55 tomorrow.**
 
----
+You're attending a 2-day hands-on workshop. Day 1 you learn to drive Claude
+Code like an instrument; Day 2 you wire it into a real development lifecycle
+and build a team project. Almost nothing is slides — your laptop is the
+workshop, so this setup matters.
 
 ## 1. Install Claude Code
 
 ```bash
 npm install -g @anthropic-ai/claude-code
-claude --version    # should print a version
-claude doctor       # should pass all checks
+claude --version
 ```
 
-If you don't have an Anthropic account / API access, the organiser will hand out throwaway keys at 09:00 — but **you must have the CLI installed**.
+No Node? Install Node 18+ first (`brew install node` / nvm / your package
+manager). Any OS is fine — macOS, Linux, WSL on Windows.
 
-## 2. Get the workshop repo
-
-Clone or download to:
+## 2. Authenticate
 
 ```bash
-~/workshop_demo
+claude
 ```
 
-(Or anywhere — the absolute paths in `module7_mcp/.claude/settings.json` need updating to wherever you put it. The setup script handles that.)
-
-## 3. Run the setup script
+Follow the login flow (Claude subscription or API key — the organiser will
+tell you which applies; throwaway API keys are available on the day if
+needed). Then:
 
 ```bash
+claude doctor
+```
+
+Everything should be green or yellow, nothing red.
+
+## 3. Get the workshop kit
+
+```bash
+git clone https://github.com/Sumeet213/claude-code-workshop.git ~/workshop_demo
 cd ~/workshop_demo
 bash scripts/setup.sh
 ```
 
-This will:
-- Make hook scripts executable.
-- Install the `mcp` Python package (for Module 7).
-- Patch the MCP server path in `module7_mcp/.claude/settings.json` to your machine.
-- Sanity-check that `claude`, `python3`, `pip`, `git`, `jq`, and `bat` (or `cat`) are present.
-- Open `EXERCISES.html` in your browser.
+`setup.sh` is idempotent — safe to re-run. It needs `python3` (3.10+), `git`,
+and `jq` (`brew install jq` if missing).
 
-If `bat` is missing, install it for syntax-highlighted file viewing during exercises:
+## 4. Verify
 
 ```bash
-brew install bat       # macOS
+bash scripts/test_all.sh
 ```
 
-(Plain `cat` works fine if you skip this.)
+Every check should pass. If one fails, the output says exactly what and how
+to fix it. Re-run until green.
 
-## 4. Verify each module's runnable demo
+## 5. Two things to bring (Day 2 uses them)
 
-```bash
-# Module 5 — hook fires
-cd ~/workshop_demo/module5_hooks
-claude
-> Update sample_files/prod_config.yaml — change the database host to "test.internal"
-# You should see a red BLOCKED box. Type /exit to leave.
-cd -
+1. **A real failing log** from your actual work — CI output, a stack trace,
+   a flaky test dump. Ugly is perfect. You'll pipe it through an AI triage
+   bot you build.
+2. **One feature you wish existed** in a repo you own — one sentence is
+   enough. You'll turn it into a spec.
 
-# Module 7 — MCP server connects
-cd ~/workshop_demo/module7_mcp
-claude
-> /mcp
-# You should see "oncall" listed with two tools. Type /exit.
-cd -
+## 6. What the two days look like
 
-# Module 9 — headless one-shot
-bash ~/workshop_demo/module9_sdk/quick_demo.sh
-# You should see JSON output within 30 seconds.
-```
-
-If all three pass, you're ready.
-
-## 5. What the day looks like
-
-- 9 modules over 8 hours.
-- **Most modules end with a 5–15 minute "Your turn"** where you run the same exercise in your own Claude, then compare with your neighbour.
-- Two big moments use pre-built artifacts (parallel reviewers in Module 4, skill comparison in Module 6).
-- Bring a sandbox repo of your own — by lunch you'll want to try things on real code.
-
-## 6. What to bring
-
-- Laptop with the above installed.
-- Headphones (optional, for individual lab moments).
-- A small repo of your own — ideally one you know well but where you'd accept some experimental edits.
-- Coffee.
+- **Day 1:** icebreaker + teams → fundamentals (agent loop, plan mode,
+  context, permissions) → advanced (parallel agents, slash commands, skills,
+  hooks, MCP). Thirteen exercises; you type constantly.
+- **Day 2:** the agentic development lifecycle (specs, TDD, AI evals, CI/CD,
+  cloud, monitoring) → 3-hour team capstone → live demos → out by 4:30 PM.
 
 ## Troubleshooting
 
 | Symptom | Fix |
 |---|---|
-| `claude doctor` fails | Re-install: `npm uninstall -g @anthropic-ai/claude-code && npm install -g @anthropic-ai/claude-code` |
-| `pip install mcp` fails | Use a venv: `python3 -m venv .venv && source .venv/bin/activate && pip install mcp` and update the python path in `module7_mcp/.claude/settings.json` |
-| `/mcp` shows no servers | The path in `.claude/settings.json` is wrong — re-run `bash scripts/setup.sh` |
-| Hook doesn't fire | `chmod +x module5_hooks/.claude/hooks/*.sh` |
-| `claude` asks you to authenticate | Use the API key handed out at 09:00 |
+| `claude: command not found` | Check npm global bin is on PATH: `npm bin -g` |
+| Login loop / auth errors | `claude logout` then `claude` again |
+| `setup.sh` fails on python | Install Python 3.10+: `brew install python@3.13` |
+| `jq: command not found` | `brew install jq` (or apt/dnf equivalent) |
+| Corporate proxy blocks API | Test from a personal network tonight; flag the organiser |
+| test_all shows a red check | Read its message — every check prints its own fix |

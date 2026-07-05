@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="generator" content="pandoc" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
-  <title>Hook demo run-book</title>
+  <title>AI evals — three layers</title>
   <style>
 
 span.smallcaps{font-variant: small-caps;}
@@ -227,39 +227,58 @@ blockquote { color: #000; background: #f9f9f9; }
 </head>
 <body>
 <header id="title-block-header">
-<h1 class="title">Hook demo run-book</h1>
+<h1 class="title">AI evals — three layers</h1>
 </header>
-<h1 id="module-5-hook-demo">Module 5 — Hook demo</h1>
-<h2 id="what-this-demonstrates">What this demonstrates</h2>
-<p>A <code>PreToolUse</code> hook that blocks any <code>Write</code> or
-<code>Edit</code> whose <code>file_path</code> matches
-<code>prod_*.yaml</code>. Useful pattern for protecting production
-config from agent edits while leaving dev/staging files alone.</p>
-<h2 id="setup-one-time">Setup (one-time)</h2>
-<div class="sourceCode" id="cb1"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">chmod</span> +x ~/workshop_demo/module5_hooks/.claude/hooks/block-prod-writes.sh</span></code></pre></div>
-<p>That’s it. No installs.</p>
-<h2 id="run-it">Run it</h2>
-<div class="sourceCode" id="cb2"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> ~/workshop_demo/module5_hooks</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="ex">claude</span></span></code></pre></div>
-<p>In the Claude prompt:</p>
-<pre><code>&gt; Update sample_files/prod_config.yaml — change the database host to &quot;new-host.internal&quot;</code></pre>
-<p>Claude tries to call <code>Edit</code>, the hook fires, a big red
-boxed message appears explaining what was blocked and how to override.
-Claude reports back that it couldn’t make the change.</p>
-<h2 id="inspect">Inspect</h2>
-<pre><code>&gt; /exit
-bat .claude/hooks/block-prod-writes.sh
-bat .claude/settings.json
-cat .claude/hook-debug.log     # audit trail of every check</code></pre>
-<h2 id="debug">Debug</h2>
-<div class="sourceCode" id="cb5"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tail</span> <span class="at">-f</span> .claude/hook-debug.log</span></code></pre></div>
-<p>Every invocation is logged with the full input JSON. If you ever
-wonder “did the hook even run?” — that’s the answer.</p>
-<h2 id="override-escape-hatch">Override (escape hatch)</h2>
-<div class="sourceCode" id="cb6"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="va">PROD_OVERRIDE</span><span class="op">=</span>1 <span class="ex">claude</span></span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="op">&gt;</span> Update <span class="ex">sample_files/prod_config.yaml</span> — change the database host to <span class="st">&quot;new-host.internal&quot;</span></span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="co"># now it succeeds, but is logged</span></span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span> .claude/hook-debug.log <span class="kw">|</span> <span class="fu">grep</span> PROD_OVERRIDE</span></code></pre></div>
+<h1 id="ai-evals-three-layers-cheapest-first">AI Evals — three layers,
+cheapest first</h1>
+<p>The scenario: an AI feature that turns raw support tickets into
+structured JSON (<code>sentiment</code>, <code>category</code>,
+<code>summary</code>). <code>tickets/</code> holds the inputs;
+<code>outputs/</code> holds five model outputs — some fine, some subtly
+broken. Your job is to catch the broken ones <strong>without reading all
+five by hand</strong>, because in production there will be five
+thousand.</p>
+<h2 id="layer-1-code-based-checks-free-deterministic-run-on-every-output">Layer
+1 — code-based checks (free, deterministic, run on every output)</h2>
+<div class="sourceCode" id="cb1"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> day2_adlc/evals</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="ex">node</span> check.js</span></code></pre></div>
+<p><code>check.js</code> validates what code <em>can</em> validate: is
+it JSON at all, are <code>sentiment</code>/<code>category</code> legal
+enum values, is the summary within length limits. Watch what it catches
+— and note what it <em>can’t</em>: a summary that is fluent, valid, and
+<strong>wrong</strong>.</p>
+<h2 id="layer-2-llm-as-judge-cheap-ish-semantic-run-on-every-output-or-a-sample">Layer
+2 — LLM-as-judge (cheap-ish, semantic, run on every output or a
+sample)</h2>
+<div class="sourceCode" id="cb2"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> judge.sh            <span class="co"># judges every output, ~30s, a few cents</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> judge.sh outputs/output_3.json   <span class="co"># judge just one</span></span></code></pre></div>
+<p><code>judge.sh</code> shows the judge the <em>original ticket</em>
+and the <em>output</em>, plus a rubric, and demands a JSON verdict:
+<code>{&quot;faithful&quot;: bool, &quot;score&quot;: 1-5, &quot;reason&quot;: &quot;...&quot;}</code>. The
+rubric is the eval. Vague rubric → vague judge. Read the one in the
+script.</p>
+<p>At least one output here passes every code check and <strong>fails
+the judge</strong> — it hallucinates a detail that isn’t in the ticket.
+That’s the case that justifies the whole layer.</p>
+<h2 id="layer-3-human-in-the-loop-expensive-run-on-a-sample">Layer 3 —
+human-in-the-loop (expensive, run on a sample)</h2>
+<p>You don’t review everything; you review <strong>where the layers
+disagree</strong> and a random sample of everything else. In the
+exercise: the room votes on one disputed verdict, then compares against
+the judge’s reasoning.</p>
+<h2 id="the-rule-of-thumb-to-take-home">The rule of thumb to take
+home</h2>
+<ol type="1">
+<li>Everything deterministic goes in code checks — never pay a model to
+count characters.</li>
+<li>LLM-as-judge for faithfulness/tone/quality — with a written rubric,
+forced JSON verdicts, and the <em>source</em> text in the judge’s
+context.</li>
+<li>Humans audit the judge, not the firehose: disagreements + a fixed
+random sample.</li>
+<li>Track scores over time. An eval you run once is a demo; an eval in
+CI is a seatbelt.</li>
+</ol>
 <script>
 // Tiny enhancement script for WORKSHOP.html.
 // 1. Tints code blocks that follow a "❌ Bad" heading red.

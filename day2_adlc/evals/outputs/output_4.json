@@ -1,0 +1,6 @@
+{
+  "ticket": "ticket_2.txt",
+  "sentiment": "neutral",
+  "category": "bug",
+  "summary": "User reports the app crashes when offline after the update and requests a refund of Rs 1999 for the affected month."
+}

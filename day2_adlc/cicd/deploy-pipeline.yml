@@ -1,0 +1,53 @@
+# Multi-environment pipeline with an agent as first responder.
+# Shape: test → deploy staging → smoke test → (on failure: Claude triages,
+# opens an issue) → manual gate → deploy prod.
+name: deploy
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: npm ci && npm test
+
+  deploy-staging:
+    needs: test
+    runs-on: ubuntu-latest
+    environment: staging          # env-scoped secrets, env-scoped protection
+    steps:
+      - uses: actions/checkout@v4
+      - run: ./scripts/deploy.sh staging
+      - id: smoke
+        run: ./scripts/smoke_test.sh staging | tee smoke.log
+        continue-on-error: true
+
+      # The agent step: only fires on failure, only diagnoses, never fixes prod.
+      - name: triage-on-failure
+        if: steps.smoke.outcome == 'failure'
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: |
+          npm install -g @anthropic-ai/claude-code
+          cat smoke.log | claude -p \
+            'Smoke tests failed on staging. Diagnose from this log. Output JSON:
+             {"probable_cause": str, "suggested_fix": str, "confidence": "high|medium|low"}' \
+            --max-turns 4 --output-format json > triage.json
+          gh issue create \
+            --title "Staging smoke failure: $(jq -r '.result | fromjson | .probable_cause' triage.json)" \
+            --body-file triage.json
+        # fail the job so promotion stops — the agent informs, the gate decides
+      - name: gate
+        if: steps.smoke.outcome == 'failure'
+        run: exit 1
+
+  deploy-prod:
+    needs: deploy-staging
+    runs-on: ubuntu-latest
+    environment: production       # configure a required human reviewer here
+    steps:
+      - uses: actions/checkout@v4
+      - run: ./scripts/deploy.sh prod

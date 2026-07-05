@@ -1,211 +1,284 @@
-# Exercises — your turn
+# Hands-On Exercises — 2-Day Agentic Coding Workshop
 
-> **Same kit on every laptop. Same playground for every exercise.** Every "your turn" runs in `sandbox_repo/` — a pre-staged Express/TypeScript project with bloated CLAUDE.md, holey settings.json, a failing migration test, and seeded git history.
+> Keep this open all workshop. Every exercise is timeboxed, every exercise
+> ends with something you can steal for your real job on Monday.
+>
+> Unless told otherwise, run everything inside **`sandbox_repo/`** — a fake
+> fitness-app backend ("Stride") seeded with realistic problems. Break it
+> freely; `git checkout .` resets it.
 
-| # | Exercise | Duration | Where you run it |
-|---|---|---|---|
-| E1 | Bad prompt vs good prompt | 7 min | `cd sandbox_repo && claude` |
-| E2 | Spot the lever (5 cards) | 10 min | Browser (`scenarios.html`) |
-| E3 | CLAUDE.md surgery | 15 min | `sandbox_repo/CLAUDE.md` |
-| E4 | Three sub-agents on one file | 15 min | `cd workshop_demo && claude` (root) |
-| E5 | Hook fires on your laptop | 10 min | `cd module5_hooks && claude` |
-| E6 | /standup against the sandbox | 10 min | `cd sandbox_repo && claude` |
-| E7 | MCP server on your laptop | 12 min | `cd module7_mcp && claude` |
-| E8 | Audit the holey settings.json | 8 min | `sandbox_repo/.claude/settings.json` |
-| E9 | Headless one-shot, real JSON | 8 min | `bash module9_sdk/quick_demo.sh` |
+## Day 1 — learn the instrument
 
----
+| # | Exercise | Time | Where |
+|---|----------|------|-------|
+| E1 | Bad prompt vs good prompt | 15 min | `sandbox_repo/` |
+| E2 | Plan mode before code | 10 min | `sandbox_repo/` |
+| E3 | CLAUDE.md surgery race | 20 min | `sandbox_repo/` |
+| E4 | Find the holes (permissions audit) | 15 min | `sandbox_repo/` |
+| E5 | Parallel sub-agent review | 30 min | `example2_parallel_review/` |
+| E6 | Build your own `/standup` | 25 min | `sandbox_repo/` |
+| E7 | Write a hook that saves your job | 20 min | `module5_hooks/` |
+| E8 | Extend a live MCP server | 25 min | `module7_mcp/` |
 
-## E1 — Bad prompt vs good prompt (7 min)
+## Day 2 — play the gig
 
-```bash
-cd sandbox_repo
-claude
-```
-
-In Claude, type the **bad** prompt:
-
-```
-> fix the failing migration test
-```
-
-Watch what happens for ~2 minutes. Notice every assumption the model makes.
-
-Then `/clear` and type a **better** prompt — one that:
-- Names the failing file precisely.
-- Tells the model to read both the test AND what it's testing before deciding what's wrong.
-- Forbids editing the test just to make it pass.
-- Asks for plan mode and a surfaced root cause before any edits.
-
-Run it. Watch again for ~2 minutes.
-
-**Compare** with your neighbour: what was the most surprising difference between the two runs?
+| # | Exercise | Time | Where |
+|---|----------|------|-------|
+| E9 | Spec-driven build | 40 min | `day2_adlc/specs/` + `sandbox_repo/` |
+| E10 | TDD kata: red → green → new spec | 30 min | `day2_adlc/tdd_kata/` |
+| E11 | Catch the lying output (evals) | 30 min | `day2_adlc/evals/` |
+| E12 | Triage your own failure, headless | 15 min | anywhere |
+| E13 | Six-tile dashboard sketch | 10 min | paper |
+| — | **Capstone** (teams of 4) | 3 hrs | see `CAPSTONE.md` |
 
 ---
 
-## E2 — Spot the lever (10 min)
+## E1 — Bad prompt vs good prompt (15 min)
 
-Open `module2_anatomy/scenarios.html` in a browser. Five cards.
+There's a failing test in the sandbox. You'll fix it twice.
 
-For each card:
-1. Read the transcript. Decide which lever failed: **context, tools, permissions, or loop control**.
-2. Commit to your answer.
-3. Click reveal. Re-read the transcript with the answer in mind.
+```bash
+cd sandbox_repo && claude
+```
 
-5/5 means you can already diagnose any failed Claude session. Most people get 3/5 on the first try.
+**Round 1 — prompt like it's a search box:**
+
+```
+fix the failing test
+```
+
+Watch what it does. Note what it guessed, what it assumed, what it touched.
+Then `/clear` and `git checkout .`.
+
+**Round 2 — prompt like it's a competent new teammate:**
+
+```
+tests/db/migration_0042.test.ts is failing. The Down block of
+src/db/migrations/0042_add_soft_delete.sql is a TODO. Write the Down
+migration so it exactly reverses the Up block, don't edit the test,
+and show me the diff before finalizing. Don't touch any other file.
+```
+
+**Debrief with your neighbour:** what specifically changed the behaviour —
+model quality, or the context and constraints *you* provided? That gap is
+the whole workshop.
+
+## E2 — Plan mode before code (10 min)
+
+Same repo. Press **Shift+Tab** until you see plan mode, then:
+
+```
+src/middleware/auth.ts uses a deprecated TOKEN_CACHE. Plan a refactor
+to remove it without changing behaviour.
+```
+
+Read the plan like a PR review: challenge one step out loud. Then approve —
+or edit the plan and *then* approve. You just did your first human-in-the-loop
+gate. **Take-home:** never let an agent write to a repo you care about without
+a plan you've read.
+
+## E3 — CLAUDE.md surgery race (20 min)
+
+`sandbox_repo/CLAUDE.md` is ~114 lines of history, sprint gossip, and
+credentials nobody should have committed. Every one of those lines gets
+re-read on *every single turn* and most are noise — or worse, misdirection.
+
+**The race:** trim it to ≤ 40 lines that would actually make Claude better at
+this repo. 10 minutes, solo. Rules: keep anything that changes agent behaviour,
+cut everything that doesn't, and *fix* anything actively dangerous.
+
+Then **swap laptops with your neighbour** and try one prompt against *their*
+trimmed file. Best file in the room gets projected and defended by its author.
+
+**Take-home:** the checklist you just internalized — commands, conventions,
+landmines, nothing else. Also try `/memory` and end a message with a `#`
+line to see where remembered facts land.
+
+## E4 — Find the holes (15 min)
+
+`sandbox_repo/.claude/settings.json` looks reasonable. It is not.
+
+Solo, 8 minutes, no Claude allowed yet: **write down every way this config
+lets an agent hurt you.** Think exfiltration, force-push, package publish,
+secrets. There are at least five distinct holes.
+
+Then ask Claude to audit the same file and compare its list against yours.
+Who found more? **Take-home:** run the same audit against your real project's
+settings tonight.
+
+## E5 — Parallel sub-agent review (30 min)
+
+One file, ~19 seeded problems: `example2_parallel_review/code_under_review/users_api.js`.
+
+First, 3 minutes, read it yourself and write down your predicted top-3 issues.
+
+Then launch **three reviewers in parallel, in a single message**:
+
+```bash
+cd example2_parallel_review && claude
+```
+
+```
+Launch three parallel sub-agents to review code_under_review/users_api.js:
+1. a security reviewer (injection, authz, secrets, SSRF)
+2. a code-quality reviewer (bugs, error handling, dead code)
+3. a generalist reviewer (anything the others would miss)
+Each returns a ranked findings list with line numbers. Then merge them into
+one table: finding | line | which reviewers caught it | severity.
+```
+
+While it runs, watch the sub-agent activity. When the table lands:
+- What did **all three** catch? What did **only one** catch?
+- Compare the merged table against your own top-3 prediction. What did you miss?
+
+**Take-home:** the merged-table prompt above, reusable on any PR.
+
+## E6 — Build your own `/standup` (25 min)
+
+The sandbox has a week of seeded git history. Build a slash command that
+turns it into a standup update.
+
+```bash
+cd sandbox_repo && claude
+```
+
+```
+Create .claude/commands/standup.md — a slash command that summarizes my
+commits since the main-stable branch as a standup update: done / in
+progress / blockers. Read-only git access, nothing else. Then I'll run
+/standup to test it.
+```
+
+Restart claude, run `/standup`. Then iterate *on the command file itself*
+until the output is something you'd actually paste into your team channel.
+
+**Stretch:** make it accept an argument (`/standup 3` = last 3 days).
+**Take-home:** the command file — drop it into any repo with git history.
+
+## E7 — Write a hook that saves your job (20 min)
+
+First watch the guardrail that's already here:
+
+```bash
+cd module5_hooks && claude
+```
+
+```
+Add a comment to sample_files/prod_config.yaml
+```
+
+Blocked. Not "asked nicely" — *blocked by deterministic code*, before the
+tool ran. Read `.claude/hooks/block-prod-writes.sh` and `.claude/settings.json`
+to see the wiring: stdin JSON in, exit code 2 out.
+
+**Now the race:** write a PreToolUse hook that blocks any Bash command
+containing `curl` piped to a shell. First working hook wins. Prove it fires,
+prove normal commands still pass.
+
+**Take-home:** your hook. Generalize it tonight: block `.env` reads, block
+`DROP TABLE`, block deploys on Fridays — your call.
+
+## E8 — Extend a live MCP server (25 min)
+
+```bash
+cd module7_mcp && claude
+```
+
+Run `/mcp` — see the oncall server and its two tools. Then use it:
+
+```
+Who is on call for payments? Page them saying the workshop says hi.
+```
+
+Check `pages.log` — that "page" was a real tool call into real (fake) infra.
+
+**Your turn:** open `oncall_server.py`, add a `list_teams()` tool, restart,
+and make Claude discover and use it *without naming the tool in your prompt*.
+Pay attention to what makes it discoverable: the function name and docstring
+ARE the UX. Write them for a model, not a human.
+
+**Take-home:** you now know the full loop — server, tool, registration,
+discovery. Your internal APIs are one lunch break away from being agent-usable.
 
 ---
 
-## E3 — CLAUDE.md surgery (15 min)
+## E9 — Spec-driven build (40 min)
+
+Read `day2_adlc/specs/example_spec_export_endpoint.md` (5 min). Notice the
+**Non-goals** and **Edge cases** sections — that's where hallucinations go to die.
+
+Then, in `sandbox_repo/`:
+
+1. Paste the spec into plan mode. Read the plan against the acceptance criteria.
+2. Approve and let it build — tests first if you can hold it to that.
+3. When it claims done: make it *prove* each acceptance criterion, one by one.
+
+**Fast finishers:** write your own one-page spec (template in
+`day2_adlc/specs/SPEC_TEMPLATE.md`) for a feature you actually need at work.
+That document is your take-home — and possibly your Monday morning.
+
+## E10 — TDD kata: red → green → new spec (30 min)
+
+Full instructions: `day2_adlc/tdd_kata/README.md`.
 
 ```bash
-cd sandbox_repo
-bat CLAUDE.md   # the bloated one
+cd day2_adlc/tdd_kata && node --test    # red. good.
 ```
 
-**Solo (5 min):** trim `sandbox_repo/CLAUDE.md` to ≤40 lines. The instruction is:
+Round 1: tests are the spec, tests are read-only, make them green — and make
+Claude run them itself after every change.
+Round 2: new requirement (`burst`) — tests written FIRST, shown to you,
+approved by you, *then* implemented.
 
-> Only keep what the model can't derive from reading the code itself.
+**Take-home:** the two-line house rule — *"tests are the spec"* + *"run it
+after every change"* — which upgrades any agent from plausible to verified.
 
-Save your trimmed version as `CLAUDE.md.trimmed`.
+## E11 — Catch the lying output (30 min)
 
-**Pair (8 min):** trade laptops with a neighbour. They cut yours further; you cut theirs. Defend or accept each cut.
+`day2_adlc/evals/` has five AI-generated ticket summaries. Some are broken.
+One is **lying** — structurally perfect, semantically false.
 
-**Reflect (2 min):** the cut you most disagreed with — and why.
+```bash
+cd day2_adlc/evals
+node check.js        # layer 1: code checks. Which two fail, and why?
+bash judge.sh        # layer 2: LLM-as-judge. Which one passed checks but lies?
+```
 
-> **Reset:** `git checkout CLAUDE.md` inside `sandbox_repo` restores the bloated original.
+Before running the judge, place your bet: read the outputs and vote as a
+table on which one is the liar. Then compare against the judge's verdicts —
+and read its *reasons*.
+
+**Debrief:** which layer catches what? What would layer 3 (humans) sample?
+**Take-home:** `check.js` + `judge.sh` — swap in your own rubric and you have
+a production eval harness by Friday.
+
+## E12 — Triage your own failure, headless (15 min)
+
+Bring a real failing log from your actual work (CI output, stack trace,
+anything ugly). No log? Use `module9_sdk/sample_test_failure.txt`.
+
+```bash
+cat your_failure.log | claude -p 'You are a CI triage bot. Output JSON only:
+{"probable_cause": str, "suggested_fix": str, "confidence": "high|medium|low"}' \
+  --max-turns 4 --output-format json | jq -r '.result'
+```
+
+One pipe, structured verdict. Now the question that matters: **where in your
+real pipeline would you wire this, and would you auto-act on high confidence?**
+Argue it out with your table.
+
+## E13 — Six-tile dashboard sketch (10 min)
+
+Paper and pen. Sketch the 6-tile monitoring dashboard for the AI feature your
+team builds in the capstone this afternoon: each tile = metric + threshold +
+who gets paged. Guidance in `day2_adlc/monitoring/README.md`. Teams hold up
+their sketch; fastest complete + defensible board wins.
 
 ---
 
-## E4 — Three sub-agents on one file (15 min)
+## After the capstone: three commitments
 
-Run from the workshop repo root (NOT sandbox_repo):
-
-```bash
-cd ~/workshop_demo
-claude
-```
-
-Paste this prompt verbatim:
-
-```
-Spawn three sub-agents IN PARALLEL (in a single message) reviewing the
-file example2_parallel_review/code_under_review/users_api.js:
-  - Agent A: senior security engineer. Lane: injection, auth, secrets,
-    SSRF, PII, DoS. Output to .review_security.md.
-  - Agent B: senior backend engineer. Lane: event-loop blocking, error
-    handling, validation, observability. Output to .review_quality.md.
-  - Agent C: generalist. Find anything wrong. Output to .review_general.md.
-
-Each must reference line numbers and severities. Each returns to me a
-4-bullet summary, under 100 words.
-```
-
-**~5 min for the agents to run.**
-
-**Compare in pairs:**
-- Did your specialists go deep (payloads, attack chains)?
-- Did your generalist catch anything that fell between the specialist lanes?
-- Which review would you act on first?
-
----
-
-## E5 — Hook fires on your laptop (10 min)
-
-```bash
-cd ~/workshop_demo/module5_hooks
-claude
-```
-
-```
-> Update sample_files/prod_config.yaml — change the database host to "yours.internal"
-```
-
-You should see a red BLOCKED box. Then `/exit`.
-
-**Stretch:** add a SECOND hook to `.claude/settings.json` that blocks any `Bash` command containing the word `curl`. Use the existing hook script as your template — the JSON envelope's `.tool_input.command` is what you want to inspect.
-
----
-
-## E6 — /standup against the sandbox (10 min)
-
-```bash
-cd ~/workshop_demo/sandbox_repo
-mkdir -p .claude/commands
-```
-
-Create `.claude/commands/standup.md`. Make a slash-command that summarises your day's work:
-
-- `allowed-tools` frontmatter restricting to `Bash(git:*)` and `Read`.
-- Explicit step list (commits since `main-stable`, diff stats, TODOs in the diff).
-- Output contract: named sections, capped length, no preamble.
-
-```bash
-claude
-> /standup
-```
-
-> **Sandbox material:** `bash scripts/setup.sh` seeded `sandbox_repo` with backdated commits and a `main-stable` branch. Verify with `git log --oneline main-stable..HEAD` from inside `sandbox_repo`.
-
----
-
-## E7 — MCP server on your laptop (12 min)
-
-If `scripts/setup.sh` ran cleanly and you followed `module7_mcp/RUN.md`, this just works:
-
-```bash
-cd ~/workshop_demo/module7_mcp
-claude
-> /mcp
-```
-
-You should see `oncall` connected. Then:
-
-```
-> Who is on call for the search team? Page them about the workshop demo.
-```
-
-Watch Claude call both tools in order. Approve at the prompts.
-
-```bash
-cat pages.log
-```
-
-**Stretch:** add a third tool `list_teams()` to `oncall_server.py` that returns the known teams. Restart claude. Test it.
-
----
-
-## E8 — Audit the holey settings.json (8 min)
-
-```bash
-cd ~/workshop_demo/sandbox_repo
-bat .claude/settings.json    # holey on purpose
-```
-
-**Solo (5 min):** find as many problems as you can. Read each `allow` and `deny` rule and ask: *could this rule, as written, let through something I'd never approve in code review?*
-
-**Pair (3 min):** the hole you would have shipped without noticing.
-
----
-
-## E9 — Headless one-shot, real JSON (8 min)
-
-```bash
-cd ~/workshop_demo/module9_sdk
-bash quick_demo.sh
-```
-
-JSON triage report appears in <30s. Read it.
-
-**Pair-discuss:** in your day job, what would you wire `claude -p` into?
-- Failing CI? (the demo)
-- PR descriptions auto-generated from the diff?
-- Daily summary of what your team merged?
-- Triaging Sentry alerts?
-- Something weirder?
-
----
-
-## Closing — pick three commitments (5 min)
-
-On a sticky note, write the three things you'll change in your workflow on Monday. **Three is the cap — more, you'll do none of them.** Hand it to a colleague. They follow up Friday.
+Sticky note. Three concrete changes you'll make Monday — a CLAUDE.md for your
+main repo, a hook, a slash command, an eval in CI, whatever bit hardest today.
+Name and date it. Stick it on the wall on your way out; photograph it so
+future-you can't pretend it never happened.

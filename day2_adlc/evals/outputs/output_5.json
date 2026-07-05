@@ -1,0 +1,6 @@
+{
+  "ticket": "ticket_3.txt",
+  "sentiment": "neutral",
+  "category": "question",
+  "summary": "Prospective user asks whether the API supports webhooks for order status changes; docs only show polling. Not urgent."
+}

@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="generator" content="pandoc" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
-  <title>Hook demo run-book</title>
+  <title>Cloud development (AWS)</title>
   <style>
 
 span.smallcaps{font-variant: small-caps;}
@@ -227,39 +227,60 @@ blockquote { color: #000; background: #f9f9f9; }
 </head>
 <body>
 <header id="title-block-header">
-<h1 class="title">Hook demo run-book</h1>
+<h1 class="title">Cloud development (AWS)</h1>
 </header>
-<h1 id="module-5-hook-demo">Module 5 — Hook demo</h1>
-<h2 id="what-this-demonstrates">What this demonstrates</h2>
-<p>A <code>PreToolUse</code> hook that blocks any <code>Write</code> or
-<code>Edit</code> whose <code>file_path</code> matches
-<code>prod_*.yaml</code>. Useful pattern for protecting production
-config from agent edits while leaving dev/staging files alone.</p>
-<h2 id="setup-one-time">Setup (one-time)</h2>
-<div class="sourceCode" id="cb1"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">chmod</span> +x ~/workshop_demo/module5_hooks/.claude/hooks/block-prod-writes.sh</span></code></pre></div>
-<p>That’s it. No installs.</p>
-<h2 id="run-it">Run it</h2>
-<div class="sourceCode" id="cb2"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> ~/workshop_demo/module5_hooks</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="ex">claude</span></span></code></pre></div>
-<p>In the Claude prompt:</p>
-<pre><code>&gt; Update sample_files/prod_config.yaml — change the database host to &quot;new-host.internal&quot;</code></pre>
-<p>Claude tries to call <code>Edit</code>, the hook fires, a big red
-boxed message appears explaining what was blocked and how to override.
-Claude reports back that it couldn’t make the change.</p>
-<h2 id="inspect">Inspect</h2>
-<pre><code>&gt; /exit
-bat .claude/hooks/block-prod-writes.sh
-bat .claude/settings.json
-cat .claude/hook-debug.log     # audit trail of every check</code></pre>
-<h2 id="debug">Debug</h2>
-<div class="sourceCode" id="cb5"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tail</span> <span class="at">-f</span> .claude/hook-debug.log</span></code></pre></div>
-<p>Every invocation is logged with the full input JSON. If you ever
-wonder “did the hook even run?” — that’s the answer.</p>
-<h2 id="override-escape-hatch">Override (escape hatch)</h2>
-<div class="sourceCode" id="cb6"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="va">PROD_OVERRIDE</span><span class="op">=</span>1 <span class="ex">claude</span></span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="op">&gt;</span> Update <span class="ex">sample_files/prod_config.yaml</span> — change the database host to <span class="st">&quot;new-host.internal&quot;</span></span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="co"># now it succeeds, but is logged</span></span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span> .claude/hook-debug.log <span class="kw">|</span> <span class="fu">grep</span> PROD_OVERRIDE</span></code></pre></div>
+<h1 id="cloud-based-development-cycle-aws">Cloud-based development cycle
+(AWS)</h1>
+<p>Three ways Claude Code shows up in an AWS shop, in increasing order
+of ambition. (Trainer demos from their own account; participants follow
+the patterns, not the console — nobody needs AWS creds in the room.)</p>
+<h2 id="claude-code-on-remote-dev-boxes-ec2-cloud9-style-devcontainers">1.
+Claude Code on remote dev boxes (EC2 / Cloud9-style /
+devcontainers)</h2>
+<p>Nothing special: it’s a CLI. <code>ssh</code> into the box,
+<code>npm install -g @anthropic-ai/claude-code</code>, run it inside
+tmux next to your code. The interesting bits:</p>
+<ul>
+<li><strong>CLAUDE.md travels with the repo</strong>, so a fresh EC2 box
+is briefed the moment you clone.</li>
+<li>Put machine-role guidance in <code>~/.claude/CLAUDE.md</code> on the
+box (“this is the staging bastion; never touch prod RDS”) — cheap
+guardrail, huge payoff.</li>
+<li>tmux + <code>claude</code> on a remote box = an agent that keeps
+working after your laptop sleeps.</li>
+</ul>
+<h2 id="enterprise-auth-amazon-bedrock-as-the-model-backend">2.
+Enterprise auth: Amazon Bedrock as the model backend</h2>
+<p>Companies that can’t send code to a vendor API directly often already
+have Bedrock approved. Claude Code speaks it natively:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="bu">export</span> <span class="va">CLAUDE_CODE_USE_BEDROCK</span><span class="op">=</span>1</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="bu">export</span> <span class="va">AWS_REGION</span><span class="op">=</span>us-east-1        <span class="co"># any region with Claude models enabled</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="ex">claude</span>                              <span class="co"># auth now flows through your AWS credentials/IAM</span></span></code></pre></div>
+<p>Access control becomes IAM policy — the same reviews, the same audit
+trail your org already runs. This one environment variable is often the
+difference between “security said no” and “rolled out to 200
+engineers.”</p>
+<h2 id="agents-inside-aws-automation-codebuild-lambda-ecs">3. Agents
+inside AWS automation (CodeBuild / Lambda / ECS)</h2>
+<p>The headless primitive from <code>../cicd/</code> runs anywhere a
+container runs:</p>
+<ul>
+<li><strong>CodeBuild step</strong> that triages failed builds and
+writes the diagnosis to the build report (same pattern as
+<code>deploy-pipeline.yml</code>, different YAML dialect).</li>
+<li><strong>Scheduled ECS task</strong>: nightly <code>claude -p</code>
+sweep over CloudWatch error logs → structured summary → Slack.</li>
+<li>Rules stay the same as CI: narrowest IAM role you can get away with,
+<code>--max-turns</code> capped, timeouts set, agent proposes / pipeline
+disposes.</li>
+</ul>
+<h2 id="the-dev-cycle-picture-to-draw-on-the-whiteboard">The dev-cycle
+picture to draw on the whiteboard</h2>
+<pre><code>laptop (interactive claude)  →  PR (claude-pr-review.yml)  →  staging (smoke + agent triage)
+        ↑                                                            ↓
+   memory/CLAUDE.md  ←────────  learnings flow back  ←────  prod (monitoring, Day 2 §3.5)</code></pre>
+<p>The loop from Day 1 — gather context, act, verify — just got
+stretched across environments. Same loop, bigger radius.</p>
 <script>
 // Tiny enhancement script for WORKSHOP.html.
 // 1. Tints code blocks that follow a "❌ Bad" heading red.

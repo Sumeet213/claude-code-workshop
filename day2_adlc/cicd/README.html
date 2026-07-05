@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="generator" content="pandoc" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
-  <title>Hook demo run-book</title>
+  <title>CI/CD with an agent in the loop</title>
   <style>
 
 span.smallcaps{font-variant: small-caps;}
@@ -227,39 +227,68 @@ blockquote { color: #000; background: #f9f9f9; }
 </head>
 <body>
 <header id="title-block-header">
-<h1 class="title">Hook demo run-book</h1>
+<h1 class="title">CI/CD with an agent in the loop</h1>
 </header>
-<h1 id="module-5-hook-demo">Module 5 — Hook demo</h1>
-<h2 id="what-this-demonstrates">What this demonstrates</h2>
-<p>A <code>PreToolUse</code> hook that blocks any <code>Write</code> or
-<code>Edit</code> whose <code>file_path</code> matches
-<code>prod_*.yaml</code>. Useful pattern for protecting production
-config from agent edits while leaving dev/staging files alone.</p>
-<h2 id="setup-one-time">Setup (one-time)</h2>
-<div class="sourceCode" id="cb1"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">chmod</span> +x ~/workshop_demo/module5_hooks/.claude/hooks/block-prod-writes.sh</span></code></pre></div>
-<p>That’s it. No installs.</p>
-<h2 id="run-it">Run it</h2>
-<div class="sourceCode" id="cb2"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> ~/workshop_demo/module5_hooks</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="ex">claude</span></span></code></pre></div>
-<p>In the Claude prompt:</p>
-<pre><code>&gt; Update sample_files/prod_config.yaml — change the database host to &quot;new-host.internal&quot;</code></pre>
-<p>Claude tries to call <code>Edit</code>, the hook fires, a big red
-boxed message appears explaining what was blocked and how to override.
-Claude reports back that it couldn’t make the change.</p>
-<h2 id="inspect">Inspect</h2>
-<pre><code>&gt; /exit
-bat .claude/hooks/block-prod-writes.sh
-bat .claude/settings.json
-cat .claude/hook-debug.log     # audit trail of every check</code></pre>
-<h2 id="debug">Debug</h2>
-<div class="sourceCode" id="cb5"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tail</span> <span class="at">-f</span> .claude/hook-debug.log</span></code></pre></div>
-<p>Every invocation is logged with the full input JSON. If you ever
-wonder “did the hook even run?” — that’s the answer.</p>
-<h2 id="override-escape-hatch">Override (escape hatch)</h2>
-<div class="sourceCode" id="cb6"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="va">PROD_OVERRIDE</span><span class="op">=</span>1 <span class="ex">claude</span></span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="op">&gt;</span> Update <span class="ex">sample_files/prod_config.yaml</span> — change the database host to <span class="st">&quot;new-host.internal&quot;</span></span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="co"># now it succeeds, but is logged</span></span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span> .claude/hook-debug.log <span class="kw">|</span> <span class="fu">grep</span> PROD_OVERRIDE</span></code></pre></div>
+<h1 id="cicd-with-an-agent-in-the-loop">CI/CD with an agent in the
+loop</h1>
+<p>Two workflow files here, both real YAML you can lift into a repo
+today:</p>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>File</th>
+<th>What it does</th>
+<th>The lesson</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>claude-pr-review.yml</code></td>
+<td>Claude reviews every PR and posts inline comments</td>
+<td>agent-as-reviewer</td>
+</tr>
+<tr>
+<td><code>deploy-pipeline.yml</code></td>
+<td>test → staging → smoke → <strong>Claude triages failures</strong> →
+gated prod</td>
+<td>agent-as-first-responder</td>
+</tr>
+</tbody>
+</table>
+<h2 id="the-headless-building-block">The headless building block</h2>
+<p>Everything in CI reduces to one primitive you already met in the M9
+demo:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span> failure.log <span class="kw">|</span> <span class="ex">claude</span> <span class="at">-p</span> <span class="st">&quot;Diagnose this failure. Reply as JSON: {</span><span class="dt">\&quot;</span><span class="st">cause</span><span class="dt">\&quot;</span><span class="st">: ..., </span><span class="dt">\&quot;</span><span class="st">fix</span><span class="dt">\&quot;</span><span class="st">: ..., </span><span class="dt">\&quot;</span><span class="st">confidence</span><span class="dt">\&quot;</span><span class="st">: ...}&quot;</span> <span class="dt">\</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">--max-turns</span> 4 <span class="at">--output-format</span> json</span></code></pre></div>
+<p>Structured in, structured out, capped turns, exit code you can branch
+on. CI is just this primitive wrapped in YAML.</p>
+<h2 id="hands-on-15-min-put-your-failure-through-the-pipe">Hands-on (15
+min): put YOUR failure through the pipe</h2>
+<p>Grab a real failing log from your own work (CI log, stack trace,
+flaky test — anything). If you have nothing, use
+<code>../..//module9_sdk/sample_test_failure.txt</code>.</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span> my_real_failure.log <span class="kw">|</span> <span class="ex">claude</span> <span class="at">-p</span> <span class="st">&quot;You are a CI triage bot. Output JSON only:</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="st">{</span><span class="dt">\&quot;</span><span class="st">probable_cause</span><span class="dt">\&quot;</span><span class="st">: str, </span><span class="dt">\&quot;</span><span class="st">suggested_fix</span><span class="dt">\&quot;</span><span class="st">: str, </span><span class="dt">\&quot;</span><span class="st">files_to_look_at</span><span class="dt">\&quot;</span><span class="st">: [str], </span><span class="dt">\&quot;</span><span class="st">confidence</span><span class="dt">\&quot;</span><span class="st">: </span><span class="dt">\&quot;</span><span class="st">high|medium|low</span><span class="dt">\&quot;</span><span class="st">}&quot;</span> <span class="dt">\</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">--max-turns</span> 4 <span class="at">--output-format</span> json <span class="kw">|</span> <span class="ex">jq</span> <span class="at">-r</span> <span class="st">&#39;.result&#39;</span></span></code></pre></div>
+<p>Then the money question: <strong>would you auto-act on
+<code>confidence: high</code>?</strong> Discuss with your neighbour
+where you’d put the human gate.</p>
+<h2 id="multi-env-rules-of-thumb">Multi-env rules of thumb</h2>
+<ul>
+<li>Agents propose, pipelines dispose: Claude comments/labels/diagnoses
+freely, but <em>promotion</em> to prod goes through the same environment
+gates as humans.</li>
+<li>Give CI agents the narrowest possible permissions (read + comment on
+PRs; never push, never <code>secrets: write</code>). Same lever as Day 1
+M8, new venue.</li>
+<li>Cap <code>--max-turns</code> and set timeouts — a runaway agent in
+CI is a bill, not a bug.</li>
+</ul>
 <script>
 // Tiny enhancement script for WORKSHOP.html.
 // 1. Tints code blocks that follow a "❌ Bad" heading red.

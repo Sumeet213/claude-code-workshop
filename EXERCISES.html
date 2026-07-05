@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="generator" content="pandoc" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
-  <title>Workshop Exercises (your turn)</title>
+  <title>Hands-On Exercises (E1–E13)</title>
   <style>
 
 span.smallcaps{font-variant: small-caps;}
@@ -227,234 +227,334 @@ blockquote { color: #000; background: #f9f9f9; }
 </head>
 <body>
 <header id="title-block-header">
-<h1 class="title">Workshop Exercises (your turn)</h1>
+<h1 class="title">Hands-On Exercises (E1–E13)</h1>
 </header>
-<h1 id="exercises-your-turn">Exercises — your turn</h1>
+<h1 id="hands-on-exercises-2-day-agentic-coding-workshop">Hands-On
+Exercises — 2-Day Agentic Coding Workshop</h1>
 <blockquote>
-<p><strong>Same kit on every laptop. Same playground for every
-exercise.</strong> Every “your turn” runs in <code>sandbox_repo/</code>
-— a pre-staged Express/TypeScript project with bloated CLAUDE.md, holey
-settings.json, a failing migration test, and seeded git history.</p>
+<p>Keep this open all workshop. Every exercise is timeboxed, every
+exercise ends with something you can steal for your real job on
+Monday.</p>
+<p>Unless told otherwise, run everything inside
+<strong><code>sandbox_repo/</code></strong> — a fake fitness-app backend
+(“Stride”) seeded with realistic problems. Break it freely;
+<code>git checkout .</code> resets it.</p>
 </blockquote>
+<h2 id="day-1-learn-the-instrument">Day 1 — learn the instrument</h2>
 <table>
 <colgroup>
-<col style="width: 25%" />
-<col style="width: 25%" />
-<col style="width: 25%" />
-<col style="width: 25%" />
+<col style="width: 11%" />
+<col style="width: 38%" />
+<col style="width: 23%" />
+<col style="width: 26%" />
 </colgroup>
 <thead>
 <tr>
 <th>#</th>
 <th>Exercise</th>
-<th>Duration</th>
-<th>Where you run it</th>
+<th>Time</th>
+<th>Where</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td>E1</td>
 <td>Bad prompt vs good prompt</td>
-<td>7 min</td>
-<td><code>cd sandbox_repo &amp;&amp; claude</code></td>
+<td>15 min</td>
+<td><code>sandbox_repo/</code></td>
 </tr>
 <tr>
 <td>E2</td>
-<td>Spot the lever (5 cards)</td>
+<td>Plan mode before code</td>
 <td>10 min</td>
-<td>Browser (<code>scenarios.html</code>)</td>
+<td><code>sandbox_repo/</code></td>
 </tr>
 <tr>
 <td>E3</td>
-<td>CLAUDE.md surgery</td>
-<td>15 min</td>
-<td><code>sandbox_repo/CLAUDE.md</code></td>
+<td>CLAUDE.md surgery race</td>
+<td>20 min</td>
+<td><code>sandbox_repo/</code></td>
 </tr>
 <tr>
 <td>E4</td>
-<td>Three sub-agents on one file</td>
+<td>Find the holes (permissions audit)</td>
 <td>15 min</td>
-<td><code>cd workshop_demo &amp;&amp; claude</code> (root)</td>
+<td><code>sandbox_repo/</code></td>
 </tr>
 <tr>
 <td>E5</td>
-<td>Hook fires on your laptop</td>
-<td>10 min</td>
-<td><code>cd module5_hooks &amp;&amp; claude</code></td>
+<td>Parallel sub-agent review</td>
+<td>30 min</td>
+<td><code>example2_parallel_review/</code></td>
 </tr>
 <tr>
 <td>E6</td>
-<td>/standup against the sandbox</td>
-<td>10 min</td>
-<td><code>cd sandbox_repo &amp;&amp; claude</code></td>
+<td>Build your own <code>/standup</code></td>
+<td>25 min</td>
+<td><code>sandbox_repo/</code></td>
 </tr>
 <tr>
 <td>E7</td>
-<td>MCP server on your laptop</td>
-<td>12 min</td>
-<td><code>cd module7_mcp &amp;&amp; claude</code></td>
+<td>Write a hook that saves your job</td>
+<td>20 min</td>
+<td><code>module5_hooks/</code></td>
 </tr>
 <tr>
 <td>E8</td>
-<td>Audit the holey settings.json</td>
-<td>8 min</td>
-<td><code>sandbox_repo/.claude/settings.json</code></td>
+<td>Extend a live MCP server</td>
+<td>25 min</td>
+<td><code>module7_mcp/</code></td>
 </tr>
+</tbody>
+</table>
+<h2 id="day-2-play-the-gig">Day 2 — play the gig</h2>
+<table>
+<colgroup>
+<col style="width: 11%" />
+<col style="width: 38%" />
+<col style="width: 23%" />
+<col style="width: 26%" />
+</colgroup>
+<thead>
+<tr>
+<th>#</th>
+<th>Exercise</th>
+<th>Time</th>
+<th>Where</th>
+</tr>
+</thead>
+<tbody>
 <tr>
 <td>E9</td>
-<td>Headless one-shot, real JSON</td>
-<td>8 min</td>
-<td><code>bash module9_sdk/quick_demo.sh</code></td>
+<td>Spec-driven build</td>
+<td>40 min</td>
+<td><code>day2_adlc/specs/</code> + <code>sandbox_repo/</code></td>
+</tr>
+<tr>
+<td>E10</td>
+<td>TDD kata: red → green → new spec</td>
+<td>30 min</td>
+<td><code>day2_adlc/tdd_kata/</code></td>
+</tr>
+<tr>
+<td>E11</td>
+<td>Catch the lying output (evals)</td>
+<td>30 min</td>
+<td><code>day2_adlc/evals/</code></td>
+</tr>
+<tr>
+<td>E12</td>
+<td>Triage your own failure, headless</td>
+<td>15 min</td>
+<td>anywhere</td>
+</tr>
+<tr>
+<td>E13</td>
+<td>Six-tile dashboard sketch</td>
+<td>10 min</td>
+<td>paper</td>
+</tr>
+<tr>
+<td>—</td>
+<td><strong>Capstone</strong> (teams of 4)</td>
+<td>3 hrs</td>
+<td>see <code>CAPSTONE.md</code></td>
 </tr>
 </tbody>
 </table>
 <hr />
-<h2 id="e1-bad-prompt-vs-good-prompt-7-min">E1 — Bad prompt vs good
-prompt (7 min)</h2>
-<div class="sourceCode" id="cb1"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> sandbox_repo</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="ex">claude</span></span></code></pre></div>
-<p>In Claude, type the <strong>bad</strong> prompt:</p>
-<pre><code>&gt; fix the failing migration test</code></pre>
-<p>Watch what happens for ~2 minutes. Notice every assumption the model
-makes.</p>
-<p>Then <code>/clear</code> and type a <strong>better</strong> prompt —
-one that: - Names the failing file precisely. - Tells the model to read
-both the test AND what it’s testing before deciding what’s wrong. -
-Forbids editing the test just to make it pass. - Asks for plan mode and
-a surfaced root cause before any edits.</p>
-<p>Run it. Watch again for ~2 minutes.</p>
-<p><strong>Compare</strong> with your neighbour: what was the most
-surprising difference between the two runs?</p>
-<hr />
-<h2 id="e2-spot-the-lever-10-min">E2 — Spot the lever (10 min)</h2>
-<p>Open <code>module2_anatomy/scenarios.html</code> in a browser. Five
-cards.</p>
-<p>For each card: 1. Read the transcript. Decide which lever failed:
-<strong>context, tools, permissions, or loop control</strong>. 2. Commit
-to your answer. 3. Click reveal. Re-read the transcript with the answer
-in mind.</p>
-<p>5/5 means you can already diagnose any failed Claude session. Most
-people get 3/5 on the first try.</p>
-<hr />
-<h2 id="e3-claude.md-surgery-15-min">E3 — CLAUDE.md surgery (15
+<h2 id="e1-bad-prompt-vs-good-prompt-15-min">E1 — Bad prompt vs good
+prompt (15 min)</h2>
+<p>There’s a failing test in the sandbox. You’ll fix it twice.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> sandbox_repo <span class="kw">&amp;&amp;</span> <span class="ex">claude</span></span></code></pre></div>
+<p><strong>Round 1 — prompt like it’s a search box:</strong></p>
+<pre><code>fix the failing test</code></pre>
+<p>Watch what it does. Note what it guessed, what it assumed, what it
+touched. Then <code>/clear</code> and <code>git checkout .</code>.</p>
+<p><strong>Round 2 — prompt like it’s a competent new
+teammate:</strong></p>
+<pre><code>tests/db/migration_0042.test.ts is failing. The Down block of
+src/db/migrations/0042_add_soft_delete.sql is a TODO. Write the Down
+migration so it exactly reverses the Up block, don&#39;t edit the test,
+and show me the diff before finalizing. Don&#39;t touch any other file.</code></pre>
+<p><strong>Debrief with your neighbour:</strong> what specifically
+changed the behaviour — model quality, or the context and constraints
+<em>you</em> provided? That gap is the whole workshop.</p>
+<h2 id="e2-plan-mode-before-code-10-min">E2 — Plan mode before code (10
 min)</h2>
-<div class="sourceCode" id="cb3"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> sandbox_repo</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="ex">bat</span> CLAUDE.md   <span class="co"># the bloated one</span></span></code></pre></div>
-<p><strong>Solo (5 min):</strong> trim
-<code>sandbox_repo/CLAUDE.md</code> to ≤40 lines. The instruction
-is:</p>
-<blockquote>
-<p>Only keep what the model can’t derive from reading the code
-itself.</p>
-</blockquote>
-<p>Save your trimmed version as <code>CLAUDE.md.trimmed</code>.</p>
-<p><strong>Pair (8 min):</strong> trade laptops with a neighbour. They
-cut yours further; you cut theirs. Defend or accept each cut.</p>
-<p><strong>Reflect (2 min):</strong> the cut you most disagreed with —
-and why.</p>
-<blockquote>
-<p><strong>Reset:</strong> <code>git checkout CLAUDE.md</code> inside
-<code>sandbox_repo</code> restores the bloated original.</p>
-</blockquote>
+<p>Same repo. Press <strong>Shift+Tab</strong> until you see plan mode,
+then:</p>
+<pre><code>src/middleware/auth.ts uses a deprecated TOKEN_CACHE. Plan a refactor
+to remove it without changing behaviour.</code></pre>
+<p>Read the plan like a PR review: challenge one step out loud. Then
+approve — or edit the plan and <em>then</em> approve. You just did your
+first human-in-the-loop gate. <strong>Take-home:</strong> never let an
+agent write to a repo you care about without a plan you’ve read.</p>
+<h2 id="e3-claude.md-surgery-race-20-min">E3 — CLAUDE.md surgery race
+(20 min)</h2>
+<p><code>sandbox_repo/CLAUDE.md</code> is ~114 lines of history, sprint
+gossip, and credentials nobody should have committed. Every one of those
+lines gets re-read on <em>every single turn</em> and most are noise — or
+worse, misdirection.</p>
+<p><strong>The race:</strong> trim it to ≤ 40 lines that would actually
+make Claude better at this repo. 10 minutes, solo. Rules: keep anything
+that changes agent behaviour, cut everything that doesn’t, and
+<em>fix</em> anything actively dangerous.</p>
+<p>Then <strong>swap laptops with your neighbour</strong> and try one
+prompt against <em>their</em> trimmed file. Best file in the room gets
+projected and defended by its author.</p>
+<p><strong>Take-home:</strong> the checklist you just internalized —
+commands, conventions, landmines, nothing else. Also try
+<code>/memory</code> and end a message with a <code>#</code> line to see
+where remembered facts land.</p>
+<h2 id="e4-find-the-holes-15-min">E4 — Find the holes (15 min)</h2>
+<p><code>sandbox_repo/.claude/settings.json</code> looks reasonable. It
+is not.</p>
+<p>Solo, 8 minutes, no Claude allowed yet: <strong>write down every way
+this config lets an agent hurt you.</strong> Think exfiltration,
+force-push, package publish, secrets. There are at least five distinct
+holes.</p>
+<p>Then ask Claude to audit the same file and compare its list against
+yours. Who found more? <strong>Take-home:</strong> run the same audit
+against your real project’s settings tonight.</p>
+<h2 id="e5-parallel-sub-agent-review-30-min">E5 — Parallel sub-agent
+review (30 min)</h2>
+<p>One file, ~19 seeded problems:
+<code>example2_parallel_review/code_under_review/users_api.js</code>.</p>
+<p>First, 3 minutes, read it yourself and write down your predicted
+top-3 issues.</p>
+<p>Then launch <strong>three reviewers in parallel, in a single
+message</strong>:</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> example2_parallel_review <span class="kw">&amp;&amp;</span> <span class="ex">claude</span></span></code></pre></div>
+<pre><code>Launch three parallel sub-agents to review code_under_review/users_api.js:
+1. a security reviewer (injection, authz, secrets, SSRF)
+2. a code-quality reviewer (bugs, error handling, dead code)
+3. a generalist reviewer (anything the others would miss)
+Each returns a ranked findings list with line numbers. Then merge them into
+one table: finding | line | which reviewers caught it | severity.</code></pre>
+<p>While it runs, watch the sub-agent activity. When the table lands: -
+What did <strong>all three</strong> catch? What did <strong>only
+one</strong> catch? - Compare the merged table against your own top-3
+prediction. What did you miss?</p>
+<p><strong>Take-home:</strong> the merged-table prompt above, reusable
+on any PR.</p>
+<h2 id="e6-build-your-own-standup-25-min">E6 — Build your own
+<code>/standup</code> (25 min)</h2>
+<p>The sandbox has a week of seeded git history. Build a slash command
+that turns it into a standup update.</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> sandbox_repo <span class="kw">&amp;&amp;</span> <span class="ex">claude</span></span></code></pre></div>
+<pre><code>Create .claude/commands/standup.md — a slash command that summarizes my
+commits since the main-stable branch as a standup update: done / in
+progress / blockers. Read-only git access, nothing else. Then I&#39;ll run
+/standup to test it.</code></pre>
+<p>Restart claude, run <code>/standup</code>. Then iterate <em>on the
+command file itself</em> until the output is something you’d actually
+paste into your team channel.</p>
+<p><strong>Stretch:</strong> make it accept an argument
+(<code>/standup 3</code> = last 3 days). <strong>Take-home:</strong> the
+command file — drop it into any repo with git history.</p>
+<h2 id="e7-write-a-hook-that-saves-your-job-20-min">E7 — Write a hook
+that saves your job (20 min)</h2>
+<p>First watch the guardrail that’s already here:</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> module5_hooks <span class="kw">&amp;&amp;</span> <span class="ex">claude</span></span></code></pre></div>
+<pre><code>Add a comment to sample_files/prod_config.yaml</code></pre>
+<p>Blocked. Not “asked nicely” — <em>blocked by deterministic code</em>,
+before the tool ran. Read
+<code>.claude/hooks/block-prod-writes.sh</code> and
+<code>.claude/settings.json</code> to see the wiring: stdin JSON in,
+exit code 2 out.</p>
+<p><strong>Now the race:</strong> write a PreToolUse hook that blocks
+any Bash command containing <code>curl</code> piped to a shell. First
+working hook wins. Prove it fires, prove normal commands still pass.</p>
+<p><strong>Take-home:</strong> your hook. Generalize it tonight: block
+<code>.env</code> reads, block <code>DROP TABLE</code>, block deploys on
+Fridays — your call.</p>
+<h2 id="e8-extend-a-live-mcp-server-25-min">E8 — Extend a live MCP
+server (25 min)</h2>
+<div class="sourceCode" id="cb11"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> module7_mcp <span class="kw">&amp;&amp;</span> <span class="ex">claude</span></span></code></pre></div>
+<p>Run <code>/mcp</code> — see the oncall server and its two tools. Then
+use it:</p>
+<pre><code>Who is on call for payments? Page them saying the workshop says hi.</code></pre>
+<p>Check <code>pages.log</code> — that “page” was a real tool call into
+real (fake) infra.</p>
+<p><strong>Your turn:</strong> open <code>oncall_server.py</code>, add a
+<code>list_teams()</code> tool, restart, and make Claude discover and
+use it <em>without naming the tool in your prompt</em>. Pay attention to
+what makes it discoverable: the function name and docstring ARE the UX.
+Write them for a model, not a human.</p>
+<p><strong>Take-home:</strong> you now know the full loop — server,
+tool, registration, discovery. Your internal APIs are one lunch break
+away from being agent-usable.</p>
 <hr />
-<h2 id="e4-three-sub-agents-on-one-file-15-min">E4 — Three sub-agents on
-one file (15 min)</h2>
-<p>Run from the workshop repo root (NOT sandbox_repo):</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> ~/workshop_demo</span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="ex">claude</span></span></code></pre></div>
-<p>Paste this prompt verbatim:</p>
-<pre><code>Spawn three sub-agents IN PARALLEL (in a single message) reviewing the
-file example2_parallel_review/code_under_review/users_api.js:
-  - Agent A: senior security engineer. Lane: injection, auth, secrets,
-    SSRF, PII, DoS. Output to .review_security.md.
-  - Agent B: senior backend engineer. Lane: event-loop blocking, error
-    handling, validation, observability. Output to .review_quality.md.
-  - Agent C: generalist. Find anything wrong. Output to .review_general.md.
-
-Each must reference line numbers and severities. Each returns to me a
-4-bullet summary, under 100 words.</code></pre>
-<p><strong>~5 min for the agents to run.</strong></p>
-<p><strong>Compare in pairs:</strong> - Did your specialists go deep
-(payloads, attack chains)? - Did your generalist catch anything that
-fell between the specialist lanes? - Which review would you act on
-first?</p>
+<h2 id="e9-spec-driven-build-40-min">E9 — Spec-driven build (40
+min)</h2>
+<p>Read <code>day2_adlc/specs/example_spec_export_endpoint.md</code> (5
+min). Notice the <strong>Non-goals</strong> and <strong>Edge
+cases</strong> sections — that’s where hallucinations go to die.</p>
+<p>Then, in <code>sandbox_repo/</code>:</p>
+<ol type="1">
+<li>Paste the spec into plan mode. Read the plan against the acceptance
+criteria.</li>
+<li>Approve and let it build — tests first if you can hold it to
+that.</li>
+<li>When it claims done: make it <em>prove</em> each acceptance
+criterion, one by one.</li>
+</ol>
+<p><strong>Fast finishers:</strong> write your own one-page spec
+(template in <code>day2_adlc/specs/SPEC_TEMPLATE.md</code>) for a
+feature you actually need at work. That document is your take-home — and
+possibly your Monday morning.</p>
+<h2 id="e10-tdd-kata-red-green-new-spec-30-min">E10 — TDD kata: red →
+green → new spec (30 min)</h2>
+<p>Full instructions: <code>day2_adlc/tdd_kata/README.md</code>.</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> day2_adlc/tdd_kata <span class="kw">&amp;&amp;</span> <span class="ex">node</span> <span class="at">--test</span>    <span class="co"># red. good.</span></span></code></pre></div>
+<p>Round 1: tests are the spec, tests are read-only, make them green —
+and make Claude run them itself after every change. Round 2: new
+requirement (<code>burst</code>) — tests written FIRST, shown to you,
+approved by you, <em>then</em> implemented.</p>
+<p><strong>Take-home:</strong> the two-line house rule — <em>“tests are
+the spec”</em> + <em>“run it after every change”</em> — which upgrades
+any agent from plausible to verified.</p>
+<h2 id="e11-catch-the-lying-output-30-min">E11 — Catch the lying output
+(30 min)</h2>
+<p><code>day2_adlc/evals/</code> has five AI-generated ticket summaries.
+Some are broken. One is <strong>lying</strong> — structurally perfect,
+semantically false.</p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> day2_adlc/evals</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="ex">node</span> check.js        <span class="co"># layer 1: code checks. Which two fail, and why?</span></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> judge.sh        <span class="co"># layer 2: LLM-as-judge. Which one passed checks but lies?</span></span></code></pre></div>
+<p>Before running the judge, place your bet: read the outputs and vote
+as a table on which one is the liar. Then compare against the judge’s
+verdicts — and read its <em>reasons</em>.</p>
+<p><strong>Debrief:</strong> which layer catches what? What would layer
+3 (humans) sample? <strong>Take-home:</strong> <code>check.js</code> +
+<code>judge.sh</code> — swap in your own rubric and you have a
+production eval harness by Friday.</p>
+<h2 id="e12-triage-your-own-failure-headless-15-min">E12 — Triage your
+own failure, headless (15 min)</h2>
+<p>Bring a real failing log from your actual work (CI output, stack
+trace, anything ugly). No log? Use
+<code>module9_sdk/sample_test_failure.txt</code>.</p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span> your_failure.log <span class="kw">|</span> <span class="ex">claude</span> <span class="at">-p</span> <span class="st">&#39;You are a CI triage bot. Output JSON only:</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="st">{&quot;probable_cause&quot;: str, &quot;suggested_fix&quot;: str, &quot;confidence&quot;: &quot;high|medium|low&quot;}&#39;</span> <span class="dt">\</span></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">--max-turns</span> 4 <span class="at">--output-format</span> json <span class="kw">|</span> <span class="ex">jq</span> <span class="at">-r</span> <span class="st">&#39;.result&#39;</span></span></code></pre></div>
+<p>One pipe, structured verdict. Now the question that matters:
+<strong>where in your real pipeline would you wire this, and would you
+auto-act on high confidence?</strong> Argue it out with your table.</p>
+<h2 id="e13-six-tile-dashboard-sketch-10-min">E13 — Six-tile dashboard
+sketch (10 min)</h2>
+<p>Paper and pen. Sketch the 6-tile monitoring dashboard for the AI
+feature your team builds in the capstone this afternoon: each tile =
+metric + threshold + who gets paged. Guidance in
+<code>day2_adlc/monitoring/README.md</code>. Teams hold up their sketch;
+fastest complete + defensible board wins.</p>
 <hr />
-<h2 id="e5-hook-fires-on-your-laptop-10-min">E5 — Hook fires on your
-laptop (10 min)</h2>
-<div class="sourceCode" id="cb6"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> ~/workshop_demo/module5_hooks</span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="ex">claude</span></span></code></pre></div>
-<pre><code>&gt; Update sample_files/prod_config.yaml — change the database host to &quot;yours.internal&quot;</code></pre>
-<p>You should see a red BLOCKED box. Then <code>/exit</code>.</p>
-<p><strong>Stretch:</strong> add a SECOND hook to
-<code>.claude/settings.json</code> that blocks any <code>Bash</code>
-command containing the word <code>curl</code>. Use the existing hook
-script as your template — the JSON envelope’s
-<code>.tool_input.command</code> is what you want to inspect.</p>
-<hr />
-<h2 id="e6-standup-against-the-sandbox-10-min">E6 — /standup against the
-sandbox (10 min)</h2>
-<div class="sourceCode" id="cb8"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> ~/workshop_demo/sandbox_repo</span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="fu">mkdir</span> <span class="at">-p</span> .claude/commands</span></code></pre></div>
-<p>Create <code>.claude/commands/standup.md</code>. Make a slash-command
-that summarises your day’s work:</p>
-<ul>
-<li><code>allowed-tools</code> frontmatter restricting to
-<code>Bash(git:*)</code> and <code>Read</code>.</li>
-<li>Explicit step list (commits since <code>main-stable</code>, diff
-stats, TODOs in the diff).</li>
-<li>Output contract: named sections, capped length, no preamble.</li>
-</ul>
-<div class="sourceCode" id="cb9"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="ex">claude</span></span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="op">&gt;</span> /standup</span></code></pre></div>
-<blockquote>
-<p><strong>Sandbox material:</strong> <code>bash scripts/setup.sh</code>
-seeded <code>sandbox_repo</code> with backdated commits and a
-<code>main-stable</code> branch. Verify with
-<code>git log --oneline main-stable..HEAD</code> from inside
-<code>sandbox_repo</code>.</p>
-</blockquote>
-<hr />
-<h2 id="e7-mcp-server-on-your-laptop-12-min">E7 — MCP server on your
-laptop (12 min)</h2>
-<p>If <code>scripts/setup.sh</code> ran cleanly and you followed
-<code>module7_mcp/RUN.md</code>, this just works:</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> ~/workshop_demo/module7_mcp</span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="ex">claude</span></span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="op">&gt;</span> /mcp</span></code></pre></div>
-<p>You should see <code>oncall</code> connected. Then:</p>
-<pre><code>&gt; Who is on call for the search team? Page them about the workshop demo.</code></pre>
-<p>Watch Claude call both tools in order. Approve at the prompts.</p>
-<div class="sourceCode" id="cb12"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span> pages.log</span></code></pre></div>
-<p><strong>Stretch:</strong> add a third tool <code>list_teams()</code>
-to <code>oncall_server.py</code> that returns the known teams. Restart
-claude. Test it.</p>
-<hr />
-<h2 id="e8-audit-the-holey-settings.json-8-min">E8 — Audit the holey
-settings.json (8 min)</h2>
-<div class="sourceCode" id="cb13"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> ~/workshop_demo/sandbox_repo</span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="ex">bat</span> .claude/settings.json    <span class="co"># holey on purpose</span></span></code></pre></div>
-<p><strong>Solo (5 min):</strong> find as many problems as you can. Read
-each <code>allow</code> and <code>deny</code> rule and ask: <em>could
-this rule, as written, let through something I’d never approve in code
-review?</em></p>
-<p><strong>Pair (3 min):</strong> the hole you would have shipped
-without noticing.</p>
-<hr />
-<h2 id="e9-headless-one-shot-real-json-8-min">E9 — Headless one-shot,
-real JSON (8 min)</h2>
-<div class="sourceCode" id="cb14"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> ~/workshop_demo/module9_sdk</span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> quick_demo.sh</span></code></pre></div>
-<p>JSON triage report appears in &lt;30s. Read it.</p>
-<p><strong>Pair-discuss:</strong> in your day job, what would you wire
-<code>claude -p</code> into? - Failing CI? (the demo) - PR descriptions
-auto-generated from the diff? - Daily summary of what your team merged?
-- Triaging Sentry alerts? - Something weirder?</p>
-<hr />
-<h2 id="closing-pick-three-commitments-5-min">Closing — pick three
-commitments (5 min)</h2>
-<p>On a sticky note, write the three things you’ll change in your
-workflow on Monday. <strong>Three is the cap — more, you’ll do none of
-them.</strong> Hand it to a colleague. They follow up Friday.</p>
+<h2 id="after-the-capstone-three-commitments">After the capstone: three
+commitments</h2>
+<p>Sticky note. Three concrete changes you’ll make Monday — a CLAUDE.md
+for your main repo, a hook, a slash command, an eval in CI, whatever bit
+hardest today. Name and date it. Stick it on the wall on your way out;
+photograph it so future-you can’t pretend it never happened.</p>
 <script>
 // Tiny enhancement script for WORKSHOP.html.
 // 1. Tints code blocks that follow a "❌ Bad" heading red.

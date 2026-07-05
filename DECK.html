@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Claude Code — Agentic Coding Workshop</title>
+<style>
+  :root {
+    --bg: #0d1117; --fg: #e6edf3; --dim: #8b949e;
+    --accent: #d97706; --accent2: #58a6ff; --good: #3fb950; --bad: #f85149;
+    --code-bg: #161b22; --border: #30363d;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { height: 100%; background: var(--bg); color: var(--fg);
+    font-family: -apple-system, "Segoe UI", Helvetica, Arial, sans-serif; overflow: hidden; }
+  .slide { display: none; height: 100vh; padding: 6vh 8vw; flex-direction: column; justify-content: center; }
+  .slide.active { display: flex; }
+  .kicker { color: var(--accent); font-size: 1.4rem; font-weight: 700;
+    text-transform: uppercase; letter-spacing: .18em; margin-bottom: 1.2rem; }
+  h1 { font-size: 4.2rem; line-height: 1.08; margin-bottom: 2rem; font-weight: 800; }
+  h2 { font-size: 3rem; line-height: 1.15; margin-bottom: 1.8rem; font-weight: 750; }
+  .big { font-size: 2.1rem; line-height: 1.45; }
+  p, li { font-size: 1.75rem; line-height: 1.5; margin-bottom: .7rem; }
+  ul, ol { margin-left: 2.2rem; margin-bottom: 1rem; }
+  .dim { color: var(--dim); }
+  .accent { color: var(--accent); } .blue { color: var(--accent2); }
+  .good { color: var(--good); } .bad { color: var(--bad); }
+  code, pre { font-family: "SF Mono", ui-monospace, Menlo, Consolas, monospace; }
+  code { background: var(--code-bg); border: 1px solid var(--border);
+    border-radius: 6px; padding: .1em .4em; font-size: .92em; }
+  pre { background: var(--code-bg); border: 1px solid var(--border); border-radius: 12px;
+    padding: 1.4rem 1.8rem; font-size: 1.45rem; line-height: 1.5; overflow-x: auto; margin: 1rem 0; }
+  pre code { background: none; border: none; padding: 0; }
+  table { border-collapse: collapse; margin: 1rem 0; }
+  th, td { font-size: 1.55rem; padding: .55rem 1.4rem; text-align: left;
+    border-bottom: 1px solid var(--border); }
+  th { color: var(--accent); text-transform: uppercase; font-size: 1.15rem; letter-spacing: .1em; }
+  .cols { display: grid; grid-template-columns: 1fr 1fr; gap: 3.5rem; align-items: start; }
+  .card { background: var(--code-bg); border: 1px solid var(--border); border-radius: 14px; padding: 1.6rem 2rem; }
+  .ex { border-left: 6px solid var(--accent); background: var(--code-bg);
+    padding: 1.2rem 1.8rem; border-radius: 0 12px 12px 0; margin-top: 1.4rem; }
+  .ex .tag { color: var(--accent); font-weight: 800; font-size: 1.3rem;
+    letter-spacing: .12em; text-transform: uppercase; }
+  .center { text-align: center; align-items: center; }
+  .huge { font-size: 5.2rem; font-weight: 800; line-height: 1.1; }
+  .loop { font-size: 2.4rem; font-weight: 700; letter-spacing: .02em; }
+  .loop span { color: var(--accent); }
+  #hud { position: fixed; bottom: 14px; right: 20px; color: var(--dim);
+    font-size: .95rem; font-family: ui-monospace, monospace; z-index: 9; }
+  #bar { position: fixed; bottom: 0; left: 0; height: 4px; background: var(--accent); z-index: 9; transition: width .15s; }
+  .footer-hint { position: fixed; bottom: 12px; left: 20px; color: var(--dim); font-size: .95rem; }
+</style>
+</head>
+<body>
+
+<!-- ══════════════ DAY 1 ══════════════ -->
+
+<section class="slide center">
+  <div class="kicker">Two days · hands-on · bring a keyboard</div>
+  <div class="huge">Claude Code<br>Agentic Coding Workshop</div>
+  <p class="dim" style="margin-top:2.5rem">Day 1 — learn the instrument &nbsp;·&nbsp; Day 2 — play the gig</p>
+</section>
+
+<section class="slide">
+  <div class="kicker">The deal</div>
+  <h2>Nobody listens for more than<br>10 minutes without typing</h2>
+  <ul>
+    <li><b>13 exercises</b> + a 3-hour team capstone</li>
+    <li>Every exercise ends with something you can <span class="accent">steal for work on Monday</span></li>
+    <li>Break the sandbox freely — <code>git checkout .</code> resets it</li>
+    <li>One rule: <b>no second AI in another tab</b> — feel the loop directly</li>
+  </ul>
+</section>
+
+<section class="slide">
+  <div class="kicker">Agenda</div>
+  <div class="cols">
+    <div class="card">
+      <p><b class="accent">Day 1 — Thursday</b></p>
+      <p>09:00 · §0 Kickoff, teams, wow demo</p>
+      <p>10:00 · §1 Fundamentals<br><span class="dim">loop · plan mode · context · memory · skills · permissions</span></p>
+      <p>12:00 · Lunch</p>
+      <p>13:00 · §2 Advanced<br><span class="dim">sub-agents · orchestration · commands & skills · hooks · MCP</span></p>
+      <p>16:25 · Wrap & feedback</p>
+    </div>
+    <div class="card">
+      <p><b class="accent">Day 2 — Friday</b></p>
+      <p>09:00 · §3 The ADLC<br><span class="dim">specs · TDD · AI evals · CI/CD · cloud (AWS) · monitoring</span></p>
+      <p>12:00 · Lunch</p>
+      <p>13:00 · §4 Capstone — teams of 4</p>
+      <p>16:00 · Live demos</p>
+      <p>16:30 · <b>Out, on time</b></p>
+    </div>
+  </div>
+</section>
+
+<section class="slide">
+  <div class="kicker">§0 · Icebreaker</div>
+  <h2>CLAUDE.md for a human</h2>
+  <ol>
+    <li>Pair with someone you don't know</li>
+    <li>Interview each other — 3 minutes each way</li>
+    <li>Write a <b>5-line briefing file</b> for your partner:</li>
+  </ol>
+  <pre><code># CLAUDE.md — &lt;partner&gt;
+- Role:
+- Currently building:
+- Superpower:
+- Never do this around them:
+- Talk to them like:</code></pre>
+  <p class="dim">Then you read your partner's file aloud. 20 seconds, max.</p>
+</section>
+
+<section class="slide center">
+  <div class="kicker">§0 · Teams</div>
+  <div class="huge">5 teams × 4 people</div>
+  <p class="big" style="margin-top:2rem">Mix roles. Pick a name. Whiteboard it.<br>
+  <span class="accent">These teams ship the capstone tomorrow afternoon.</span></p>
+</section>
+
+<section class="slide center">
+  <div class="kicker">§0 · Watch this</div>
+  <div class="huge">One prompt.<br>Working software.</div>
+  <p class="dim" style="margin-top:2rem">— switching to the terminal —</p>
+</section>
+
+<section class="slide center">
+  <div class="kicker">The mental model</div>
+  <div class="loop">gather context <span>→</span> act <span>→</span> verify <span>→</span> repeat</div>
+  <p class="big" style="margin-top:2.5rem">Not autocomplete. An <b>agent loop</b>.<br>
+  The unit of work is a <b class="accent">task</b>, not a line of code.</p>
+  <p class="dim" style="margin-top:2rem">Your leverage: four levers — context · tools · permissions · loop control</p>
+</section>
+
+<section class="slide center">
+  <div class="kicker">Section 1</div>
+  <div class="huge">Fundamentals</div>
+  <p class="big dim" style="margin-top:2rem">agent loop · plan mode · context engineering · memory · skills · permissions</p>
+</section>
+
+<section class="slide">
+  <div class="kicker">§1 · The same task, twice</div>
+  <div class="cols">
+    <div class="card"><p class="bad" style="font-weight:700">Round 1</p>
+      <pre><code>fix the failing test</code></pre>
+      <p class="dim">Watch what it guesses.</p></div>
+    <div class="card"><p class="good" style="font-weight:700">Round 2</p>
+      <p style="font-size:1.5rem">Name the file. Name the constraint. Forbid side effects. Demand the diff first.</p></div>
+  </div>
+  <div class="ex"><span class="tag">E1 · 15 min</span>
+    <p><code>cd sandbox_repo && claude</code> — full prompt in EXERCISES</p></div>
+</section>
+
+<section class="slide">
+  <div class="kicker">§1 · Loop control</div>
+  <h2>Plan mode — <span class="accent">Shift+Tab</span></h2>
+  <p class="big">The agent must show its plan before touching anything.<br>
+  It's a PR review <i>before the PR exists</i> — and you can edit the plan.</p>
+  <div class="ex"><span class="tag">E2 · 10 min</span>
+    <p>Plan the TOKEN_CACHE refactor. <b>Challenge one step out loud</b> before approving.</p></div>
+</section>
+
+<section class="slide">
+  <div class="kicker">§1 · Context engineering</div>
+  <h2>CLAUDE.md is loaded <span class="accent">every single turn</span></h2>
+  <ul>
+    <li>It's the standing brief: commands, conventions, landmines</li>
+    <li>Every token competes with every other token — <b>bloat misdirects</b></li>
+    <li>Noise in, noise out. Five sharp lines beat a biography <span class="dim">(sound familiar?)</span></li>
+  </ul>
+  <div class="ex"><span class="tag">E3 · 20 min · race</span>
+    <p>114 lines → ≤ 40 lines. Then swap laptops and test your neighbour's file.</p></div>
+</section>
+
+<section class="slide">
+  <div class="kicker">§1 · Memory</div>
+  <h2>Corrections you make today<br>pay out for months</h2>
+  <ul>
+    <li><code>/memory</code> — see everything Claude knows about you and this repo</li>
+    <li>End any message with a <code>#</code> line — teach it a fact, permanently</li>
+    <li>Project memory + user memory stack, like CLAUDE.md does</li>
+  </ul>
+</section>
+
+<section class="slide">
+  <div class="kicker">§1 · Permissions</div>
+  <h2>Pre-decide what the agent may do</h2>
+  <p class="big"><code>settings.json</code>: allowlists + denylists, per tool, per pattern.<br>
+  The classic mistake: <code class="bad">Bash(git:*)</code> includes <code class="bad">git push --force</code>.</p>
+  <div class="ex"><span class="tag">E4 · 15 min · humans vs claude</span>
+    <p>8 min, no AI: list every way the sandbox settings can hurt you. Then Claude audits the same file. Compare scores.</p></div>
+</section>
+
+<section class="slide center">
+  <div class="kicker">§1 · Recap</div>
+  <div class="loop">context <span>·</span> tools <span>·</span> permissions <span>·</span> loop control</div>
+  <p class="big" style="margin-top:2.5rem">You now hold all four levers.<br>This afternoon: we go hard on <b class="accent">tools</b>.</p>
+</section>
+
+<section class="slide center">
+  <div class="kicker">12:00</div>
+  <div class="huge">Lunch</div>
+  <p class="dim" style="margin-top:2rem">Back at 13:00 — agents, orchestration, tools</p>
+</section>
+
+<section class="slide center">
+  <div class="kicker">Section 2</div>
+  <div class="huge">Advanced</div>
+  <p class="big dim" style="margin-top:2rem">agentic coding · sub-agents & parallel orchestration · commands & skills · hooks · MCP</p>
+  <p class="big" style="margin-top:2rem">Stop thinking in prompts.<br>Start thinking in <b class="accent">infrastructure</b>.</p>
+</section>
+
+<section class="slide">
+  <div class="kicker">§2 · Sub-agents</div>
+  <h2>Not more brainpower.<br><span class="accent">Context isolation.</span></h2>
+  <ul>
+    <li>Each sub-agent: fresh window, burns tokens exploring, returns <b>only its conclusion</b></li>
+    <li>Your main thread stays clean</li>
+    <li>Independent tasks? Launch them <b>in parallel, in one message</b></li>
+  </ul>
+  <div class="ex"><span class="tag">E5 · 30 min</span>
+    <p>Predict the top-3 issues yourself → 3 parallel reviewers → merged overlap table. Who caught the route-ordering bug?</p></div>
+</section>
+
+<section class="slide">
+  <div class="kicker">§2 · Automate your habits</div>
+  <h2>prompt → slash command → skill</h2>
+  <table>
+    <tr><th>Level</th><th>What it is</th><th>Who benefits</th></tr>
+    <tr><td>prompt</td><td>you'll type it again tomorrow</td><td>you, once</td></tr>
+    <tr><td>command</td><td>a file, versioned, code-reviewed</td><td>you, forever</td></tr>
+    <tr><td>skill</td><td>command + team knowledge, loaded when relevant</td><td class="accent">everyone, forever</td></tr>
+  </table>
+  <p class="big">Receipts: same request — <b>12 files</b> without a skill, <b class="accent">32 files</b> with.</p>
+  <div class="ex"><span class="tag">E6 · 25 min</span><p>Build <code>/standup</code> against real git history. Iterate on the file, not your patience.</p></div>
+</section>
+
+<section class="slide">
+  <div class="kicker">§2 · Hooks</div>
+  <h2>CLAUDE.md is a <span class="blue">request</span>.<br>A hook is a <span class="accent">law</span>.</h2>
+  <p class="big">Deterministic code on the loop's lifecycle.<br>
+  Exit code 2 = <b class="bad">BLOCKED</b> — no matter how convinced the model is.</p>
+  <div class="ex"><span class="tag">E7 · 20 min · race</span>
+    <p>First working hook that blocks <code>curl | sh</code> wins. Prove it fires. Prove normal commands pass.</p></div>
+</section>
+
+<section class="slide">
+  <div class="kicker">§2 · MCP</div>
+  <h2>Give the agent <span class="accent">your infrastructure</span></h2>
+  <p class="big">A server exposes tools; any agent discovers and calls them.<br>
+  The oncall server here is <b>68 lines of Python</b>.</p>
+  <div class="ex"><span class="tag">E8 · 25 min</span>
+    <p>Add <code>list_teams()</code> — then make Claude find it <b>without naming it</b>. The docstring IS the UX.</p></div>
+</section>
+
+<section class="slide">
+  <div class="kicker">Day 1 · Wrap</div>
+  <h2>Today you built, not watched:</h2>
+  <ul>
+    <li>a trimmed CLAUDE.md · a permissions audit · a parallel-review prompt</li>
+    <li>a <code>/standup</code> command · a working hook · an MCP tool</li>
+  </ul>
+  <div class="card" style="margin-top:1.5rem"><p><b class="accent">Homework — 10 minutes tonight:</b></p>
+    <p>1. Bring one <b>real failing log</b> from your actual work</p>
+    <p>2. Bring one <b>feature you wish existed</b> in a repo you own</p></div>
+  <p class="dim" style="margin-top:1rem">Sticky note on your way out: one thing to keep, one to change overnight.</p>
+</section>
+
+<!-- ══════════════ DAY 2 ══════════════ -->
+
+<section class="slide center">
+  <div class="kicker">Day 2 · Section 3</div>
+  <div class="huge">The Agentic Development<br>Life Cycle</div>
+  <p class="big dim" style="margin-top:2rem">specs · iterative dev & tests · AI evals · CI/CD · cloud (AWS) · monitoring</p>
+</section>
+
+<section class="slide center">
+  <div class="kicker">§3 · The frame</div>
+  <p class="loop" style="font-size:1.9rem">spec <span>→</span> plan <span>→</span> code <span>→</span> test <span>→</span> review <span>→</span> CI <span>→</span> deploy <span>→</span> monitor</p>
+  <p class="big" style="margin-top:2.5rem">Same loop as yesterday — <b class="accent">bigger radius</b>.<br>
+  Every station gets an agent. Every station keeps a <b>human gate</b>.</p>
+</section>
+
+<section class="slide">
+  <div class="kicker">§3 · Spec-driven development</div>
+  <h2>A spec is E1's good prompt,<br>industrialized</h2>
+  <p class="big">The two unloved sections do the heavy lifting:</p>
+  <ul>
+    <li><b class="accent">Non-goals</b> — prunes the agent's search space</li>
+    <li><b class="accent">Edge cases</b> — each one is a test it writes and a hallucination it won't make</li>
+  </ul>
+  <div class="ex"><span class="tag">E9 · 40 min</span>
+    <p>Spec → plan mode → build → make it <b>prove each acceptance criterion</b>. Fast finishers: spec your homework feature.</p></div>
+</section>
+
+<section class="slide">
+  <div class="kicker">§3 · Iterative dev + tests</div>
+  <h2>Two house rules</h2>
+  <p class="big">1. <b class="accent">Tests are the spec</b> — and they're read-only<br>
+  2. <b class="accent">The agent runs the tests itself</b> after every change</p>
+  <p class="big" style="margin-top:1.5rem">With a feedback loop it's an engineer.<br>Without one it's a very confident typist.</p>
+  <div class="ex"><span class="tag">E10 · 30 min</span>
+    <p><code>cd day2_adlc/tdd_kata && node --test</code> — starts red. Round 2: new requirement, tests first, <b>you approve them</b>.</p></div>
+</section>
+
+<section class="slide">
+  <div class="kicker">§3 · AI evals</div>
+  <h2>5,000 outputs a day.<br>You can't read them. Now what?</h2>
+  <table>
+    <tr><th>Layer</th><th>Catches</th><th>Cost</th></tr>
+    <tr><td>1 · code checks</td><td>schema, enums, lengths</td><td class="good">free</td></tr>
+    <tr><td>2 · LLM-as-judge</td><td>faithfulness, tone — <b>needs a written rubric</b></td><td>cents</td></tr>
+    <tr><td>3 · humans</td><td>audit the judge: disagreements + a sample</td><td class="bad">expensive</td></tr>
+  </table>
+  <div class="ex"><span class="tag">E11 · 30 min</span>
+    <p>Five outputs. One is <b>lying</b> — structurally perfect, semantically false. Bet as a table, then run both layers.</p></div>
+</section>
+
+<section class="slide">
+  <div class="kicker">§3 · CI/CD</div>
+  <h2>Agents <span class="accent">propose</span>.<br>Pipelines <span class="accent">dispose</span>.</h2>
+  <pre><code>cat failure.log | claude -p "triage this. JSON only." \
+  --max-turns 4 --output-format json</code></pre>
+  <p class="big">That primitive + YAML = PR reviewer, failure triage, gated deploys.<br>Promotion to prod always passes a human gate.</p>
+  <div class="ex"><span class="tag">E12 · 15 min</span>
+    <p>Pipe <b>the real log you brought</b>. Debate: auto-act on <code>confidence: high</code>?</p></div>
+</section>
+
+<section class="slide">
+  <div class="kicker">§3 · Cloud (AWS)</div>
+  <h2>It's a CLI — it runs where your code runs</h2>
+  <ul>
+    <li><b>EC2 + tmux</b>: the agent keeps working after your laptop sleeps</li>
+    <li><b>CLAUDE.md travels with the clone</b> — remote boxes arrive pre-briefed</li>
+    <li><code>CLAUDE_CODE_USE_BEDROCK=1</code> — auth via your own AWS IAM<br>
+      <span class="dim">often the difference between "security said no" and "200 engineers onboarded"</span></li>
+  </ul>
+</section>
+
+<section class="slide">
+  <div class="kicker">§3 · Production monitoring</div>
+  <h2>Two dashboards — don't conflate them</h2>
+  <div class="cols">
+    <div class="card"><p><b class="accent">Your team's tool</b></p>
+      <p style="font-size:1.5rem">Claude Code emits OpenTelemetry natively: cost per engineer, acceptance rates</p></div>
+    <div class="card"><p><b class="accent">Your AI feature</b></p>
+      <p style="font-size:1.5rem">cost · reliability · <b>quality via sampled evals</b> · safety</p></div>
+  </div>
+  <p class="big" style="margin-top:1rem">First alert to write: <b>judge-score drop on sampled prod traffic</b> — fluent-but-wrong is the failure nothing else catches.</p>
+  <div class="ex"><span class="tag">E13 · 10 min</span><p>Six-tile dashboard sketch for your capstone feature. Paper. Go.</p></div>
+</section>
+
+<section class="slide center">
+  <div class="kicker">Section 4</div>
+  <div class="huge">Capstone</div>
+  <p class="big" style="margin-top:2rem">3 hours · your Day-1 team · one shipped thing<br>
+  <span class="accent">live demos at 16:00, hard cut</span></p>
+</section>
+
+<section class="slide">
+  <div class="kicker">§4 · Roles & menu</div>
+  <div class="cols">
+    <div>
+      <table>
+        <tr><th>Role</th><th>Owns</th></tr>
+        <tr><td>Product</td><td>spec, non-goals, demo story</td></tr>
+        <tr><td>Builder</td><td>the main Claude session</td></tr>
+        <tr><td>Toolsmith</td><td>CLAUDE.md, hooks, commands, MCP</td></tr>
+        <tr><td>Verifier</td><td>tests, evals, the proof pass</td></tr>
+      </table>
+    </div>
+    <div>
+      <p><b class="accent">Menu (or bring your own):</b></p>
+      <p style="font-size:1.5rem">1 · PR concierge<br>2 · Ticket-to-triage pipeline<br>3 · Oncall copilot<br>4 · Repo doctor<br>5 · Spec-to-feature factory</p>
+    </div>
+  </div>
+</section>
+
+<section class="slide">
+  <div class="kicker">§4 · Milestones</div>
+  <h2>The clock is the design constraint</h2>
+  <table>
+    <tr><td><b>13:30</b></td><td><b class="accent">M1 · Spec stamped</b> — no code before this</td></tr>
+    <tr><td><b>15:00</b></td><td><b class="accent">M2 · Vertical slice</b> — one path end-to-end, ugly is fine</td></tr>
+    <tr><td><b>15:45</b></td><td><b class="accent">M3 · Freeze</b> — proof pass done, demo order drawn</td></tr>
+    <tr><td><b>16:00</b></td><td><b class="accent">Demos</b> — 5 min, live runs only, no slides</td></tr>
+  </table>
+  <p class="dim" style="margin-top:1rem">Not vertical by 15:00? Cut scope, ruthlessly. That's Product's job.</p>
+</section>
+
+<section class="slide">
+  <div class="kicker">§4 · Demo rules</div>
+  <ol>
+    <li>The problem, in one sentence</li>
+    <li><b class="accent">Live run</b> — it works or it doesn't; both are interesting</li>
+    <li>The receipt: test/eval output proving it</li>
+    <li>One thing an agent did that surprised you</li>
+  </ol>
+  <p class="big" style="margin-top:1.5rem">Peer vote: works live · technique depth · <b>"would steal it"</b><br>
+  <span class="dim">one vote per team, not for yourselves</span></p>
+</section>
+
+<section class="slide">
+  <div class="kicker">Wrap</div>
+  <h2>Back to Thursday's whiteboard</h2>
+  <p class="big">"What pisses you off about your AI workflow?"<br>
+  Let's cross them off, one by one.</p>
+  <div class="card" style="margin-top:1.5rem"><p><b class="accent">Three commitments</b> — sticky note, name, date, wall:</p>
+    <p style="font-size:1.5rem">a CLAUDE.md for your main repo · a hook · a slash command · an eval in CI · whatever bit hardest</p></div>
+</section>
+
+<section class="slide center">
+  <div class="kicker">That's the workshop</div>
+  <div class="huge">The loop was never<br>the product.</div>
+  <p class="big" style="margin-top:2.5rem">The loop + <b class="accent">your engineering</b> —<br>specs, hooks, evals, gates — that's the product.</p>
+  <p class="dim" style="margin-top:2rem">Go build your own kit. It's already started — it's on the wall.</p>
+</section>
+
+<div id="hud"></div>
+<div id="bar"></div>
+<div class="footer-hint">← → navigate · Home/End jump</div>
+
+<script>
+(function () {
+  var slides = document.querySelectorAll('.slide');
+  var i = Math.min(parseInt(location.hash.slice(1), 10) || 0, slides.length - 1);
+  function show(n) {
+    i = Math.max(0, Math.min(n, slides.length - 1));
+    slides.forEach(function (s, k) { s.classList.toggle('active', k === i); });
+    document.getElementById('hud').textContent = (i + 1) + ' / ' + slides.length;
+    document.getElementById('bar').style.width = ((i + 1) / slides.length * 100) + '%';
+    location.hash = i;
+  }
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'PageDown') show(i + 1);
+    else if (e.key === 'ArrowLeft' || e.key === 'PageUp') show(i - 1);
+    else if (e.key === 'Home') show(0);
+    else if (e.key === 'End') show(slides.length - 1);
+  });
+  document.addEventListener('click', function (e) {
+    if (e.clientX > window.innerWidth / 2) show(i + 1); else show(i - 1);
+  });
+  show(i);
+})();
+</script>
+</body>
+</html>
