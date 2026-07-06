@@ -287,11 +287,29 @@ rate</td>
 </tr>
 </tbody>
 </table>
-<p>Tracing tools built for LLM apps — <strong>Arize Phoenix</strong>
-(open source, self-host) or <strong>Langfuse</strong> (open source,
-self-host) — capture the full prompt → tool-calls → response tree per
-request, which is what you’ll actually stare at during an incident.
-Grafana stays for the aggregate metrics + alerting.</p>
+<p>Tracing tools built for LLM apps — <strong>Langfuse</strong> or
+<strong>Arize Phoenix</strong> (both open source, both self-hostable) —
+capture the full prompt → tool-calls → response tree per request, which
+is what you’ll actually stare at during an incident. What that buys you
+in practice, using Langfuse as the example:</p>
+<ul>
+<li><strong>Cost and latency per trace, per user, per feature</strong>
+out of the box — tag traces with
+<code>tenant_id</code>/<code>feature</code> and the “which customer is
+burning the budget” question becomes a filter, not a query.</li>
+<li><strong>Eval scores live on the traces</strong> (see
+<code>../evals/README.md</code>): sample prod traffic, run your judge,
+write the score back. Your quality alert is then just “avg faithfulness
+score, 1h window, below threshold.”</li>
+<li><strong>Session/trace drill-down during incidents</strong>: from the
+alert to the exact prompt + tool calls + retries that produced the bad
+output, in two clicks.</li>
+<li>Self-hosting matters here — traces contain prompts, and prompts
+contain customer data. Keep them inside your VPC, behind your SSO.</li>
+</ul>
+<p>Division of labour: <strong>Langfuse/Phoenix for per-request
+truth</strong> (traces, scores, drill-down), <strong>Grafana for
+aggregates and paging</strong> (metrics, thresholds, alert routing).</p>
 <h2 id="alerts-worth-writing-on-day-one">Alerts worth writing on day
 one</h2>
 <ol type="1">
@@ -334,8 +352,7 @@ round wins.</p>
     if (/predict/i.test(q.textContent || '')) q.classList.add('predict-callout');
   });
 
-  // 3. Show-all-reveals toggle, fixed top-right — only if the doc has reveals
-  if (document.querySelectorAll('details').length === 0) return;
+  // 3. Show-all-reveals toggle, fixed top-right
   const btn = document.createElement('button');
   btn.textContent = 'Reveal all';
   Object.assign(btn.style, {

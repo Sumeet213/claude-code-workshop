@@ -39,6 +39,25 @@ You don't review everything; you review **where the layers disagree** and a
 random sample of everything else. In the exercise: the room votes on one
 disputed verdict, then compares against the judge's reasoning.
 
+## Scaling this beyond the workshop: Langfuse
+
+`check.js` + `judge.sh` is the whole architecture — in production you keep
+the same three layers and give them a home. **Langfuse** (open source,
+self-hostable) is the natural one:
+
+- Every LLM call becomes a **trace**; your judge verdicts attach to traces
+  as **scores** (`langfuse.score(traceId, name="faithfulness", value=…)`),
+  so "judge score over time" is a dashboard, not a spreadsheet.
+- **Datasets** hold your golden tickets/outputs — the five files in this
+  folder are a dataset; re-run the judge against every prompt or model
+  change and compare runs side by side before shipping.
+- **Annotation queues** are layer 3 productized: route low-score or
+  judge-disagrees traces to a human review queue in the UI, and the human
+  labels feed back into the dataset.
+
+Arize Phoenix plays the same role if you prefer it. The tool matters less
+than the shape: traces + scores + datasets + a human queue.
+
 ## The rule of thumb to take home
 
 1. Everything deterministic goes in code checks — never pay a model to count characters.

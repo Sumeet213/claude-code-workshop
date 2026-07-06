@@ -266,6 +266,27 @@ human-in-the-loop (expensive, run on a sample)</h2>
 disagree</strong> and a random sample of everything else. In the
 exercise: the room votes on one disputed verdict, then compares against
 the judge’s reasoning.</p>
+<h2 id="scaling-this-beyond-the-workshop-langfuse">Scaling this beyond
+the workshop: Langfuse</h2>
+<p><code>check.js</code> + <code>judge.sh</code> is the whole
+architecture — in production you keep the same three layers and give
+them a home. <strong>Langfuse</strong> (open source, self-hostable) is
+the natural one:</p>
+<ul>
+<li>Every LLM call becomes a <strong>trace</strong>; your judge verdicts
+attach to traces as <strong>scores</strong>
+(<code>langfuse.score(traceId, name=&quot;faithfulness&quot;, value=…)</code>), so
+“judge score over time” is a dashboard, not a spreadsheet.</li>
+<li><strong>Datasets</strong> hold your golden tickets/outputs — the
+five files in this folder are a dataset; re-run the judge against every
+prompt or model change and compare runs side by side before
+shipping.</li>
+<li><strong>Annotation queues</strong> are layer 3 productized: route
+low-score or judge-disagrees traces to a human review queue in the UI,
+and the human labels feed back into the dataset.</li>
+</ul>
+<p>Arize Phoenix plays the same role if you prefer it. The tool matters
+less than the shape: traces + scores + datasets + a human queue.</p>
 <h2 id="the-rule-of-thumb-to-take-home">The rule of thumb to take
 home</h2>
 <ol type="1">
@@ -303,8 +324,7 @@ CI is a seatbelt.</li>
     if (/predict/i.test(q.textContent || '')) q.classList.add('predict-callout');
   });
 
-  // 3. Show-all-reveals toggle, fixed top-right — only if the doc has reveals
-  if (document.querySelectorAll('details').length === 0) return;
+  // 3. Show-all-reveals toggle, fixed top-right
   const btn = document.createElement('button');
   btn.textContent = 'Reveal all';
   Object.assign(btn.style, {

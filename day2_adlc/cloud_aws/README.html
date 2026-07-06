@@ -260,7 +260,62 @@ have Bedrock approved. Claude Code speaks it natively:</p>
 trail your org already runs. This one environment variable is often the
 difference between “security said no” and “rolled out to 200
 engineers.”</p>
-<h2 id="agents-inside-aws-automation-codebuild-lambda-ecs">3. Agents
+<h2 id="infrastructure-as-code-claude-writes-and-reviews-your-terraform">3.
+Infrastructure as code: Claude writes and reviews your Terraform</h2>
+<p>IaC is the sweet spot for agentic coding: the “tests” already exist —
+<code>terraform validate</code>, <code>terraform plan</code>,
+<code>tflint</code>, <code>checkov</code> — so the agent gets a full
+verify loop for free. The working pattern:</p>
+<ol type="1">
+<li><strong>Plan mode first, always.</strong> “Add an S3 bucket for
+report exports with versioning, SSE, and a 90-day lifecycle rule,
+following the module conventions in this repo” → read the plan before
+any <code>.tf</code> changes.</li>
+<li><strong><code>terraform plan</code> is the agent’s test
+suite.</strong> House rule to put in CLAUDE.md: <em>after every change,
+run <code>terraform validate</code> and <code>terraform plan</code>, and
+paste the resource delta — never claim done without a plan output.</em>
+Review the delta like a diff, because it is one.</li>
+<li><strong>Hooks make it safe</strong> (same lever as Day 1 E7): a
+PreToolUse hook that blocks <code>terraform apply</code> and
+<code>terraform destroy</code> outright — the agent writes and plans, a
+human applies. State surgery (<code>terraform state rm</code>,
+<code>import</code>) belongs on the blocklist too.</li>
+<li><strong>Reviews scale the same way as code</strong>: point three
+parallel sub-agents at a Terraform PR — one for security (public
+buckets, <code>0.0.0.0/0</code> ingress, missing encryption), one for
+cost (instance sizes, unattached EIPs, log retention), one for
+drift/conventions.</li>
+</ol>
+<h2 id="debugging-cloud-issues-with-an-agent">4. Debugging cloud issues
+with an agent</h2>
+<p>The debugging loop from Day 1 works on infrastructure because the
+evidence is all CLI-readable — and read-only <code>aws</code> commands
+are easy to allowlist:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># pipe the evidence in, headless:</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="ex">aws</span> logs tail /ecs/payments <span class="at">--since</span> 30m <span class="kw">|</span> <span class="ex">claude</span> <span class="at">-p</span> <span class="dt">\</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">&#39;Find the error pattern, correlate timestamps, output JSON:</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="st">   {&quot;pattern&quot;: str, &quot;first_seen&quot;: str, &quot;probable_cause&quot;: str, &quot;next_check&quot;: str}&#39;</span></span></code></pre></div>
+<p>Interactively it’s stronger: allow <code>Bash(aws logs:*)</code>,
+<code>Bash(aws ecs describe-*)</code>,
+<code>Bash(aws iam get-*|list-*)</code> and let Claude <em>walk the
+graph itself</em> — task stopped → pull events → read the task
+definition → check the security group → diff against the working
+service. The classic wins:</p>
+<ul>
+<li><strong>IAM denial archaeology</strong>: paste the AccessDenied
+error; the agent reads the policy JSON, the trust relationship, and the
+SCP and names the missing action.</li>
+<li><strong>“It works in staging”</strong>: two
+<code>aws ... describe</code> dumps in, one config diff out.</li>
+<li><strong>Cost spikes</strong>: Cost Explorer CSV in, ranked suspects
+out — then it writes the Terraform fix (see above) and the loop
+closes.</li>
+</ul>
+<p>Guardrail note, same as everywhere: read-only AWS commands in the
+allowlist, mutating ones (<code>aws ec2 terminate-*</code>,
+<code>aws iam put-*</code>) denied or hook-blocked.</p>
+<h2 id="agents-inside-aws-automation-codebuild-lambda-ecs">5. Agents
 inside AWS automation (CodeBuild / Lambda / ECS)</h2>
 <p>The headless primitive from <code>../cicd/</code> runs anywhere a
 container runs:</p>
@@ -305,8 +360,7 @@ stretched across environments. Same loop, bigger radius.</p>
     if (/predict/i.test(q.textContent || '')) q.classList.add('predict-callout');
   });
 
-  // 3. Show-all-reveals toggle, fixed top-right — only if the doc has reveals
-  if (document.querySelectorAll('details').length === 0) return;
+  // 3. Show-all-reveals toggle, fixed top-right
   const btn = document.createElement('button');
   btn.textContent = 'Reveal all';
   Object.assign(btn.style, {

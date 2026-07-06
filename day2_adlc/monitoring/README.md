@@ -29,10 +29,25 @@ Four signal groups, in priority order:
 | Quality | eval scores on sampled prod traffic (reuse `../evals/judge.sh` logic), thumbs-up rate, human-override rate | this is your Layer-2 eval, promoted to prod |
 | Safety | prompt-injection detections, blocked-tool-call count, PII flags | rare, but the ones that page you |
 
-Tracing tools built for LLM apps — **Arize Phoenix** (open source, self-host) or
-**Langfuse** (open source, self-host) — capture the full prompt → tool-calls →
+Tracing tools built for LLM apps — **Langfuse** or **Arize Phoenix** (both
+open source, both self-hostable) — capture the full prompt → tool-calls →
 response tree per request, which is what you'll actually stare at during an
-incident. Grafana stays for the aggregate metrics + alerting.
+incident. What that buys you in practice, using Langfuse as the example:
+
+- **Cost and latency per trace, per user, per feature** out of the box —
+  tag traces with `tenant_id`/`feature` and the "which customer is burning
+  the budget" question becomes a filter, not a query.
+- **Eval scores live on the traces** (see `../evals/README.md`): sample prod
+  traffic, run your judge, write the score back. Your quality alert is then
+  just "avg faithfulness score, 1h window, below threshold."
+- **Session/trace drill-down during incidents**: from the alert to the exact
+  prompt + tool calls + retries that produced the bad output, in two clicks.
+- Self-hosting matters here — traces contain prompts, and prompts contain
+  customer data. Keep them inside your VPC, behind your SSO.
+
+Division of labour: **Langfuse/Phoenix for per-request truth** (traces,
+scores, drill-down), **Grafana for aggregates and paging** (metrics,
+thresholds, alert routing).
 
 ## Alerts worth writing on day one
 

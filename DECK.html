@@ -330,8 +330,9 @@
   <div class="kicker">§3 · Cloud (AWS)</div>
   <h2>It's a CLI — it runs where your code runs</h2>
   <ul>
-    <li><b>EC2 + tmux</b>: the agent keeps working after your laptop sleeps</li>
-    <li><b>CLAUDE.md travels with the clone</b> — remote boxes arrive pre-briefed</li>
+    <li><b>EC2 + tmux</b>: keeps working after your laptop sleeps · <b>CLAUDE.md travels with the clone</b></li>
+    <li><b>Terraform</b>: <code>terraform plan</code> is the agent's test suite — plan mode first, a hook blocks <code>apply</code>, humans ship</li>
+    <li><b>Debugging</b>: allowlist read-only <code>aws</code> commands, let it walk the graph — logs → task def → security group → IAM policy</li>
     <li><code>CLAUDE_CODE_USE_BEDROCK=1</code> — auth via your own AWS IAM<br>
       <span class="dim">often the difference between "security said no" and "200 engineers onboarded"</span></li>
   </ul>
@@ -344,7 +345,8 @@
     <div class="card"><p><b class="accent">Your team's tool</b></p>
       <p style="font-size:1.5rem">Claude Code emits OpenTelemetry natively: cost per engineer, acceptance rates</p></div>
     <div class="card"><p><b class="accent">Your AI feature</b></p>
-      <p style="font-size:1.5rem">cost · reliability · <b>quality via sampled evals</b> · safety</p></div>
+      <p style="font-size:1.5rem">cost · reliability · <b>quality via sampled evals</b> · safety<br>
+      <span class="dim">Langfuse/Phoenix for per-trace truth + judge scores · Grafana for aggregates + paging</span></p></div>
   </div>
   <p class="big" style="margin-top:1rem">First alert to write: <b>judge-score drop on sampled prod traffic</b> — fluent-but-wrong is the failure nothing else catches.</p>
   <div class="ex"><span class="tag">E13 · 10 min</span><p>Six-tile dashboard sketch for your capstone feature. Paper. Go.</p></div>
