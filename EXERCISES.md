@@ -15,10 +15,10 @@
 | E2 | Plan mode before code | 10 min | `sandbox_repo/` |
 | E3 | CLAUDE.md surgery race | 20 min | `sandbox_repo/` |
 | E4 | Find the holes (permissions audit) | 15 min | `sandbox_repo/` |
-| E5 | Parallel sub-agent review | 30 min | `example2_parallel_review/` |
+| E5 | Parallel sub-agent review | 30 min | `day1_advanced/parallel_review/` |
 | E6 | Build your own `/standup` | 25 min | `sandbox_repo/` |
-| E7 | Write a hook that saves your job | 20 min | `module5_hooks/` |
-| E8 | Extend a live MCP server | 25 min | `module7_mcp/` |
+| E7 | Write a hook that saves your job | 20 min | `day1_advanced/hooks/` |
+| E8 | Extend a live MCP server | 25 min | `day1_advanced/mcp/` |
 
 ## Day 2 — play the gig
 
@@ -108,14 +108,14 @@ settings tonight.
 
 ## E5 — Parallel sub-agent review (30 min)
 
-One file, ~19 seeded problems: `example2_parallel_review/code_under_review/users_api.js`.
+One file, ~19 seeded problems: `day1_advanced/parallel_review/code_under_review/users_api.js`.
 
 First, 3 minutes, read it yourself and write down your predicted top-3 issues.
 
 Then launch **three reviewers in parallel, in a single message**:
 
 ```bash
-cd example2_parallel_review && claude
+cd day1_advanced/parallel_review && claude
 ```
 
 ```
@@ -160,7 +160,7 @@ until the output is something you'd actually paste into your team channel.
 First watch the guardrail that's already here:
 
 ```bash
-cd module5_hooks && claude
+cd day1_advanced/hooks && claude
 ```
 
 ```
@@ -181,7 +181,7 @@ prove normal commands still pass.
 ## E8 — Extend a live MCP server (25 min)
 
 ```bash
-cd module7_mcp && claude
+cd day1_advanced/mcp && claude
 ```
 
 Run `/mcp` — see the oncall server and its two tools. Then use it:
@@ -255,7 +255,7 @@ a production eval harness by Friday.
 ## E12 — Triage your own failure, headless (15 min)
 
 Bring a real failing log from your actual work (CI output, stack trace,
-anything ugly). No log? Use `module9_sdk/sample_test_failure.txt`.
+anything ugly). No log? Use `day2_adlc/headless/sample_test_failure.txt`.
 
 ```bash
 cat your_failure.log | claude -p 'You are a CI triage bot. Output JSON only:

@@ -237,11 +237,11 @@ subprocess. Pipe a prompt in, get JSON out. Wire that into a GitHub
 Action and you have a self-triaging test suite — no human needed for the
 first pass.</p>
 <h2 id="setup">Setup</h2>
-<div class="sourceCode" id="cb1"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">chmod</span> +x ~/workshop_demo/module9_sdk/quick_demo.sh</span></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">chmod</span> +x ~/workshop_demo/day2_adlc/headless/quick_demo.sh</span></code></pre></div>
 <p>That’s it. Uses your already-authenticated <code>claude</code> CLI,
 no extra installs.</p>
 <h2 id="run-it">Run it</h2>
-<div class="sourceCode" id="cb2"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> ~/workshop_demo/module9_sdk</span>
+<div class="sourceCode" id="cb2"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> ~/workshop_demo/day2_adlc/headless</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> quick_demo.sh</span></code></pre></div>
 <p>~15–30s of waiting, then the raw JSON envelope, then the extracted
 result — a structured triage report with <code>failing_test</code>,

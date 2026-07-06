@@ -7,7 +7,7 @@ A `PreToolUse` hook that blocks any `Write` or `Edit` whose `file_path` matches 
 ## Setup (one-time)
 
 ```bash
-chmod +x ~/workshop_demo/module5_hooks/.claude/hooks/block-prod-writes.sh
+chmod +x ~/workshop_demo/day1_advanced/hooks/.claude/hooks/block-prod-writes.sh
 ```
 
 That's it. No installs.
@@ -15,7 +15,7 @@ That's it. No installs.
 ## Run it
 
 ```bash
-cd ~/workshop_demo/module5_hooks
+cd ~/workshop_demo/day1_advanced/hooks
 claude
 ```
 

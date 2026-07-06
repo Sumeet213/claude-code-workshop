@@ -33,11 +33,11 @@ sandbox_repo/
 |---|---|---|
 | M1 | E1 — bad/good prompt | `cd sandbox_repo && claude` then ask it about the failing migration test |
 | M3 | E3 — CLAUDE.md surgery | Trim this directory's `CLAUDE.md`, pair-trade |
-| M5 | E5 — hook fires | Use `module5_hooks/` (its own self-contained dir) |
+| M5 | E5 — hook fires | Use `day1_advanced/hooks/` (its own self-contained dir) |
 | M6 | E6 — ship a slash command | Add `.claude/commands/standup.md` here; run it against this git history |
-| M7 | E7 — MCP server | Use `module7_mcp/` (its own self-contained dir) |
+| M7 | E7 — MCP server | Use `day1_advanced/mcp/` (its own self-contained dir) |
 | M8 | E8 — audit settings | Open `.claude/settings.json` — it's deliberately full of holes |
-| M9 | E9 — headless one-shot | Use `module9_sdk/quick_demo.sh` (its own dir) |
+| M9 | E9 — headless one-shot | Use `day2_adlc/headless/quick_demo.sh` (its own dir) |
 | Capstone B | augment a repo | Default target is this sandbox; if you have a real repo, use that instead |
 
 ## Why we don't use participants' own repos

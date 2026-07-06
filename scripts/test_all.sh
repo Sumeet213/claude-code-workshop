@@ -33,7 +33,7 @@ echo "[2/7] Module 5 — hook fires on prod_*.yaml"
 
 # Block path
 out=$(echo '{"tool_input":{"file_path":"/x/prod_config.yaml"}}' | \
-      bash module5_hooks/.claude/hooks/block-prod-writes.sh 2>&1)
+      bash day1_advanced/hooks/.claude/hooks/block-prod-writes.sh 2>&1)
 ec=$?
 if [ "$ec" = "2" ] && echo "$out" | grep -q "BLOCKED"; then
   pass "blocks prod_config.yaml (exit 2, BLOCKED message visible)"
@@ -43,14 +43,14 @@ fi
 
 # Allow path
 echo '{"tool_input":{"file_path":"/x/dev.yaml"}}' | \
-  bash module5_hooks/.claude/hooks/block-prod-writes.sh >/dev/null 2>&1
+  bash day1_advanced/hooks/.claude/hooks/block-prod-writes.sh >/dev/null 2>&1
 ec=$?
 [ "$ec" = "0" ] && pass "allows dev.yaml (exit 0)" || fail "expected exit 0 for non-prod; got $ec"
 
 # Override path
 out=$(PROD_OVERRIDE=1 bash -c \
   "echo '{\"tool_input\":{\"file_path\":\"/x/prod_config.yaml\"}}' | \
-   bash module5_hooks/.claude/hooks/block-prod-writes.sh" 2>&1)
+   bash day1_advanced/hooks/.claude/hooks/block-prod-writes.sh" 2>&1)
 ec=$?
 [ "$ec" = "0" ] && pass "PROD_OVERRIDE=1 allows prod write (exit 0)" || fail "override path; got $ec"
 
@@ -58,21 +58,21 @@ ec=$?
 echo ""
 echo "[3/7] Module 7 — MCP server module loads"
 
-if [ -x module7_mcp/.venv/bin/python ]; then
-  if module7_mcp/.venv/bin/python -c "import sys; sys.path.insert(0, 'module7_mcp'); import oncall_server" 2>/dev/null; then
-    pass "module7_mcp/.venv ready, oncall_server imports cleanly"
+if [ -x day1_advanced/mcp/.venv/bin/python ]; then
+  if day1_advanced/mcp/.venv/bin/python -c "import sys; sys.path.insert(0, 'day1_advanced/mcp'); import oncall_server" 2>/dev/null; then
+    pass "day1_advanced/mcp/.venv ready, oncall_server imports cleanly"
   else
     fail "oncall_server failed to import"
   fi
 
   # Verify settings.json points at the venv python (not /usr/bin/python3 which has no mcp).
-  if grep -q ".venv/bin/python" module7_mcp/.claude/settings.json; then
-    pass "module7_mcp/.claude/settings.json points at venv python"
+  if grep -q ".venv/bin/python" day1_advanced/mcp/.claude/settings.json; then
+    pass "day1_advanced/mcp/.claude/settings.json points at venv python"
   else
     fail "settings.json doesn't reference the venv — re-run scripts/setup.sh"
   fi
 else
-  fail "module7_mcp/.venv missing — run: bash scripts/setup.sh"
+  fail "day1_advanced/mcp/.venv missing — run: bash scripts/setup.sh"
 fi
 
 # ── 4. Module 9 — headless demo (OPT-IN, costs money) ──────────────────
@@ -81,7 +81,7 @@ echo "[4/7] Module 9 — headless quick_demo.sh"
 
 if [ "${RUN_HEADLESS:-0}" = "1" ]; then
   info "running quick_demo.sh (this calls claude -p, ~5-30s, ~\$0.07)"
-  out=$(bash module9_sdk/quick_demo.sh 2>&1)
+  out=$(bash day2_adlc/headless/quick_demo.sh 2>&1)
   if echo "$out" | grep -q '"failing_test"'; then
     pass "quick_demo.sh returned valid JSON with failing_test field"
   else
@@ -163,14 +163,14 @@ fi
 echo ""
 echo "[7/7] Pre-built demo artifacts"
 
-[ -f example2_parallel_review/code_under_review/users_api.js ] && pass "E5 users_api.js (flawed file)"          || fail "E5 flawed file missing"
+[ -f day1_advanced/parallel_review/code_under_review/users_api.js ] && pass "E5 users_api.js (flawed file)"          || fail "E5 flawed file missing"
 
 # Trainer-only pre-built reveals (absent in the public participant repo).
-if [ -f SCRIPT.md ]; then
-  [ -f example2_parallel_review/OVERLAP.md ]              && pass "E5 OVERLAP.md (3-reviewer answer key)"    || fail "E5 OVERLAP.md missing"
-  [ -d module6_commands_skills/live_demo_with_skill ]     && pass "skills live_demo_with_skill (32 files)"   || fail "with-skill dir missing"
-  [ -d module6_commands_skills/live_demo_without_skill ]  && pass "skills live_demo_without_skill (12 files)" || fail "without-skill dir missing"
-  [ -f module6_commands_skills/COMPARISON.md ]            && pass "skills COMPARISON.md"                     || fail "COMPARISON.md missing"
+if [ -f trainer/SCRIPT.md ]; then
+  [ -f day1_advanced/parallel_review/OVERLAP.md ]              && pass "E5 OVERLAP.md (3-reviewer answer key)"    || fail "E5 OVERLAP.md missing"
+  [ -d day1_advanced/skills/live_demo_with_skill ]     && pass "skills live_demo_with_skill (32 files)"   || fail "with-skill dir missing"
+  [ -d day1_advanced/skills/live_demo_without_skill ]  && pass "skills live_demo_without_skill (12 files)" || fail "without-skill dir missing"
+  [ -f day1_advanced/skills/COMPARISON.md ]            && pass "skills COMPARISON.md"                     || fail "COMPARISON.md missing"
 fi
 
 # Show files — trainer-only HTMLs are skipped if the matching .md isn't here.
@@ -179,9 +179,9 @@ fi
 [ -f CAPSTONE.html ]    && pass "CAPSTONE.html (team capstone)"          || fail "CAPSTONE.html — run: bash scripts/render-show.sh"
 
 # Trainer-only show files (only check if you're in the trainer repo).
-if [ -f WORKSHOP.md ];      then [ -f WORKSHOP.html ]      && pass "WORKSHOP.html (deep-dive reference)" || fail "WORKSHOP.html — run: bash scripts/render-show.sh"; fi
-if [ -f SCRIPT.md ];        then [ -f SCRIPT.html ]        && pass "SCRIPT.html"         || fail "SCRIPT.html"; fi
-if [ -f RUNBOOK.md ];       then [ -f RUNBOOK.html ]       && pass "RUNBOOK.html"        || fail "RUNBOOK.html"; fi
+if [ -f trainer/WORKSHOP.md ]; then [ -f trainer/WORKSHOP.html ] && pass "trainer/WORKSHOP.html (deep-dive reference)" || fail "trainer/WORKSHOP.html — run: bash scripts/render-show.sh"; fi
+if [ -f trainer/SCRIPT.md ]; then [ -f trainer/SCRIPT.html ] && pass "trainer/SCRIPT.html" || fail "trainer/SCRIPT.html"; fi
+if [ -f trainer/RUNBOOK.md ]; then [ -f trainer/RUNBOOK.html ] && pass "trainer/RUNBOOK.html" || fail "trainer/RUNBOOK.html"; fi
 
 # ── Summary ───────────────────────────────────────────────────────────
 echo ""
@@ -196,12 +196,12 @@ echo ""
 echo "Manual checks the script can't automate (do once before the day):"
 echo ""
 echo "  M5 hook live:"
-echo "    cd module5_hooks && claude"
+echo "    cd day1_advanced/hooks && claude"
 echo "    > Update sample_files/prod_config.yaml — change host to test.local"
 echo "    expect: red BLOCKED box visible"
 echo ""
 echo "  M7 MCP server live:"
-echo "    cd module7_mcp && claude"
+echo "    cd day1_advanced/mcp && claude"
 echo "    > /mcp"
 echo "    expect: 'oncall' server listed with 2 tools"
 echo "    > Who is on call for payments? Page them about the demo."

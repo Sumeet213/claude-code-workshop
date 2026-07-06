@@ -24,11 +24,11 @@ techniques. The menu, if you want one:
 
 1. **PR concierge** — CLI or CI job: takes a diff/PR, runs parallel review
    agents (security / quality / tests), merges findings, posts one verdict.
-   Test it on `example2_parallel_review/code_under_review/users_api.js`.
+   Test it on `day1_advanced/parallel_review/code_under_review/users_api.js`.
 2. **Ticket-to-triage pipeline** — extend `day2_adlc/evals/`: ingest raw
    tickets, produce structured JSON, run code checks + LLM-judge, route
    low-confidence items to a human review queue.
-3. **Oncall copilot** — extend `module7_mcp/oncall_server.py` with real tools
+3. **Oncall copilot** — extend `day1_advanced/mcp/oncall_server.py` with real tools
    (schedules, escalation, incident notes), then build the slash-command
    workflow an on-call engineer would actually run at 3 a.m.
 4. **Repo doctor** — point it at any repo: generates a load-bearing CLAUDE.md,

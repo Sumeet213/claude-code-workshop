@@ -360,7 +360,8 @@ stretched across environments. Same loop, bigger radius.</p>
     if (/predict/i.test(q.textContent || '')) q.classList.add('predict-callout');
   });
 
-  // 3. Show-all-reveals toggle, fixed top-right
+  // 3. Show-all-reveals toggle, fixed top-right — only if the doc has reveals
+  if (document.querySelectorAll('details').length === 0) return;
   const btn = document.createElement('button');
   btn.textContent = 'Reveal all';
   Object.assign(btn.style, {

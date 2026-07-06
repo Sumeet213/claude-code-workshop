@@ -285,7 +285,7 @@ Monday.</p>
 <td>E5</td>
 <td>Parallel sub-agent review</td>
 <td>30 min</td>
-<td><code>example2_parallel_review/</code></td>
+<td><code>day1_advanced/parallel_review/</code></td>
 </tr>
 <tr>
 <td>E6</td>
@@ -297,13 +297,13 @@ Monday.</p>
 <td>E7</td>
 <td>Write a hook that saves your job</td>
 <td>20 min</td>
-<td><code>module5_hooks/</code></td>
+<td><code>day1_advanced/hooks/</code></td>
 </tr>
 <tr>
 <td>E8</td>
 <td>Extend a live MCP server</td>
 <td>25 min</td>
-<td><code>module7_mcp/</code></td>
+<td><code>day1_advanced/mcp/</code></td>
 </tr>
 </tbody>
 </table>
@@ -420,12 +420,12 @@ against your real project’s settings tonight.</p>
 <h2 id="e5-parallel-sub-agent-review-30-min">E5 — Parallel sub-agent
 review (30 min)</h2>
 <p>One file, ~19 seeded problems:
-<code>example2_parallel_review/code_under_review/users_api.js</code>.</p>
+<code>day1_advanced/parallel_review/code_under_review/users_api.js</code>.</p>
 <p>First, 3 minutes, read it yourself and write down your predicted
 top-3 issues.</p>
 <p>Then launch <strong>three reviewers in parallel, in a single
 message</strong>:</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> example2_parallel_review <span class="kw">&amp;&amp;</span> <span class="ex">claude</span></span></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> day1_advanced/parallel_review <span class="kw">&amp;&amp;</span> <span class="ex">claude</span></span></code></pre></div>
 <pre><code>Launch three parallel sub-agents to review code_under_review/users_api.js:
 1. a security reviewer (injection, authz, secrets, SSRF)
 2. a code-quality reviewer (bugs, error handling, dead code)
@@ -456,7 +456,7 @@ command file — drop it into any repo with git history.</p>
 <h2 id="e7-write-a-hook-that-saves-your-job-20-min">E7 — Write a hook
 that saves your job (20 min)</h2>
 <p>First watch the guardrail that’s already here:</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> module5_hooks <span class="kw">&amp;&amp;</span> <span class="ex">claude</span></span></code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> day1_advanced/hooks <span class="kw">&amp;&amp;</span> <span class="ex">claude</span></span></code></pre></div>
 <pre><code>Add a comment to sample_files/prod_config.yaml</code></pre>
 <p>Blocked. Not “asked nicely” — <em>blocked by deterministic code</em>,
 before the tool ran. Read
@@ -471,7 +471,7 @@ working hook wins. Prove it fires, prove normal commands still pass.</p>
 Fridays — your call.</p>
 <h2 id="e8-extend-a-live-mcp-server-25-min">E8 — Extend a live MCP
 server (25 min)</h2>
-<div class="sourceCode" id="cb11"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> module7_mcp <span class="kw">&amp;&amp;</span> <span class="ex">claude</span></span></code></pre></div>
+<div class="sourceCode" id="cb11"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> day1_advanced/mcp <span class="kw">&amp;&amp;</span> <span class="ex">claude</span></span></code></pre></div>
 <p>Run <code>/mcp</code> — see the oncall server and its two tools. Then
 use it:</p>
 <pre><code>Who is on call for payments? Page them saying the workshop says hi.</code></pre>
@@ -534,7 +534,7 @@ production eval harness by Friday.</p>
 own failure, headless (15 min)</h2>
 <p>Bring a real failing log from your actual work (CI output, stack
 trace, anything ugly). No log? Use
-<code>module9_sdk/sample_test_failure.txt</code>.</p>
+<code>day2_adlc/headless/sample_test_failure.txt</code>.</p>
 <div class="sourceCode" id="cb15"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span> your_failure.log <span class="kw">|</span> <span class="ex">claude</span> <span class="at">-p</span> <span class="st">&#39;You are a CI triage bot. Output JSON only:</span></span>
 <span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="st">{&quot;probable_cause&quot;: str, &quot;suggested_fix&quot;: str, &quot;confidence&quot;: &quot;high|medium|low&quot;}&#39;</span> <span class="dt">\</span></span>
 <span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">--max-turns</span> 4 <span class="at">--output-format</span> json <span class="kw">|</span> <span class="ex">jq</span> <span class="at">-r</span> <span class="st">&#39;.result&#39;</span></span></code></pre></div>

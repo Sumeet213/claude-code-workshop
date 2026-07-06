@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="generator" content="pandoc" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
-  <title>Hook demo run-book</title>
+  <title>MCP server run-book</title>
   <style>
 
 span.smallcaps{font-variant: small-caps;}
@@ -227,39 +227,67 @@ blockquote { color: #000; background: #f9f9f9; }
 </head>
 <body>
 <header id="title-block-header">
-<h1 class="title">Hook demo run-book</h1>
+<h1 class="title">MCP server run-book</h1>
 </header>
-<h1 id="module-5-hook-demo">Module 5 — Hook demo</h1>
+<h1 id="module-7-mcp-server-demo">Module 7 — MCP server demo</h1>
 <h2 id="what-this-demonstrates">What this demonstrates</h2>
-<p>A <code>PreToolUse</code> hook that blocks any <code>Write</code> or
-<code>Edit</code> whose <code>file_path</code> matches
-<code>prod_*.yaml</code>. Useful pattern for protecting production
-config from agent edits while leaving dev/staging files alone.</p>
-<h2 id="setup-one-time">Setup (one-time)</h2>
-<div class="sourceCode" id="cb1"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">chmod</span> +x ~/workshop_demo/module5_hooks/.claude/hooks/block-prod-writes.sh</span></code></pre></div>
-<p>That’s it. No installs.</p>
+<p>A 60-line Python MCP server exposing two tools
+(<code>get_oncall</code>, <code>page_oncall</code>) — Claude Code picks
+them up and uses them like any built-in tool. Same pattern works for
+wrapping any internal system at your company.</p>
+<h2 id="setup">Setup</h2>
+<div class="sourceCode" id="cb1"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> ~/workshop_demo/day1_advanced/mcp</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="ex">python3</span> <span class="at">-m</span> venv .venv <span class="kw">&amp;&amp;</span> <span class="ex">.venv/bin/pip</span> install mcp</span></code></pre></div>
+<p>Sanity-check the import works:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ex">.venv/bin/python</span> <span class="at">-c</span> <span class="st">&quot;from mcp.server.fastmcp import FastMCP; print(&#39;ok&#39;)&quot;</span></span></code></pre></div>
+<h3 id="register-the-server-with-claude-code">Register the server with
+Claude Code</h3>
+<p>Use absolute paths — replace <code>$HOME</code> with the literal path
+if your shell doesn’t expand it inside <code>claude mcp add</code>:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="ex">claude</span> mcp add oncall <span class="dt">\</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;</span><span class="va">$HOME</span><span class="st">/workshop_demo/day1_advanced/mcp/.venv/bin/python&quot;</span> <span class="dt">\</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;</span><span class="va">$HOME</span><span class="st">/workshop_demo/day1_advanced/mcp/oncall_server.py&quot;</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="ex">claude</span> mcp list   <span class="co"># expect: oncall: ... - ✓ Connected</span></span></code></pre></div>
 <h2 id="run-it">Run it</h2>
-<div class="sourceCode" id="cb2"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> ~/workshop_demo/module5_hooks</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="ex">claude</span></span></code></pre></div>
-<p>In the Claude prompt:</p>
-<pre><code>&gt; Update sample_files/prod_config.yaml — change the database host to &quot;new-host.internal&quot;</code></pre>
-<p>Claude tries to call <code>Edit</code>, the hook fires, a big red
-boxed message appears explaining what was blocked and how to override.
-Claude reports back that it couldn’t make the change.</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> ~/workshop_demo/day1_advanced/mcp</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="ex">claude</span></span></code></pre></div>
+<p>In Claude:</p>
+<pre><code>&gt; /mcp</code></pre>
+<p>You should see the <code>oncall</code> server connected, with
+<code>get_oncall</code> and <code>page_oncall</code> listed.</p>
+<pre><code>&gt; Who is on call for the payments team? Page them about the failing migration on prod-db-3.</code></pre>
+<p>Claude calls <code>mcp__oncall__get_oncall(team=&quot;payments&quot;)</code>
+first, sees who is on call, then calls
+<code>mcp__oncall__page_oncall(team=&quot;payments&quot;, message=&quot;...&quot;)</code>.
+Both with approval prompts the first time.</p>
 <h2 id="inspect">Inspect</h2>
 <pre><code>&gt; /exit
-bat .claude/hooks/block-prod-writes.sh
-bat .claude/settings.json
-cat .claude/hook-debug.log     # audit trail of every check</code></pre>
-<h2 id="debug">Debug</h2>
-<div class="sourceCode" id="cb5"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tail</span> <span class="at">-f</span> .claude/hook-debug.log</span></code></pre></div>
-<p>Every invocation is logged with the full input JSON. If you ever
-wonder “did the hook even run?” — that’s the answer.</p>
-<h2 id="override-escape-hatch">Override (escape hatch)</h2>
-<div class="sourceCode" id="cb6"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="va">PROD_OVERRIDE</span><span class="op">=</span>1 <span class="ex">claude</span></span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="op">&gt;</span> Update <span class="ex">sample_files/prod_config.yaml</span> — change the database host to <span class="st">&quot;new-host.internal&quot;</span></span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="co"># now it succeeds, but is logged</span></span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span> .claude/hook-debug.log <span class="kw">|</span> <span class="fu">grep</span> PROD_OVERRIDE</span></code></pre></div>
+cat pages.log                   # the page you just sent
+bat oncall_server.py            # the 60-line implementation</code></pre>
+<h2 id="what-to-point-at-in-oncall_server.py">What to point at in
+<code>oncall_server.py</code></h2>
+<ul>
+<li><code>@mcp.tool()</code> decorator — that’s the entire registration
+story.</li>
+<li>The docstring becomes the tool description the model reads.</li>
+<li>Return value is JSON-serialised automatically.</li>
+<li>Error path returns <code>{&quot;error&quot;: &quot;...&quot;}</code> instead of raising
+— the model can read it and recover.</li>
+</ul>
+<h2 id="if-it-breaks">If it breaks</h2>
+<ul>
+<li><code>/mcp</code> shows nothing → run <code>claude mcp list</code>.
+If <code>oncall</code> is missing, re-run the
+<code>claude mcp add oncall ...</code> command above.</li>
+<li><code>/mcp</code> shows <code>oncall</code> but
+<code>failed to connect</code> → check the venv python exists
+(<code>ls day1_advanced/mcp/.venv/bin/python</code>).</li>
+<li>Server crashes → check Python ≥ 3.10 and
+<code>day1_advanced/mcp/.venv/bin/python -c &quot;import mcp.server.fastmcp&quot;</code>.</li>
+<li>Hangs on first call → first-time handshake can take 2-3 seconds;
+just wait.</li>
+</ul>
 <script>
 // Tiny enhancement script for WORKSHOP.html.
 // 1. Tints code blocks that follow a "❌ Bad" heading red.

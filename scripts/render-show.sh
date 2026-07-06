@@ -47,15 +47,15 @@ render_if_present() {
 }
 
 echo "rendering show files ..."
-render_if_present "module2_anatomy/scenarios.md"                "Spot the lever"
-render_if_present "module3_context/before_CLAUDE.md"            "Bloated CLAUDE.md (before surgery)"
-render_if_present "module3_context/after_CLAUDE.md"             "Trimmed CLAUDE.md (after surgery)"
-render_if_present "module3_context/SURGERY.md"                  "Surgery debrief"
-render_if_present "example2_parallel_review/OVERLAP.md"         "Three reviewers, same file"
-render_if_present "module6_commands_skills/COMPARISON.md"       "Skill comparison"
-render_if_present "module5_hooks/RUN.md"                        "Hook demo run-book"
-render_if_present "module7_mcp/RUN.md"                          "MCP server run-book"
-render_if_present "module9_sdk/RUN.md"                          "Headless run-book"
+render_if_present "day1_fundamentals/levers/scenarios.md"                "Spot the lever"
+render_if_present "day1_fundamentals/context/before_CLAUDE.md"            "Bloated CLAUDE.md (before surgery)"
+render_if_present "day1_fundamentals/context/after_CLAUDE.md"             "Trimmed CLAUDE.md (after surgery)"
+render_if_present "day1_fundamentals/context/SURGERY.md"                  "Surgery debrief"
+render_if_present "day1_advanced/parallel_review/OVERLAP.md"         "Three reviewers, same file"
+render_if_present "day1_advanced/skills/COMPARISON.md"       "Skill comparison"
+render_if_present "day1_advanced/hooks/RUN.md"                        "Hook demo run-book"
+render_if_present "day1_advanced/mcp/RUN.md"                          "MCP server run-book"
+render_if_present "day2_adlc/headless/RUN.md"                          "Headless run-book"
 render_if_present "day1_kickoff/ICEBREAKER.md"                  "Section 0 — Kickoff run sheet"
 render_if_present "day2_adlc/tdd_kata/README.md"                "TDD kata"
 render_if_present "day2_adlc/evals/README.md"                   "AI evals — three layers"
@@ -65,28 +65,28 @@ render_if_present "day2_adlc/monitoring/README.md"              "Production moni
 render_if_present "EXERCISES.md"                                "Hands-On Exercises (E1–E13)"
 render_if_present "PARTICIPANT_SETUP.md"                        "Pre-flight setup for participants"
 render_if_present "CAPSTONE.md"                                 "Capstone — teams of 4, one shipped thing"
-render_if_present "RUNBOOK.md"                                  "Workshop Runbook"
-render_if_present "WORKSHOP.md"                                 "Deep-Dive Reference"
+render_if_present "trainer/RUNBOOK.md"                          "Workshop Runbook"
+render_if_present "trainer/WORKSHOP.md"                         "Deep-Dive Reference"
 
 # SCRIPT.md gets its own larger-font teleprompter CSS (trainer repo only).
-if [ -f SCRIPT.md ]; then
+if [ -f trainer/SCRIPT.md ]; then
   echo "  rendering SCRIPT.html (teleprompter style)"
-  pandoc SCRIPT.md \
+  pandoc trainer/SCRIPT.md \
     --standalone \
     --metadata title="Trainer Script — 2-Day Workshop" \
     --highlight-style=breezedark \
     --css=scripts/script.css --self-contained \
     --include-after-body=<(printf '<script>\n%s\n</script>\n' "$JS_SNIPPET") \
-    -o SCRIPT.html
-  echo "  rendered SCRIPT.html"
+    -o trainer/SCRIPT.html
+  echo "  rendered trainer/SCRIPT.html"
 fi
 
 echo "rendering transcripts ..."
-if [ -f module1_mental_model/transcripts/bad_prompt.txt ]; then
-  render_txt_as_pre "module1_mental_model/transcripts/bad_prompt.txt"  "Bad prompt transcript"
+if [ -f day1_fundamentals/prompting/transcripts/bad_prompt.txt ]; then
+  render_txt_as_pre "day1_fundamentals/prompting/transcripts/bad_prompt.txt"  "Bad prompt transcript"
 fi
-if [ -f module1_mental_model/transcripts/good_prompt.txt ]; then
-  render_txt_as_pre "module1_mental_model/transcripts/good_prompt.txt" "Good prompt transcript"
+if [ -f day1_fundamentals/prompting/transcripts/good_prompt.txt ]; then
+  render_txt_as_pre "day1_fundamentals/prompting/transcripts/good_prompt.txt" "Good prompt transcript"
 fi
 
 echo ""

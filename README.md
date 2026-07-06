@@ -20,20 +20,27 @@ The exercises (E1–E13) live in `EXERCISES.md`. The capstone brief is
 
 ## What's inside
 
+The layout mirrors the agenda — one directory per section:
+
 ```
-sandbox_repo/        your playground: a fake Express/TS backend with seeded
-                     problems — bloated CLAUDE.md, holey settings.json,
-                     failing test, a week of git history. Break it freely.
-example2_parallel_review/   a 70-line file with many problems (E5)
-module5_hooks/       a working PreToolUse hook that blocks prod writes (E7)
-module7_mcp/         a live Python MCP oncall server (E8)
-module9_sdk/         the 5-second headless demo (E12)
-day2_adlc/           Day 2 kit: specs/ · tdd_kata/ · evals/ · cicd/ ·
-                     cloud_aws/ · monitoring/
-module1-3, module8   reference material used during Day 1 sections
-.claude/commands/    example slash commands to study and steal
-DECK.html            the slides (arrow keys advance)
-scripts/             setup.sh (run once) · test_all.sh (verify)
+day1_fundamentals/     §1 reference material
+  ├── prompting/         a bad-prompt transcript to study (E1)
+  ├── levers/            "spot the lever" cards
+  ├── context/           the bloated CLAUDE.md you'll operate on (E3)
+  └── permissions/       the holey settings.json to audit (E4)
+day1_advanced/         §2 live assets
+  ├── parallel_review/   a 70-line file with many problems (E5)
+  ├── hooks/             a working PreToolUse hook that blocks prod writes (E7)
+  └── mcp/               a live Python MCP oncall server (E8)
+day2_adlc/             Day 2 kit
+  ├── specs/ · tdd_kata/ · evals/ · cicd/ · cloud_aws/ · monitoring/
+  └── headless/          the 5-second headless demo (E12)
+sandbox_repo/          your playground: a fake Express/TS backend with seeded
+                       problems — bloated CLAUDE.md, holey settings.json,
+                       failing test, a week of git history. Break it freely.
+.claude/commands/      example slash commands to study and steal
+DECK.html              the slides (arrow keys advance)
+scripts/               setup.sh (run once) · test_all.sh (verify)
 ```
 
 ## Quickstart

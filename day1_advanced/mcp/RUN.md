@@ -7,7 +7,7 @@ A 60-line Python MCP server exposing two tools (`get_oncall`, `page_oncall`) —
 ## Setup
 
 ```bash
-cd ~/workshop_demo/module7_mcp
+cd ~/workshop_demo/day1_advanced/mcp
 python3 -m venv .venv && .venv/bin/pip install mcp
 ```
 
@@ -23,8 +23,8 @@ Use absolute paths — replace `$HOME` with the literal path if your shell doesn
 
 ```bash
 claude mcp add oncall \
-  "$HOME/workshop_demo/module7_mcp/.venv/bin/python" \
-  "$HOME/workshop_demo/module7_mcp/oncall_server.py"
+  "$HOME/workshop_demo/day1_advanced/mcp/.venv/bin/python" \
+  "$HOME/workshop_demo/day1_advanced/mcp/oncall_server.py"
 
 claude mcp list   # expect: oncall: ... - ✓ Connected
 ```
@@ -32,7 +32,7 @@ claude mcp list   # expect: oncall: ... - ✓ Connected
 ## Run it
 
 ```bash
-cd ~/workshop_demo/module7_mcp
+cd ~/workshop_demo/day1_advanced/mcp
 claude
 ```
 
@@ -68,6 +68,6 @@ bat oncall_server.py            # the 60-line implementation
 ## If it breaks
 
 - `/mcp` shows nothing → run `claude mcp list`. If `oncall` is missing, re-run the `claude mcp add oncall ...` command above.
-- `/mcp` shows `oncall` but `failed to connect` → check the venv python exists (`ls module7_mcp/.venv/bin/python`).
-- Server crashes → check Python ≥ 3.10 and `module7_mcp/.venv/bin/python -c "import mcp.server.fastmcp"`.
+- `/mcp` shows `oncall` but `failed to connect` → check the venv python exists (`ls day1_advanced/mcp/.venv/bin/python`).
+- Server crashes → check Python ≥ 3.10 and `day1_advanced/mcp/.venv/bin/python -c "import mcp.server.fastmcp"`.
 - Hangs on first call → first-time handshake can take 2-3 seconds; just wait.

@@ -22,7 +22,7 @@ CI is just this primitive wrapped in YAML.
 ## Hands-on (15 min): put YOUR failure through the pipe
 
 Grab a real failing log from your own work (CI log, stack trace, flaky test —
-anything). If you have nothing, use `../..//module9_sdk/sample_test_failure.txt`.
+anything). If you have nothing, use `../..//day2_adlc/headless/sample_test_failure.txt`.
 
 ```bash
 cat my_real_failure.log | claude -p "You are a CI triage bot. Output JSON only:

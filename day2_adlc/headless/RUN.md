@@ -7,7 +7,7 @@
 ## Setup
 
 ```bash
-chmod +x ~/workshop_demo/module9_sdk/quick_demo.sh
+chmod +x ~/workshop_demo/day2_adlc/headless/quick_demo.sh
 ```
 
 That's it. Uses your already-authenticated `claude` CLI, no extra installs.
@@ -15,7 +15,7 @@ That's it. Uses your already-authenticated `claude` CLI, no extra installs.
 ## Run it
 
 ```bash
-cd ~/workshop_demo/module9_sdk
+cd ~/workshop_demo/day2_adlc/headless
 bash quick_demo.sh
 ```
 
