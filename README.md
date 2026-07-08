@@ -39,7 +39,6 @@ sandbox_repo/          your playground: a fake Express/TS backend with seeded
                        problems — bloated CLAUDE.md, holey settings.json,
                        failing test, a week of git history. Break it freely.
 .claude/commands/      example slash commands to study and steal
-DECK.html              the slides (arrow keys advance)
 scripts/               setup.sh (run once) · test_all.sh (verify)
 ```
 

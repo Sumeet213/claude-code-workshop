@@ -174,7 +174,9 @@ if [ -f trainer/SCRIPT.md ]; then
 fi
 
 # Show files — trainer-only HTMLs are skipped if the matching .md isn't here.
-[ -f DECK.html ]        && pass "DECK.html (slide deck)"                 || fail "DECK.html missing"
+if [ -f trainer/SCRIPT.md ]; then
+  [ -f DECK.html ]      && pass "DECK.html (slide deck, trainer-only: contains reveals)" || fail "DECK.html missing"
+fi
 [ -f EXERCISES.html ]   && pass "EXERCISES.html (project for room)"      || fail "EXERCISES.html — run: bash scripts/render-show.sh"
 [ -f CAPSTONE.html ]    && pass "CAPSTONE.html (team capstone)"          || fail "CAPSTONE.html — run: bash scripts/render-show.sh"
 
