@@ -8,6 +8,7 @@ database:
   ssl: require
 
 cache:
+  url: redis://prod-redis.internal.stride.io:6379/0
   host: prod-redis.internal.stride.io
   port: 6379
 
