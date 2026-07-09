@@ -58,15 +58,17 @@ ec=$?
 echo ""
 echo "[3/7] Module 7 — MCP server module loads"
 
-if [ -x day1_advanced/mcp/.venv/bin/python ]; then
-  if day1_advanced/mcp/.venv/bin/python -c "import sys; sys.path.insert(0, 'day1_advanced/mcp'); import oncall_server" 2>/dev/null; then
+VENV_PY="day1_advanced/mcp/.venv/bin/python"
+[ -x "$VENV_PY" ] || VENV_PY="day1_advanced/mcp/.venv/Scripts/python.exe"
+if [ -x "$VENV_PY" ]; then
+  if "$VENV_PY" -c "import sys; sys.path.insert(0, 'day1_advanced/mcp'); import oncall_server" 2>/dev/null; then
     pass "day1_advanced/mcp/.venv ready, oncall_server imports cleanly"
   else
     fail "oncall_server failed to import"
   fi
 
   # Verify settings.json points at the venv python (not /usr/bin/python3 which has no mcp).
-  if grep -q ".venv/bin/python" day1_advanced/mcp/.claude/settings.json; then
+  if grep -q ".venv" day1_advanced/mcp/.claude/settings.json; then
     pass "day1_advanced/mcp/.claude/settings.json points at venv python"
   else
     fail "settings.json doesn't reference the venv — re-run scripts/setup.sh"

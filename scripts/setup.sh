@@ -20,10 +20,11 @@ chmod +x scripts/test_all.sh 2>/dev/null || true
 echo ""
 echo "→ finding a python >= 3.10 for the MCP server"
 PY=""
-for v in 3.13 3.12 3.11 3.10; do
-  if command -v "python$v" >/dev/null 2>&1; then
-    PY="$(command -v python$v)"
-    echo "   ✓ found $PY"
+for cand in python3.13 python3.12 python3.11 python3.10 python3 python; do
+  if command -v "$cand" >/dev/null 2>&1 && \
+     "$cand" -c 'import sys; sys.exit(0 if sys.version_info >= (3,10) else 1)' 2>/dev/null; then
+    PY="$(command -v "$cand")"
+    echo "   ✓ found $PY ($("$PY" -V 2>&1))"
     break
   fi
 done
@@ -38,16 +39,20 @@ if [ -n "$PY" ]; then
   echo "→ creating day1_advanced/mcp/.venv with mcp installed"
   # Recreate the venv if it's missing OR broken (e.g. the repo directory
   # moved, which invalidates the shebang paths inside .venv/bin).
-  if ! day1_advanced/mcp/.venv/bin/pip --version >/dev/null 2>&1; then
+  if ! day1_advanced/mcp/.venv/bin/pip --version >/dev/null 2>&1 && \
+     ! day1_advanced/mcp/.venv/Scripts/pip.exe --version >/dev/null 2>&1; then
     rm -rf day1_advanced/mcp/.venv
     "$PY" -m venv day1_advanced/mcp/.venv
   fi
-  day1_advanced/mcp/.venv/bin/pip install --quiet --upgrade pip
-  day1_advanced/mcp/.venv/bin/pip install --quiet mcp
+  # Windows venvs use Scripts/, POSIX venvs use bin/ — support both.
+  VENV_BIN="day1_advanced/mcp/.venv/bin"
+  [ -d "$VENV_BIN" ] || VENV_BIN="day1_advanced/mcp/.venv/Scripts"
+  "$VENV_BIN/python" -m pip install --quiet --upgrade pip
+  "$VENV_BIN/python" -m pip install --quiet mcp
   echo "   ✓ mcp installed in day1_advanced/mcp/.venv"
 
   # 4. Patch the MCP settings.json to point at this venv.
-  VENV_PY="$ROOT/day1_advanced/mcp/.venv/bin/python"
+  VENV_PY="$ROOT/$VENV_BIN/python"
   SERVER_PATH="$ROOT/day1_advanced/mcp/oncall_server.py"
   cat > day1_advanced/mcp/.claude/settings.json <<JSON
 {
