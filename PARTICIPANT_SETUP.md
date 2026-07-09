@@ -1,13 +1,5 @@
 # Pre-workshop setup — do this the night before Day 1
 
-**Ten minutes. If you get stuck past step 4, message the organiser tonight —
-not at 8:55 tomorrow.**
-
-You're attending a 2-day hands-on workshop. Day 1 you learn to drive Claude
-Code like an instrument; Day 2 you wire it into a real development lifecycle
-and build a team project. Almost nothing is slides — your laptop is the
-workshop, so this setup matters.
-
 ## 0. Windows users — one extra minute first
 
 The kit runs in **bash**. Install the tools in PowerShell, then do **every
