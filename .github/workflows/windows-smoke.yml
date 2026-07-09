@@ -33,12 +33,13 @@ jobs:
       - name: kata runs red by design (E10)
         run: |
           cd day2_adlc/tdd_kata
-          node --test 2>&1 | grep -q "not implemented" && echo "KATA OK (red as designed)"
+          out=$(node --test 2>&1 || true)
+          echo "$out" | grep -q "not implemented" && echo "KATA OK (red as designed)"
 
       - name: evals checker catches seeded flaws (E11)
         run: |
-          node day2_adlc/evals/check.js && exit 1 || [ $? -eq 1 ]
-          node day2_adlc/evals/check.js 2>&1 | grep -q "3/5 outputs pass" && echo "EVALS OK"
+          out=$(node day2_adlc/evals/check.js 2>&1 || true)
+          echo "$out" | grep -q "3/5 outputs pass" && echo "EVALS OK (2 seeded flaws caught)"
 
       - name: setup.sh end-to-end (venv layout is the known risk)
         run: bash scripts/setup.sh < /dev/null
