@@ -36,7 +36,10 @@ fi
 if [ -n "$PY" ]; then
   echo ""
   echo "→ creating day1_advanced/mcp/.venv with mcp installed"
-  if [ ! -d day1_advanced/mcp/.venv ]; then
+  # Recreate the venv if it's missing OR broken (e.g. the repo directory
+  # moved, which invalidates the shebang paths inside .venv/bin).
+  if ! day1_advanced/mcp/.venv/bin/pip --version >/dev/null 2>&1; then
+    rm -rf day1_advanced/mcp/.venv
     "$PY" -m venv day1_advanced/mcp/.venv
   fi
   day1_advanced/mcp/.venv/bin/pip install --quiet --upgrade pip
