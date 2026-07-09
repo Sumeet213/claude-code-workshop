@@ -8,21 +8,19 @@ Code like an instrument; Day 2 you wire it into a real development lifecycle
 and build a team project. Almost nothing is slides — your laptop is the
 workshop, so this setup matters.
 
-## 0. Windows users — do this first
+## 0. Windows users — one extra minute first
 
-The whole kit runs in **bash**. On Windows, use **WSL (Ubuntu)** — not
-PowerShell, not plain CMD:
+The kit runs in **bash**. Install the tools in PowerShell, then do **every
+other step in Git Bash** (installed with Git — find it in the Start menu).
+Not PowerShell, not CMD:
 
 ```powershell
-wsl --install -d Ubuntu    # in an Administrator PowerShell, then reboot
+winget install Git.Git OpenJS.NodeJS.LTS Python.Python.3.12 jqlang.jq
 ```
 
-Then open the "Ubuntu" app and run **everything below inside it**, including
-the Node install:
-
-```bash
-sudo apt update && sudo apt install -y git jq python3 python3-venv nodejs npm
-```
+Close and reopen your terminal after installing, then open **Git Bash** and
+continue at step 1 — the commands are identical to macOS from here on.
+(Already a WSL user? WSL works too.)
 
 macOS/Linux users: skip this step.
 
@@ -33,8 +31,7 @@ npm install -g @anthropic-ai/claude-code
 claude --version
 ```
 
-No Node? macOS: `brew install node`. WSL/Ubuntu: covered by step 0.
-Any OS is fine — macOS, Linux, or WSL on Windows.
+No Node? macOS: `brew install node`. Windows: covered by step 0.
 
 ## 2. Authenticate
 
@@ -62,6 +59,12 @@ bash scripts/setup.sh
 
 `setup.sh` is idempotent — safe to re-run. It needs `python3` (3.10+), `git`,
 and `jq` (`brew install jq` if missing).
+
+`setup.sh` also registers the workshop's MCP server ("oncall") for you — it
+prints a ✓ when done. If it prints a `claude mcp add oncall ...` command
+instead (e.g. you installed claude after running setup), copy-paste and run
+that one command, then confirm with `claude mcp list` — you should see
+`oncall … ✔ Connected`.
 
 ## 4. Verify
 

@@ -66,6 +66,21 @@ if [ -n "$PY" ]; then
 }
 JSON
   echo "   ✓ patched day1_advanced/mcp/.claude/settings.json"
+
+  # 5. Register the server user-wide for this project so /mcp finds it
+  #    from anywhere in the repo (not just inside day1_advanced/mcp).
+  if command -v claude >/dev/null 2>&1; then
+    claude mcp remove oncall >/dev/null 2>&1 || true
+    if claude mcp add oncall "$VENV_PY" "$SERVER_PATH" >/dev/null 2>&1; then
+      echo "   ✓ registered 'oncall' MCP server (available repo-wide — check with /mcp)"
+    else
+      echo "   ! could not auto-register; run manually:"
+      echo "     claude mcp add oncall \"$VENV_PY\" \"$SERVER_PATH\""
+    fi
+  else
+    echo "   ! claude not installed yet — after installing, run:"
+    echo "     claude mcp add oncall \"$VENV_PY\" \"$SERVER_PATH\""
+  fi
 fi
 
 # 5. Sanity-check binaries.

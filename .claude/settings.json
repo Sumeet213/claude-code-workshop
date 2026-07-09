@@ -1,0 +1,16 @@
+{
+  "_comment": "Repo-root guardrail: the prod-config hook fires even when claude is launched from the repo root (E7's directory-local copy still demos the wiring).",
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Write|Edit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "\"$CLAUDE_PROJECT_DIR\"/day1_advanced/hooks/.claude/hooks/block-prod-writes.sh"
+          }
+        ]
+      }
+    ]
+  }
+}
