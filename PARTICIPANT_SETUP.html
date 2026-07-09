@@ -237,28 +237,36 @@ organiser tonight — not at 8:55 tomorrow.</strong></p>
 Claude Code like an instrument; Day 2 you wire it into a real
 development lifecycle and build a team project. Almost nothing is slides
 — your laptop is the workshop, so this setup matters.</p>
+<h2 id="windows-users-do-this-first">0. Windows users — do this
+first</h2>
+<p>The whole kit runs in <strong>bash</strong>. On Windows, use
+<strong>WSL (Ubuntu)</strong> — not PowerShell, not plain CMD:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode powershell"><code class="sourceCode powershell"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>wsl <span class="op">--</span>install <span class="op">-</span>d Ubuntu    <span class="co"># in an Administrator PowerShell, then reboot</span></span></code></pre></div>
+<p>Then open the “Ubuntu” app and run <strong>everything below inside
+it</strong>, including the Node install:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sudo</span> apt update <span class="kw">&amp;&amp;</span> <span class="fu">sudo</span> apt install <span class="at">-y</span> git jq python3 python3-venv nodejs npm</span></code></pre></div>
+<p>macOS/Linux users: skip this step.</p>
 <h2 id="install-claude-code">1. Install Claude Code</h2>
-<div class="sourceCode" id="cb1"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">npm</span> install <span class="at">-g</span> @anthropic-ai/claude-code</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="ex">claude</span> <span class="at">--version</span></span></code></pre></div>
-<p>No Node? Install Node 18+ first (<code>brew install node</code> / nvm
-/ your package manager). Any OS is fine — macOS, Linux, WSL on
-Windows.</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="ex">npm</span> install <span class="at">-g</span> @anthropic-ai/claude-code</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="ex">claude</span> <span class="at">--version</span></span></code></pre></div>
+<p>No Node? macOS: <code>brew install node</code>. WSL/Ubuntu: covered
+by step 0. Any OS is fine — macOS, Linux, or WSL on Windows.</p>
 <h2 id="authenticate">2. Authenticate</h2>
-<div class="sourceCode" id="cb2"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ex">claude</span></span></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="ex">claude</span></span></code></pre></div>
 <p>Follow the login flow (Claude subscription or API key — the organiser
 will tell you which applies; throwaway API keys are available on the day
 if needed). Then:</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="ex">claude</span> doctor</span></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="ex">claude</span> doctor</span></code></pre></div>
 <p>Everything should be green or yellow, nothing red.</p>
 <h2 id="get-the-workshop-kit">3. Get the workshop kit</h2>
-<div class="sourceCode" id="cb4"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> clone https://github.com/Sumeet213/claude-code-workshop.git ~/workshop_demo</span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> ~/workshop_demo</span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> scripts/setup.sh</span></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> clone https://github.com/Sumeet213/claude-code-workshop.git ~/workshop_demo</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> ~/workshop_demo</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> scripts/setup.sh</span></code></pre></div>
 <p><code>setup.sh</code> is idempotent — safe to re-run. It needs
 <code>python3</code> (3.10+), <code>git</code>, and <code>jq</code>
 (<code>brew install jq</code> if missing).</p>
 <h2 id="verify">4. Verify</h2>
-<div class="sourceCode" id="cb5"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> scripts/test_all.sh</span></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> scripts/test_all.sh</span></code></pre></div>
 <p>Every check should pass. If one fails, the output says exactly what
 and how to fix it. Re-run until green.</p>
 <h2 id="two-things-to-bring-day-2-uses-them">5. Two things to bring (Day

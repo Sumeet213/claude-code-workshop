@@ -8,6 +8,24 @@ Code like an instrument; Day 2 you wire it into a real development lifecycle
 and build a team project. Almost nothing is slides — your laptop is the
 workshop, so this setup matters.
 
+## 0. Windows users — do this first
+
+The whole kit runs in **bash**. On Windows, use **WSL (Ubuntu)** — not
+PowerShell, not plain CMD:
+
+```powershell
+wsl --install -d Ubuntu    # in an Administrator PowerShell, then reboot
+```
+
+Then open the "Ubuntu" app and run **everything below inside it**, including
+the Node install:
+
+```bash
+sudo apt update && sudo apt install -y git jq python3 python3-venv nodejs npm
+```
+
+macOS/Linux users: skip this step.
+
 ## 1. Install Claude Code
 
 ```bash
@@ -15,8 +33,8 @@ npm install -g @anthropic-ai/claude-code
 claude --version
 ```
 
-No Node? Install Node 18+ first (`brew install node` / nvm / your package
-manager). Any OS is fine — macOS, Linux, WSL on Windows.
+No Node? macOS: `brew install node`. WSL/Ubuntu: covered by step 0.
+Any OS is fine — macOS, Linux, or WSL on Windows.
 
 ## 2. Authenticate
 
