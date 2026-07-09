@@ -154,6 +154,7 @@ fi
   && pass "cicd workflow samples" || fail "day2_adlc/cicd YAMLs missing"
 [ -f day2_adlc/cloud_aws/README.md ] && [ -f day2_adlc/monitoring/README.md ] \
   && pass "cloud_aws + monitoring notes" || fail "cloud_aws/monitoring README missing"
+[ -f day2_adlc/crewai/crew_demo.py ] && pass "crewai demo present (pip install 'crewai[anthropic]' to run)" || fail "crewai demo missing"
 
 # Trainer-only kickoff material (skipped in the public repo).
 if [ -d day1_kickoff ]; then
