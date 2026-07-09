@@ -1,0 +1,13 @@
+{
+  "name": "claude-code-workshop",
+  "image": "mcr.microsoft.com/devcontainers/javascript-node:20",
+  "features": {
+    "ghcr.io/devcontainers/features/python:1": { "version": "3.12" }
+  },
+  "postCreateCommand": "sudo apt-get update -qq && sudo apt-get install -y -qq jq && npm install -g @anthropic-ai/claude-code && bash scripts/setup.sh && bash scripts/test_all.sh",
+  "customizations": {
+    "vscode": {
+      "settings": { "terminal.integrated.defaultProfile.linux": "bash" }
+    }
+  }
+}

@@ -1,0 +1,47 @@
+# Verifies the kit on native Windows (Git Bash, no WSL).
+# Run manually: gh workflow run windows-smoke.yml
+name: windows-smoke
+
+on:
+  workflow_dispatch:
+
+jobs:
+  smoke:
+    runs-on: windows-latest
+    defaults:
+      run:
+        shell: bash    # Git Bash — same environment a native-Windows participant uses
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: tool versions
+        run: |
+          bash --version | head -1
+          git --version
+          node --version
+          python --version || python3 --version || true
+          jq --version || choco install jq -y
+          jq --version
+
+      - name: hook fires under Git Bash (the E7 gamble)
+        run: |
+          out=$(echo '{"tool_input":{"file_path":"/x/prod_config.yaml"}}' | bash day1_advanced/hooks/.claude/hooks/block-prod-writes.sh 2>&1) && ec=0 || ec=$?
+          echo "$out"
+          [ "$ec" = "2" ] && echo "BLOCK PATH OK (exit 2)" || { echo "FAIL: expected exit 2, got $ec"; exit 1; }
+          echo '{"tool_input":{"file_path":"/x/dev.yaml"}}' | bash day1_advanced/hooks/.claude/hooks/block-prod-writes.sh && echo "ALLOW PATH OK"
+
+      - name: kata runs red by design (E10)
+        run: |
+          cd day2_adlc/tdd_kata
+          node --test 2>&1 | grep -q "not implemented" && echo "KATA OK (red as designed)"
+
+      - name: evals checker catches seeded flaws (E11)
+        run: |
+          node day2_adlc/evals/check.js && exit 1 || [ $? -eq 1 ]
+          node day2_adlc/evals/check.js 2>&1 | grep -q "3/5 outputs pass" && echo "EVALS OK"
+
+      - name: setup.sh end-to-end (venv layout is the known risk)
+        run: bash scripts/setup.sh < /dev/null
+
+      - name: full test suite
+        run: bash scripts/test_all.sh
