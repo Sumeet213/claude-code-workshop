@@ -41,6 +41,9 @@ jobs:
           out=$(python day2_adlc/evals/check.py 2>&1 || true)
           echo "$out" | grep -q "3/5 outputs pass" && echo "EVALS OK (2 seeded flaws caught)"
 
+      - name: judge.sh parses under Git Bash (no claude call)
+        run: bash -n day2_adlc/evals/judge.sh && echo "JUDGE SYNTAX OK"
+
       - name: setup.sh end-to-end (venv layout is the known risk)
         run: bash scripts/setup.sh < /dev/null
 
