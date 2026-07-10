@@ -29,6 +29,28 @@ provider (`anthropic/claude-haiku-4-5`) — a run costs well under a cent.
 - Swap `Crew(...)` to `process="hierarchical"` (with a manager LLM) and the
   crew gets a delegating coordinator — worth mentioning, not demoing.
 
+## Your turn — build a content crew (15 min)
+
+```bash
+cd day2_adlc/crewai
+cp crew_demo.py content_crew.py
+export ANTHROPIC_API_KEY=sk-ant-...     # paste your key (same command in Git Bash on Windows)
+# edit content_crew.py (~10 lines), then:
+.venv/bin/python content_crew.py
+```
+
+Repurpose the two agents: **Researcher** — goal "produce 5 concrete, specific
+points about the topic — facts and examples, no fluff". **Content Writer** —
+goal "turn the researcher's points into a ~150-word LinkedIn post with a
+strong hook", wired via `context=[...]`. Pick a topic you actually know.
+
+**Done =** a post that visibly uses the researcher's points. Note the writer
+never saw your topic — only the researcher's output. That handoff is why the
+post is grounded instead of generic.
+
+**Stretch:** add a third agent, Editor — "cut to 100 words, sharpen the hook" —
+chained on the writer.
+
 ## Where this sits in the toolbox
 
 Claude Code for repo work · Claude Agent SDK for custom agents on Claude's
