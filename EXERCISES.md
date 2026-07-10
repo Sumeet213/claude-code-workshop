@@ -222,7 +222,7 @@ That document is your take-home — and possibly your Monday morning.
 Full instructions: `day2_adlc/tdd_kata/README.md`.
 
 ```bash
-cd day2_adlc/tdd_kata && node --test    # red. good.
+cd day2_adlc/tdd_kata && python3 -m unittest    # red. good.
 ```
 
 Round 1: tests are the spec, tests are read-only, make them green — and make
@@ -240,7 +240,7 @@ One is **lying** — structurally perfect, semantically false.
 
 ```bash
 cd day2_adlc/evals
-node check.js        # layer 1: code checks. Which two fail, and why?
+python3 check.py     # layer 1: code checks. Which two fail, and why?
 bash judge.sh        # layer 2: LLM-as-judge. Which one passed checks but lies?
 ```
 
@@ -249,7 +249,7 @@ table on which one is the liar. Then compare against the judge's verdicts —
 and read its *reasons*.
 
 **Debrief:** which layer catches what? What would layer 3 (humans) sample?
-**Take-home:** `check.js` + `judge.sh` — swap in your own rubric and you have
+**Take-home:** `check.py` + `judge.sh` — swap in your own rubric and you have
 a production eval harness by Friday.
 
 ## E12 — Triage your own failure, headless (15 min)

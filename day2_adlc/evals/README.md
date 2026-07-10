@@ -10,10 +10,10 @@ there will be five thousand.
 
 ```bash
 cd day2_adlc/evals
-node check.js
+python3 check.py
 ```
 
-`check.js` validates what code *can* validate: is it JSON at all, are
+`check.py` validates what code *can* validate: is it JSON at all, are
 `sentiment`/`category` legal enum values, is the summary within length limits.
 Watch what it catches — and note what it *can't*: a summary that is fluent,
 valid, and **wrong**.
@@ -41,7 +41,7 @@ disputed verdict, then compares against the judge's reasoning.
 
 ## Scaling this beyond the workshop: Langfuse
 
-`check.js` + `judge.sh` is the whole architecture — in production you keep
+`check.py` + `judge.sh` is the whole architecture — in production you keep
 the same three layers and give them a home. **Langfuse** (open source,
 self-hostable) is the natural one:
 

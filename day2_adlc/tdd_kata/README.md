@@ -1,22 +1,22 @@
 # TDD Kata — make the tests green, then move the goalposts
 
-Zero dependencies. Runs on any Node ≥ 18:
+Zero dependencies — Python standard library only:
 
 ```bash
 cd day2_adlc/tdd_kata
-node --test
+python3 -m unittest
 ```
 
-Right now most tests **fail** — `ratelimiter.js` is a stub. That's the point.
+Right now most tests **fail** — `ratelimiter.py` is a stub. That's the point.
 
 ## Round 1 — red to green (10 min)
 
-Ask Claude to implement `RateLimiter` until `node --test` passes. The catch:
+Ask Claude to implement `RateLimiter` until `python3 -m unittest` passes. The catch:
 **tell it the tests are the spec and it may not edit them.** A good opening move:
 
 ```
-Read ratelimiter.test.js — that file is the spec and is read-only.
-Implement ratelimiter.js until `node --test` passes. Run the tests
+Read test_ratelimiter.py — that file is the spec and is read-only.
+Implement ratelimiter.py until `python3 -m unittest` passes. Run the tests
 yourself after each change and show me the final output.
 ```
 

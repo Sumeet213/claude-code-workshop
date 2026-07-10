@@ -241,8 +241,8 @@ thousand.</p>
 <h2 id="layer-1-code-based-checks-free-deterministic-run-on-every-output">Layer
 1 — code-based checks (free, deterministic, run on every output)</h2>
 <div class="sourceCode" id="cb1"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> day2_adlc/evals</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="ex">node</span> check.js</span></code></pre></div>
-<p><code>check.js</code> validates what code <em>can</em> validate: is
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="ex">python3</span> check.py</span></code></pre></div>
+<p><code>check.py</code> validates what code <em>can</em> validate: is
 it JSON at all, are <code>sentiment</code>/<code>category</code> legal
 enum values, is the summary within length limits. Watch what it catches
 — and note what it <em>can’t</em>: a summary that is fluent, valid, and
@@ -268,7 +268,7 @@ exercise: the room votes on one disputed verdict, then compares against
 the judge’s reasoning.</p>
 <h2 id="scaling-this-beyond-the-workshop-langfuse">Scaling this beyond
 the workshop: Langfuse</h2>
-<p><code>check.js</code> + <code>judge.sh</code> is the whole
+<p><code>check.py</code> + <code>judge.sh</code> is the whole
 architecture — in production you keep the same three layers and give
 them a home. <strong>Langfuse</strong> (open source, self-hostable) is
 the natural one:</p>

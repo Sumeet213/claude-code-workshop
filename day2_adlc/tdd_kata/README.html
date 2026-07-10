@@ -231,18 +231,19 @@ blockquote { color: #000; background: #f9f9f9; }
 </header>
 <h1 id="tdd-kata-make-the-tests-green-then-move-the-goalposts">TDD Kata
 — make the tests green, then move the goalposts</h1>
-<p>Zero dependencies. Runs on any Node ≥ 18:</p>
+<p>Zero dependencies — Python standard library only:</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> day2_adlc/tdd_kata</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="ex">node</span> <span class="at">--test</span></span></code></pre></div>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="ex">python3</span> <span class="at">-m</span> unittest</span></code></pre></div>
 <p>Right now most tests <strong>fail</strong> —
-<code>ratelimiter.js</code> is a stub. That’s the point.</p>
+<code>ratelimiter.py</code> is a stub. That’s the point.</p>
 <h2 id="round-1-red-to-green-10-min">Round 1 — red to green (10
 min)</h2>
 <p>Ask Claude to implement <code>RateLimiter</code> until
-<code>node --test</code> passes. The catch: <strong>tell it the tests
-are the spec and it may not edit them.</strong> A good opening move:</p>
-<pre><code>Read ratelimiter.test.js — that file is the spec and is read-only.
-Implement ratelimiter.js until `node --test` passes. Run the tests
+<code>python3 -m unittest</code> passes. The catch: <strong>tell it the
+tests are the spec and it may not edit them.</strong> A good opening
+move:</p>
+<pre><code>Read test_ratelimiter.py — that file is the spec and is read-only.
+Implement ratelimiter.py until `python3 -m unittest` passes. Run the tests
 yourself after each change and show me the final output.</code></pre>
 <p>Watch whether Claude actually runs the tests. If it declares victory
 without running them, call it out — “run it” is the cheapest

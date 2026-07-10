@@ -507,7 +507,7 @@ possibly your Monday morning.</p>
 <h2 id="e10-tdd-kata-red-green-new-spec-30-min">E10 — TDD kata: red →
 green → new spec (30 min)</h2>
 <p>Full instructions: <code>day2_adlc/tdd_kata/README.md</code>.</p>
-<div class="sourceCode" id="cb13"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> day2_adlc/tdd_kata <span class="kw">&amp;&amp;</span> <span class="ex">node</span> <span class="at">--test</span>    <span class="co"># red. good.</span></span></code></pre></div>
+<div class="sourceCode" id="cb13"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> day2_adlc/tdd_kata <span class="kw">&amp;&amp;</span> <span class="ex">python3</span> <span class="at">-m</span> unittest    <span class="co"># red. good.</span></span></code></pre></div>
 <p>Round 1: tests are the spec, tests are read-only, make them green —
 and make Claude run them itself after every change. Round 2: new
 requirement (<code>burst</code>) — tests written FIRST, shown to you,
@@ -521,13 +521,13 @@ any agent from plausible to verified.</p>
 Some are broken. One is <strong>lying</strong> — structurally perfect,
 semantically false.</p>
 <div class="sourceCode" id="cb14"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> day2_adlc/evals</span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="ex">node</span> check.js        <span class="co"># layer 1: code checks. Which two fail, and why?</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="ex">python3</span> check.py     <span class="co"># layer 1: code checks. Which two fail, and why?</span></span>
 <span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> judge.sh        <span class="co"># layer 2: LLM-as-judge. Which one passed checks but lies?</span></span></code></pre></div>
 <p>Before running the judge, place your bet: read the outputs and vote
 as a table on which one is the liar. Then compare against the judge’s
 verdicts — and read its <em>reasons</em>.</p>
 <p><strong>Debrief:</strong> which layer catches what? What would layer
-3 (humans) sample? <strong>Take-home:</strong> <code>check.js</code> +
+3 (humans) sample? <strong>Take-home:</strong> <code>check.py</code> +
 <code>judge.sh</code> — swap in your own rubric and you have a
 production eval harness by Friday.</p>
 <h2 id="e12-triage-your-own-failure-headless-15-min">E12 — Triage your

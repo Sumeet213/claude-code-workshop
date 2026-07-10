@@ -24,7 +24,7 @@ echo "[1/7] Required tools"
 command -v claude >/dev/null  && pass "claude ($(claude --version 2>&1 | head -1))" || fail "claude — install with: npm i -g @anthropic-ai/claude-code"
 command -v jq     >/dev/null  && pass "jq ($(jq --version))"                       || fail "jq — install with: brew install jq"
 command -v git    >/dev/null  && pass "git"                                         || fail "git"
-command -v node   >/dev/null  && pass "node ($(node --version))"                    || fail "node — needed for day2_adlc (kata + evals)"
+command -v node   >/dev/null  && pass "node ($(node --version))"                    || fail "node — needed to install claude via npm"
 command -v bat    >/dev/null  && pass "bat"                                         || info "bat not installed (cat fallback works)"
 
 # ── 2. Module 5 — hook script ─────────────────────────────────────────
@@ -126,27 +126,28 @@ echo "[6/7] day2_adlc (specs, kata, evals, cicd, cloud, monitoring)"
 [ -f day2_adlc/specs/SPEC_TEMPLATE.md ] && [ -f day2_adlc/specs/example_spec_export_endpoint.md ] \
   && pass "specs (template + example)" || fail "day2_adlc/specs files missing"
 
-if command -v node >/dev/null && [ -f day2_adlc/tdd_kata/ratelimiter.test.js ]; then
-  kata_out=$( (cd day2_adlc/tdd_kata && node --test 2>&1) )
-  if echo "$kata_out" | grep -q "not implemented"; then
+PYBIN=$(command -v python3 || command -v python)
+if [ -n "$PYBIN" ] && [ -f day2_adlc/tdd_kata/test_ratelimiter.py ]; then
+  kata_out=$( (cd day2_adlc/tdd_kata && "$PYBIN" -m unittest 2>&1) )
+  if echo "$kata_out" | grep -q "NotImplementedError"; then
     pass "tdd_kata runs and starts red (stub not implemented — by design)"
   else
-    fail "tdd_kata: expected red run mentioning 'not implemented' (was the stub solved and committed?)"
+    fail "tdd_kata: expected red run mentioning NotImplementedError (was the stub solved and committed?)"
   fi
 else
-  fail "tdd_kata missing or node unavailable"
+  fail "tdd_kata missing or python unavailable"
 fi
 
-if command -v node >/dev/null && [ -f day2_adlc/evals/check.js ]; then
-  evals_out=$(node day2_adlc/evals/check.js 2>&1)
+if [ -n "$PYBIN" ] && [ -f day2_adlc/evals/check.py ]; then
+  evals_out=$("$PYBIN" day2_adlc/evals/check.py 2>&1)
   ec=$?
   if [ "$ec" = "1" ] && echo "$evals_out" | grep -q "3/5 outputs pass"; then
-    pass "evals check.js catches exactly the 2 seeded structural flaws"
+    pass "evals check.py catches exactly the 2 seeded structural flaws"
   else
-    fail "evals check.js: expected exit 1 with '3/5 outputs pass'; got exit $ec"
+    fail "evals check.py: expected exit 1 with '3/5 outputs pass'; got exit $ec"
   fi
 else
-  fail "evals/check.js missing or node unavailable"
+  fail "evals/check.py missing or python unavailable"
 fi
 
 [ -x day2_adlc/evals/judge.sh ] || [ -f day2_adlc/evals/judge.sh ] && pass "evals judge.sh present (live-run it once before Day 2)" || fail "evals/judge.sh missing"
